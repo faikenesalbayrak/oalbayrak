@@ -45,7 +45,7 @@ import {
 
 const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/hero_bg-3PFdCpxzfeE2EjZVSnYNvu.webp";
 const BOOKS_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
-const PROFILE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/orhan_albayrak_profile_314cd6ba.png";
+const PROFILE_IMG = "/images/oalbayrakprofil.jpeg";
 const FULL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/orhan_albayrak_full_837c0e9f.jpg";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
