@@ -19,6 +19,7 @@ export default function DronAdmin() {
   const [selected, setSelected] = useState<DronSubmission | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isSessionVerified, setIsSessionVerified] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,6 +49,7 @@ export default function DronAdmin() {
       };
 
       setSubmissions(nextSubmissions);
+      setIsSessionVerified(true);
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(nextSession));
       setSession(nextSession);
       setPassword("");
@@ -63,6 +65,7 @@ export default function DronAdmin() {
     setSession(null);
     setSubmissions([]);
     setSelected(null);
+    setIsSessionVerified(false);
   }
 
   async function fetchSubmissions(header = authHeader) {
@@ -71,9 +74,11 @@ export default function DronAdmin() {
 
     try {
       setSubmissions(await requestSubmissions(header));
+      setIsSessionVerified(true);
     } catch (caught) {
       if (caught instanceof AdminAuthError) {
         logout();
+        setIsSessionVerified(false);
       }
       setError(caught instanceof Error ? caught.message : "Sunucuyla bağlantı kurulamadı.");
     } finally {
@@ -148,6 +153,20 @@ export default function DronAdmin() {
               {isLoggingIn ? "Kontrol ediliyor..." : "Giriş Yap"}
             </button>
           </form>
+        </section>
+      </DronAdminShell>
+    );
+  }
+
+  if (!isSessionVerified) {
+    return (
+      <DronAdminShell onLogout={logout}>
+        <section className="dron-card dron-login-card" aria-live="polite">
+          <div className="dron-login-icon">
+            <Lock size={30} />
+          </div>
+          <h1>Oturum Kontrol Ediliyor</h1>
+          <p>Admin oturumu doğrulanıyor...</p>
         </section>
       </DronAdminShell>
     );
