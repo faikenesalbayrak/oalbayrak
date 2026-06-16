@@ -18,6 +18,7 @@ export default function DronAdmin() {
   const [submissions, setSubmissions] = useState<DronSubmission[]>([]);
   const [selected, setSelected] = useState<DronSubmission | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,21 +30,32 @@ export default function DronAdmin() {
     }
   }, [authHeader, session]);
 
-  function login() {
+  async function login() {
     const trimmed = password.trim();
     if (!trimmed) {
       setError("Lütfen admin şifresini giriniz.");
       return;
     }
 
-    const nextSession = {
-      password: trimmed,
-      expiresAt: Date.now() + SESSION_TTL_MS,
-    };
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(nextSession));
-    setSession(nextSession);
-    setPassword("");
     setError(null);
+    setIsLoggingIn(true);
+
+    try {
+      const nextSubmissions = await requestSubmissions(`Bearer ${trimmed}`);
+      const nextSession = {
+        password: trimmed,
+        expiresAt: Date.now() + SESSION_TTL_MS,
+      };
+
+      setSubmissions(nextSubmissions);
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(nextSession));
+      setSession(nextSession);
+      setPassword("");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Sunucuyla bağlantı kurulamadı.");
+    } finally {
+      setIsLoggingIn(false);
+    }
   }
 
   function logout() {
@@ -58,26 +70,11 @@ export default function DronAdmin() {
     setError(null);
 
     try {
-      const response = await fetch("/api/dron/submissions", {
-        headers: { Authorization: header },
-      });
-      const result = (await response.json()) as {
-        success?: boolean;
-        basvurular?: DronSubmission[];
-        message?: string;
-      };
-
-      if (response.status === 401) {
-        logout();
-        throw new Error("Admin şifresi hatalı veya oturum süresi doldu.");
-      }
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Başvurular alınamadı.");
-      }
-
-      setSubmissions(result.basvurular ?? []);
+      setSubmissions(await requestSubmissions(header));
     } catch (caught) {
+      if (caught instanceof AdminAuthError) {
+        logout();
+      }
       setError(caught instanceof Error ? caught.message : "Sunucuyla bağlantı kurulamadı.");
     } finally {
       setIsLoading(false);
@@ -132,7 +129,7 @@ export default function DronAdmin() {
             className="dron-login-form"
             onSubmit={(event) => {
               event.preventDefault();
-              login();
+              void login();
             }}
           >
             <label className="dron-field">
@@ -142,12 +139,13 @@ export default function DronAdmin() {
                 autoFocus
                 type="password"
                 value={password}
+                disabled={isLoggingIn}
                 onChange={(event) => setPassword(event.target.value)}
               />
             </label>
             {error ? <div className="dron-alert">{error}</div> : null}
-            <button className="dron-btn dron-btn-primary" type="submit">
-              Giriş Yap
+            <button className="dron-btn dron-btn-primary" type="submit" disabled={isLoggingIn}>
+              {isLoggingIn ? "Kontrol ediliyor..." : "Giriş Yap"}
             </button>
           </form>
         </section>
@@ -282,6 +280,33 @@ function SubmissionModal({ submission, onClose }: { submission: DronSubmission; 
       </div>
     </div>
   );
+}
+
+class AdminAuthError extends Error {
+  constructor() {
+    super("Admin şifresi hatalı veya oturum süresi doldu.");
+  }
+}
+
+async function requestSubmissions(header: string) {
+  const response = await fetch("/api/dron/submissions", {
+    headers: { Authorization: header },
+  });
+  const result = (await response.json().catch(() => null)) as {
+    success?: boolean;
+    basvurular?: DronSubmission[];
+    message?: string;
+  } | null;
+
+  if (response.status === 401) {
+    throw new AdminAuthError();
+  }
+
+  if (!response.ok || !result?.success) {
+    throw new Error(result?.message || "Başvurular alınamadı.");
+  }
+
+  return result.basvurular ?? [];
 }
 
 function readSession(): AdminSession | null {
