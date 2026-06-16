@@ -1,6 +1,6 @@
 import { neon } from "@neondatabase/serverless";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { DRON_QUESTION_COUNT, type DronSubmission, type DronSubmissionInput } from "../shared/dron";
+import { DRON_QUESTION_COUNT, type DronSubmission, type DronSubmissionInput } from "../shared/dron.js";
 
 type QueryRow = Record<string, unknown>;
 

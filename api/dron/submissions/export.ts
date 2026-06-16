@@ -1,6 +1,6 @@
 import ExcelJS from "exceljs";
-import { DRON_QUESTIONS } from "../../../shared/dron";
-import { isAdminAuthorized, listDronSubmissions, sendJson } from "../../../server/dronDb";
+import { DRON_QUESTIONS } from "../../../shared/dron.js";
+import { isAdminAuthorized, listDronSubmissions, sendJson } from "../../../server/dronDb.js";
 import type { IncomingMessage, ServerResponse } from "node:http";
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
@@ -88,4 +88,3 @@ function thinBorder(): Partial<ExcelJS.Borders> {
     right: { style: "thin", color: { argb: "FFCCCCCC" } },
   };
 }
-
