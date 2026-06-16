@@ -1,0 +1,651 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap");
+
+.dron-page {
+  --dron-bg-primary: #0a0e17;
+  --dron-bg-secondary: #121824;
+  --dron-bg-glass: rgba(18, 24, 36, 0.76);
+  --dron-border: rgba(255, 255, 255, 0.1);
+  --dron-primary: #00f0ff;
+  --dron-primary-glow: rgba(0, 240, 255, 0.34);
+  --dron-secondary: #8a2be2;
+  --dron-text: #e2e8f0;
+  --dron-muted: #8ba0b9;
+  --dron-danger: #ff6b6b;
+  --dron-gradient: linear-gradient(135deg, #00f0ff 0%, #8a2be2 100%);
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(0, 240, 255, 0.08), transparent 28rem),
+    radial-gradient(circle at 88% 82%, rgba(138, 43, 226, 0.1), transparent 30rem),
+    var(--dron-bg-primary);
+  color: var(--dron-text);
+  font-family: "Outfit", system-ui, sans-serif;
+}
+
+.dron-page *,
+.dron-page *::before,
+.dron-page *::after {
+  box-sizing: border-box;
+}
+
+.dron-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.35rem clamp(1rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--dron-border);
+  background: rgba(10, 14, 23, 0.86);
+  backdrop-filter: blur(14px);
+}
+
+.dron-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: clamp(1.1rem, 3vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: var(--dron-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dron-logo-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--dron-gradient);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  box-shadow: 0 0 20px var(--dron-primary-glow);
+  -webkit-text-fill-color: #fff;
+}
+
+.dron-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dron-header-link {
+  min-height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--dron-primary);
+  border-radius: 999px;
+  color: var(--dron-primary);
+  background: transparent;
+  text-decoration: none;
+  font: 600 0.9rem/1 "Outfit", system-ui, sans-serif;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dron-header-link:hover {
+  background: var(--dron-primary);
+  color: var(--dron-bg-primary);
+  box-shadow: 0 0 20px var(--dron-primary-glow);
+}
+
+.dron-header-button {
+  cursor: pointer;
+}
+
+.dron-main {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(1.25rem, 5vw, 3rem);
+}
+
+.dron-card {
+  width: min(100%, 850px);
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  border: 1px solid var(--dron-border);
+  border-radius: 1.5rem;
+  background: var(--dron-bg-glass);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(20px);
+}
+
+.dron-card::before,
+.dron-admin-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--dron-gradient);
+}
+
+.dron-progress {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 3.4rem;
+}
+
+.dron-progress-line,
+.dron-progress-fill {
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.dron-progress-line {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dron-progress-fill {
+  z-index: 1;
+  background: var(--dron-gradient);
+  transition: width 0.28s ease;
+}
+
+.dron-progress-step {
+  position: relative;
+  z-index: 2;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background: var(--dron-bg-secondary);
+  color: var(--dron-muted);
+  font-weight: 700;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.dron-progress-step span {
+  position: absolute;
+  top: 3.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--dron-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dron-progress-step.active {
+  border-color: var(--dron-primary);
+  color: var(--dron-primary);
+  background: var(--dron-bg-primary);
+  box-shadow: 0 0 20px var(--dron-primary-glow);
+}
+
+.dron-progress-step.completed {
+  border-color: transparent;
+  color: white;
+  background: var(--dron-gradient);
+}
+
+.dron-progress-step.active span {
+  color: var(--dron-primary);
+}
+
+.dron-step {
+  animation: dronFadeIn 0.28s ease;
+}
+
+.dron-step-heading h1,
+.dron-success h1,
+.dron-login-card h1,
+.dron-admin-titlebar h1 {
+  margin: 0 0 0.55rem;
+  color: #fff;
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: clamp(1.65rem, 4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+.dron-step-heading p,
+.dron-success p,
+.dron-login-card p,
+.dron-admin-titlebar p {
+  margin: 0 0 2.15rem;
+  color: var(--dron-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.dron-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.1rem;
+}
+
+.dron-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.58rem;
+  margin-bottom: 1.35rem;
+}
+
+.dron-field span {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.dron-field input,
+.dron-field textarea,
+.dron-field select {
+  width: 100%;
+  min-height: 3.35rem;
+  border: 1px solid var(--dron-border);
+  border-radius: 0.75rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font: 500 1rem/1.4 "Outfit", system-ui, sans-serif;
+  padding: 0.9rem 1rem;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.dron-field textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.dron-field select option {
+  color: #0a0e17;
+}
+
+.dron-field input:focus,
+.dron-field textarea:focus,
+.dron-field select:focus {
+  border-color: var(--dron-primary);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.08);
+}
+
+.dron-field input[aria-invalid="true"] {
+  border-color: var(--dron-danger);
+}
+
+.dron-field small {
+  color: var(--dron-danger);
+  font-size: 0.82rem;
+}
+
+.dron-actions,
+.dron-admin-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dron-btn,
+.dron-icon-btn {
+  min-height: 2.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 1.35rem;
+  font: 700 0.95rem/1 "Outfit", system-ui, sans-serif;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.dron-btn:not(:disabled):hover,
+.dron-icon-btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.dron-btn:disabled,
+.dron-icon-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.dron-btn-primary {
+  color: #fff;
+  background: var(--dron-gradient);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.22);
+}
+
+.dron-btn-secondary {
+  color: var(--dron-text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--dron-border);
+}
+
+.dron-alert {
+  margin: 0.25rem 0 1.3rem;
+  border: 1px solid rgba(255, 107, 107, 0.35);
+  border-radius: 0.85rem;
+  background: rgba(255, 107, 107, 0.1);
+  color: #ffd1d1;
+  padding: 0.9rem 1rem;
+  font-size: 0.94rem;
+}
+
+.dron-success,
+.dron-login-card {
+  max-width: 560px;
+  text-align: center;
+}
+
+.dron-success-icon,
+.dron-login-icon {
+  width: 5.2rem;
+  height: 5.2rem;
+  margin: 0 auto 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--dron-gradient);
+  box-shadow: 0 0 30px var(--dron-primary-glow);
+}
+
+.dron-muted {
+  color: var(--dron-muted);
+}
+
+.dron-login-form {
+  text-align: left;
+}
+
+.dron-login-form .dron-btn {
+  width: 100%;
+}
+
+.dron-admin-page .dron-main {
+  align-items: flex-start;
+}
+
+.dron-admin-panel {
+  width: min(100%, 1180px);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--dron-border);
+  border-radius: 1.1rem;
+  background: var(--dron-bg-glass);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.dron-admin-titlebar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1.3rem;
+}
+
+.dron-admin-titlebar p {
+  margin-bottom: 0;
+}
+
+.dron-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--dron-border);
+  border-radius: 0.9rem;
+}
+
+.dron-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  color: var(--dron-text);
+}
+
+.dron-table th,
+.dron-table td {
+  max-width: 220px;
+  padding: 1rem;
+  border-bottom: 1px solid var(--dron-border);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dron-table th {
+  color: var(--dron-primary);
+  background: rgba(0, 240, 255, 0.05);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dron-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.dron-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dron-icon-btn {
+  min-height: 2.25rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--dron-primary);
+  background: rgba(0, 240, 255, 0.08);
+  border-radius: 0.65rem;
+}
+
+.dron-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.dron-modal-content {
+  width: min(100%, 900px);
+  max-height: 88vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--dron-border);
+  border-radius: 1rem;
+  background: #121824;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+}
+
+.dron-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.3rem;
+  border-bottom: 1px solid var(--dron-border);
+}
+
+.dron-modal-header h2 {
+  margin: 0;
+  color: #fff;
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.dron-modal-close {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dron-detail-list {
+  overflow: auto;
+  padding: 1.3rem;
+}
+
+.dron-detail-row {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--dron-border);
+}
+
+.dron-detail-row:first-child {
+  padding-top: 0;
+}
+
+.dron-detail-row:last-child {
+  border-bottom: none;
+}
+
+.dron-detail-label {
+  margin-bottom: 0.45rem;
+  color: var(--dron-primary);
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.dron-detail-value {
+  color: var(--dron-text);
+  font-size: 1rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.dron-footer {
+  padding: 1.15rem;
+  border-top: 1px solid var(--dron-border);
+  color: var(--dron-muted);
+  text-align: center;
+  font-size: 0.86rem;
+}
+
+@keyframes dronFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .dron-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dron-header-actions,
+  .dron-header-link,
+  .dron-actions,
+  .dron-admin-actions {
+    width: 100%;
+  }
+
+  .dron-header-link,
+  .dron-actions .dron-btn,
+  .dron-admin-actions .dron-btn {
+    flex: 1;
+  }
+
+  .dron-card,
+  .dron-admin-panel {
+    border-radius: 1rem;
+  }
+
+  .dron-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .dron-progress {
+    margin-bottom: 3.8rem;
+  }
+
+  .dron-progress-step {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.9rem;
+  }
+
+  .dron-progress-step span {
+    max-width: 4.4rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .dron-admin-titlebar {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 430px) {
+  .dron-main {
+    padding: 1rem;
+  }
+
+  .dron-actions {
+    flex-direction: column-reverse;
+  }
+
+  .dron-actions .dron-btn {
+    width: 100%;
+  }
+}
+
