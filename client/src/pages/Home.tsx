@@ -914,10 +914,34 @@ function RecordCards({
   items,
   venueLabel = "Yer/Etkinlik",
   showRoleLabel = true,
+  labels = {
+    role: "Görev",
+    chapter: "Bölüm",
+    citation: "Cilt/Sayı-Sayfa",
+    edition: "Basım",
+    pages: "sayfa",
+    editor: "Editör",
+    language: "Dil",
+    scope: "Kapsam",
+    dateYear: "Tarih/Yıl",
+    duration: "Süre",
+  },
 }: {
   items: RecordItem[];
   venueLabel?: string;
   showRoleLabel?: boolean;
+  labels?: {
+    role: string;
+    chapter: string;
+    citation: string;
+    edition: string;
+    pages: string;
+    editor: string;
+    language: string;
+    scope: string;
+    dateYear: string;
+    duration: string;
+  };
 }) {
   return (
     <div className="grid md:grid-cols-2 gap-4">
@@ -925,8 +949,8 @@ function RecordCards({
         // Yayınevi, basım ve sayfa bilgisi tek satırda toplanır; boş olanlar araya nokta koymadan atlanır.
         const imprint = [
           item.publisher,
-          item.edition && `${item.edition}. Basım`,
-          item.pages && `${item.pages} sayfa`,
+          item.edition && `${item.edition}. ${labels.edition}`,
+          item.pages && `${item.pages} ${labels.pages}`,
         ]
           .filter(Boolean)
           .join(" · ");
@@ -941,7 +965,7 @@ function RecordCards({
             </p>
             {item.chapter && (
               <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
-                Bölüm: {item.chapter}
+                {labels.chapter}: {item.chapter}
               </p>
             )}
             {item.organization && (
@@ -951,16 +975,16 @@ function RecordCards({
             )}
             <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
               {item.role && (
-                <p>{showRoleLabel ? `Görev: ${item.role}` : item.role}</p>
+                <p>{showRoleLabel ? `${labels.role}: ${item.role}` : item.role}</p>
               )}
               {item.venue && (
                 <p>
                   {venueLabel}: {item.venue}
                 </p>
               )}
-              {item.citation && <p>Cilt/Sayı-Sayfa: {item.citation}</p>}
+              {item.citation && <p>{labels.citation}: {item.citation}</p>}
               {imprint && <p>{imprint}</p>}
-              {item.editor && <p>Editör: {item.editor}</p>}
+              {item.editor && <p>{labels.editor}: {item.editor}</p>}
               {item.isbn && <p>ISBN: {item.isbn}</p>}
               {item.doi && (
                 <p>
@@ -975,12 +999,12 @@ function RecordCards({
                   </a>
                 </p>
               )}
-              {item.language && <p>Dil: {item.language}</p>}
-              {item.scope && <p>Kapsam: {item.scope}</p>}
-              {item.year && <p>Tarih/Yıl: {item.year}</p>}
+              {item.language && <p>{labels.language}: {item.language}</p>}
+              {item.scope && <p>{labels.scope}: {item.scope}</p>}
+              {item.year && <p>{labels.dateYear}: {item.year}</p>}
               {(item.startDate || item.endDate) && (
                 <p>
-                  Süre: {item.startDate ?? "-"}{" "}
+                  {labels.duration}: {item.startDate ?? "-"}{" "}
                   {item.endDate ? `- ${item.endDate}` : ""}
                 </p>
               )}
@@ -1262,26 +1286,35 @@ export default function Home() {
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.academicRole} />
-              <RecordCards items={academicRoles} />
+              <RecordCards items={academicRoles} labels={t.cardLabels} />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.adminRole} />
-              <RecordCards items={adminRoles} />
+              <RecordCards items={adminRoles} labels={t.cardLabels} />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.externalExp} />
-              <RecordCards items={externalExperiences} />
+              <RecordCards items={externalExperiences} labels={t.cardLabels} />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.coursesTaught} />
               <div className="space-y-7">
                 {[
-                  { label: "Lisans", data: lisansCourses },
-                  { label: "Yüksek Lisans", data: yuksekLisansCourses },
-                  { label: "Doktora", data: doktoraCourses },
+                  {
+                    label: lang === "en" ? "Undergraduate" : "Lisans",
+                    data: lisansCourses,
+                  },
+                  {
+                    label: lang === "en" ? "Master's" : "Yüksek Lisans",
+                    data: yuksekLisansCourses,
+                  },
+                  {
+                    label: lang === "en" ? "Ph.D." : "Doktora",
+                    data: doktoraCourses,
+                  },
                 ].map(group => (
                   <div key={group.label}>
                     <h4
@@ -1313,7 +1346,7 @@ export default function Home() {
 
             <div className="space-y-4 mt-8 md:mt-10">
               <SubsectionTitle title={t.subsections.projectRoles} />
-              <RecordCards items={projectRoles} />
+              <RecordCards items={projectRoles} labels={t.cardLabels} />
             </div>
           </AnimatedSection>
         </div>
@@ -1326,35 +1359,48 @@ export default function Home() {
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.intArticles} />
-              <RecordCards items={internationalArticles} venueLabel="Dergi" />
+              <RecordCards
+                items={internationalArticles}
+                venueLabel={t.cardLabels.journal}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.natArticles} />
-              <RecordCards items={nationalArticles} venueLabel="Dergi" />
+              <RecordCards
+                items={nationalArticles}
+                venueLabel={t.cardLabels.journal}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.otherPubs} />
-              <RecordCards items={otherPublications} venueLabel="Dergi" />
+              <RecordCards
+                items={otherPublications}
+                venueLabel={t.cardLabels.journal}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.myBooks} />
-              <RecordCards items={authoredBooks} />
+              <RecordCards items={authoredBooks} labels={t.cardLabels} />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.bookChapters} />
-              <RecordCards items={bookChapters} />
+              <RecordCards items={bookChapters} labels={t.cardLabels} />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.intPapers} />
               <RecordCards
                 items={internationalPapers}
-                venueLabel="Etkinlik"
+                venueLabel={t.cardLabels.event}
                 showRoleLabel={false}
+                labels={t.cardLabels}
               />
             </div>
 
@@ -1362,44 +1408,65 @@ export default function Home() {
               <SubsectionTitle title={t.subsections.natPapers} />
               <RecordCards
                 items={nationalPapers}
-                venueLabel="Etkinlik"
+                venueLabel={t.cardLabels.event}
                 showRoleLabel={false}
+                labels={t.cardLabels}
               />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.editorship} />
-              <RecordCards items={editors} />
+              <RecordCards items={editors} labels={t.cardLabels} />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.speeches} />
-              <RecordCards items={speeches} venueLabel="Yer" />
+              <RecordCards
+                items={speeches}
+                venueLabel={t.cardLabels.place}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.workshops} />
-              <RecordCards items={workshops} venueLabel="Yer" />
+              <RecordCards
+                items={workshops}
+                venueLabel={t.cardLabels.place}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.seminars} />
-              <RecordCards items={seminars} venueLabel="Yer" />
+              <RecordCards
+                items={seminars}
+                venueLabel={t.cardLabels.place}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.conferences} />
-              <RecordCards items={conferenceOrganizations} venueLabel="Yer" />
+              <RecordCards
+                items={conferenceOrganizations}
+                venueLabel={t.cardLabels.place}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.certificates} />
-              <RecordCards items={certificates} venueLabel="Yer" />
+              <RecordCards
+                items={certificates}
+                venueLabel={t.cardLabels.place}
+                labels={t.cardLabels}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title={t.subsections.memberships} />
-              <RecordCards items={memberships} />
+              <RecordCards items={memberships} labels={t.cardLabels} />
             </div>
           </AnimatedSection>
         </div>
