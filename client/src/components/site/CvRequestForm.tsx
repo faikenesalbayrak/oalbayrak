@@ -19,11 +19,13 @@ import { FileText, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const FIELD_CLASS =
-  "border-gray-200 bg-white placeholder:text-gray-400 focus-visible:border-[#7a2948] focus-visible:ring-[#7a2948]/20";
+  "border-gray-200 bg-white placeholder:text-gray-400 focus-visible:border-[#7a2948] focus-visible:ring-[#7a2948]/20 dark:border-white/10 dark:bg-[#0f1825] dark:text-white dark:placeholder:text-gray-500";
 
 export function CvRequestForm() {
+  const { isEnglish } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<CVRequestPayload>({
     resolver: zodResolver(cvRequestSchema) as Resolver<CVRequestPayload>,
@@ -43,14 +45,22 @@ export function CvRequestForm() {
     const result = await postForm("/api/cv-request", values);
     setSubmitting(false);
     if (result.success) {
-      toast.success("CV talebiniz iletildi. Teşekkürler!");
+      toast.success(
+        isEnglish
+          ? "Your CV request has been sent. Thank you!"
+          : "CV talebiniz iletildi. Teşekkürler!"
+      );
       form.reset();
       return;
     }
     toast.error(
       result.status === 429
-        ? "Çok fazla deneme yapıldı. Lütfen biraz sonra tekrar deneyin."
-        : "Talep gönderilemedi. Lütfen daha sonra tekrar deneyin."
+        ? isEnglish
+          ? "Too many attempts. Please try again shortly."
+          : "Çok fazla deneme yapıldı. Lütfen biraz sonra tekrar deneyin."
+        : isEnglish
+          ? "The request could not be sent. Please try again later."
+          : "Talep gönderilemedi. Lütfen daha sonra tekrar deneyin."
     );
   });
 
@@ -58,12 +68,13 @@ export function CvRequestForm() {
     <Form {...form}>
       <form onSubmit={onSubmit} noValidate className="space-y-5">
         <div>
-          <h3 className="text-2xl font-semibold text-[#7a2948]">
-            CV talep edin
+          <h3 className="text-2xl font-semibold text-[#7a2948] dark:text-[#d989a7]">
+            {isEnglish ? "Request a CV" : "CV talep edin"}
           </h3>
-          <p className="mt-1 text-sm leading-relaxed text-gray-500">
-            Kurumunuz adına güncel akademik CV talep etmek için bilgilerinizi
-            bırakın.
+          <p className="mt-1 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+            {isEnglish
+              ? "Leave your details to request an up-to-date academic CV on behalf of your institution."
+              : "Kurumunuz adına güncel akademik CV talep etmek için bilgilerinizi bırakın."}
           </p>
         </div>
 
@@ -89,11 +100,11 @@ export function CvRequestForm() {
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ad Soyad</FormLabel>
+                <FormLabel>{isEnglish ? "Full name" : "Ad Soyad"}</FormLabel>
                 <FormControl>
                   <Input
                     autoComplete="name"
-                    placeholder="Ad Soyad"
+                    placeholder={isEnglish ? "Full name" : "Ad Soyad"}
                     className={FIELD_CLASS}
                     {...field}
                   />
@@ -107,10 +118,14 @@ export function CvRequestForm() {
             name="institution"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Kurum</FormLabel>
+                <FormLabel>{isEnglish ? "Institution" : "Kurum"}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Kurum / üniversite adı"
+                    placeholder={
+                      isEnglish
+                        ? "Institution / university name"
+                        : "Kurum / üniversite adı"
+                    }
                     className={FIELD_CLASS}
                     {...field}
                   />
@@ -126,12 +141,14 @@ export function CvRequestForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>E-posta</FormLabel>
+                <FormLabel>{isEnglish ? "Email" : "E-posta"}</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     autoComplete="email"
-                    placeholder="ornek@eposta.com"
+                    placeholder={
+                      isEnglish ? "name@example.com" : "ornek@eposta.com"
+                    }
                     className={FIELD_CLASS}
                     {...field}
                   />
@@ -145,7 +162,9 @@ export function CvRequestForm() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Telefon (opsiyonel)</FormLabel>
+                <FormLabel>
+                  {isEnglish ? "Phone (optional)" : "Telefon (opsiyonel)"}
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="tel"
@@ -165,11 +184,17 @@ export function CvRequestForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Mesaj (opsiyonel)</FormLabel>
+              <FormLabel>
+                {isEnglish ? "Message (optional)" : "Mesaj (opsiyonel)"}
+              </FormLabel>
               <FormControl>
                 <Textarea
                   rows={4}
-                  placeholder="Talebinizle ilgili eklemek istedikleriniz…"
+                  placeholder={
+                    isEnglish
+                      ? "Anything you would like to add about your request…"
+                      : "Talebinizle ilgili eklemek istedikleriniz…"
+                  }
                   className={FIELD_CLASS}
                   {...field}
                 />
@@ -191,9 +216,10 @@ export function CvRequestForm() {
                     className="mt-0.5 data-[state=checked]:border-[#7a2948] data-[state=checked]:bg-[#7a2948]"
                   />
                 </FormControl>
-                <FormLabel className="text-sm font-normal leading-relaxed text-gray-500">
-                  Kişisel verilerimin CV talebimi yanıtlamak amacıyla
-                  işlenmesini kabul ediyorum.
+                <FormLabel className="text-sm font-normal leading-relaxed text-gray-500 dark:text-gray-400">
+                  {isEnglish
+                    ? "I consent to the processing of my personal data for the purpose of responding to my CV request."
+                    : "Kişisel verilerimin CV talebimi yanıtlamak amacıyla işlenmesini kabul ediyorum."}
                 </FormLabel>
               </div>
               <FormMessage />
@@ -211,7 +237,13 @@ export function CvRequestForm() {
           ) : (
             <FileText size={16} aria-hidden="true" />
           )}
-          {submitting ? "Gönderiliyor…" : "CV Talep Et"}
+          {submitting
+            ? isEnglish
+              ? "Sending…"
+              : "Gönderiliyor…"
+            : isEnglish
+              ? "Request CV"
+              : "CV Talep Et"}
         </button>
       </form>
     </Form>

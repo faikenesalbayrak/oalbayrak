@@ -24,7 +24,9 @@ import {
 import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
 import { CvRequestForm } from "@/components/site/CvRequestForm";
+import { CursorGrid } from "@/components/ui/cursor-grid";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
@@ -80,6 +82,13 @@ const aboutParagraphs = [
   "İngilizce ve Osmanlıca bilen Doç. Dr. Albayrak, evli ve üç çocuk babasıdır.",
 ];
 
+const aboutParagraphsEn = [
+  "Assoc. Prof. Dr. Orhan Albayrak was born in Arsin, Trabzon, in 1960. After completing his primary and secondary education in Erzurum, he began his academic journey with a bachelor’s degree in Electronics and Communication Engineering at Istanbul Technical University.",
+  "He completed a master’s program in Control and Computer Engineering at the same university and later worked on a network project at the University of Florida. He completed Marmara University’s Modern Business Management certificate program and earned his PhD in Political Science and International Relations at Istanbul Sabahattin Zaim University. Two years later, he received the title of Associate Professor in Political Sociology.",
+  "His doctoral research used qualitative and quantitative methods to examine the political participation of members of Türkiye’s two major political parties and their attitudes toward intra-party democracy. His academic interests include politics in the digital age, the relationship between artificial intelligence and democracy, new social movements, and digital diplomacy.",
+  "Assoc. Prof. Dr. Albayrak speaks English and Ottoman Turkish. He is married and has three children.",
+];
+
 const educationCards: EducationItem[] = [
   {
     degree: "Doçentlik",
@@ -117,6 +126,46 @@ const educationCards: EducationItem[] = [
     school: "İstanbul Teknik Üniversitesi",
     years: "1977–1982",
     thesis: "Elektronik ve Haberleşme Fakültesi",
+  },
+];
+
+const educationCardsEn: EducationItem[] = [
+  {
+    degree: "Associate Professorship",
+    field: "Political Sociology",
+    school:
+      "UAK Main Field: Social, Human and Administrative Sciences / Field: Political Science",
+    years: "2023",
+    thesis: "Associate Professor title",
+  },
+  {
+    degree: "PhD",
+    field: "Political Science and International Relations",
+    school: "Istanbul Sabahattin Zaim University",
+    years: "2016–2020",
+    thesis:
+      "Dissertation: “Political participation levels of party members: The Istanbul AK Party and CHP case” (29.09.2020) — Advisor: Prof. Dr. Ömer Çaha",
+  },
+  {
+    degree: "Graduate Certificate",
+    field: "Modern Business Management",
+    school: "Marmara University",
+    years: "1999–2000",
+    thesis: "Certificate program",
+  },
+  {
+    degree: "Master’s Degree",
+    field: "Control and Computer Engineering",
+    school: "Istanbul Technical University",
+    years: "1982–1984",
+    thesis: "Control and Computer Engineering program",
+  },
+  {
+    degree: "Bachelor’s Degree",
+    field: "Electronics and Communication Engineering",
+    school: "Istanbul Technical University",
+    years: "1977–1982",
+    thesis: "Faculty of Electronics and Communication",
   },
 ];
 
@@ -887,12 +936,14 @@ function SectionTitle({
   return (
     <div className="mb-10">
       <h2
-        className="text-3xl md:text-4xl font-bold text-[#1e3a5f] mb-2"
+        className="mb-2 text-3xl font-bold text-[#1e3a5f] dark:text-[#e5edf7] md:text-4xl"
         style={{ fontFamily: "'DM Serif Display', serif" }}
       >
         {title}
       </h2>
-      {subtitle && <p className="text-gray-500 text-lg">{subtitle}</p>}
+      {subtitle && (
+        <p className="text-lg text-gray-500 dark:text-gray-400">{subtitle}</p>
+      )}
       <div className="gold-line w-16 mt-3" />
     </div>
   );
@@ -901,7 +952,7 @@ function SectionTitle({
 function SubsectionTitle({ title }: { title: string }) {
   return (
     <h3
-      className="text-2xl font-semibold text-[#1e3a5f] mb-4 mt-1"
+      className="mb-4 mt-1 text-2xl font-semibold text-[#1e3a5f] dark:text-[#dce8f5]"
       style={{ fontFamily: "'DM Serif Display', serif" }}
     >
       {title}
@@ -918,14 +969,41 @@ function RecordCards({
   venueLabel?: string;
   showRoleLabel?: boolean;
 }) {
+  const { isEnglish } = useLanguage();
+  const translateValue = (value: string) => {
+    if (!isEnglish) return value;
+    const translations: Record<string, string> = {
+      "Hâlen devam ediyor.": "Ongoing.",
+      Ulusal: "National",
+      Uluslararası: "International",
+      Türkçe: "Turkish",
+      İngilizce: "English",
+      "Bilimsel Kitap": "Academic book",
+      "Bilimsel Kuruluş": "Academic organization",
+      Sertifika: "Certificate",
+      Üye: "Member",
+    };
+    return translations[value] ?? value;
+  };
+  const localizedVenueLabel = isEnglish
+    ? ({
+        "Yer/Etkinlik": "Venue/Event",
+        Dergi: "Journal",
+        Etkinlik: "Event",
+        Yer: "Venue",
+      }[venueLabel] ?? venueLabel)
+    : venueLabel;
+
   return (
     <div className="grid md:grid-cols-2 gap-4">
       {items.map(item => {
         // Yayınevi, basım ve sayfa bilgisi tek satırda toplanır; boş olanlar araya nokta koymadan atlanır.
         const imprint = [
           item.publisher,
-          item.edition && `${item.edition}. Basım`,
-          item.pages && `${item.pages} sayfa`,
+          item.edition &&
+            (isEnglish ? `${item.edition}. edition` : `${item.edition}. Basım`),
+          item.pages &&
+            (isEnglish ? `${item.pages} pages` : `${item.pages} sayfa`),
         ]
           .filter(Boolean)
           .join(" · ");
@@ -933,33 +1011,46 @@ function RecordCards({
         return (
           <div
             key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
-            className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm"
+            className="w-full min-w-0 overflow-hidden rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-colors dark:border-white/10 dark:bg-[#151f2d] md:p-5"
           >
-            <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">
+            <p className="min-w-0 break-words font-semibold leading-snug text-[#1e3a5f] dark:text-[#dce8f5]">
               {item.title}
             </p>
             {item.chapter && (
-              <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
-                Bölüm: {item.chapter}
+              <p className="mt-1 min-w-0 break-words text-sm italic leading-relaxed text-gray-600 dark:text-gray-300">
+                {isEnglish ? "Chapter" : "Bölüm"}: {item.chapter}
               </p>
             )}
             {item.organization && (
-              <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">
+              <p className="mt-1 min-w-0 break-words text-sm leading-relaxed text-gray-600 dark:text-gray-300">
                 {item.organization}
               </p>
             )}
-            <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
+            <div className="mt-2 min-w-0 space-y-1 break-words text-sm leading-relaxed text-gray-500 dark:text-gray-400">
               {item.role && (
-                <p>{showRoleLabel ? `Görev: ${item.role}` : item.role}</p>
+                <p>
+                  {showRoleLabel
+                    ? `${isEnglish ? "Role" : "Görev"}: ${translateValue(item.role)}`
+                    : translateValue(item.role)}
+                </p>
               )}
               {item.venue && (
                 <p>
-                  {venueLabel}: {item.venue}
+                  {localizedVenueLabel}: {item.venue}
                 </p>
               )}
-              {item.citation && <p>Cilt/Sayı-Sayfa: {item.citation}</p>}
+              {item.citation && (
+                <p>
+                  {isEnglish ? "Volume/Issue-Pages" : "Cilt/Sayı-Sayfa"}:{" "}
+                  {item.citation}
+                </p>
+              )}
               {imprint && <p>{imprint}</p>}
-              {item.editor && <p>Editör: {item.editor}</p>}
+              {item.editor && (
+                <p>
+                  {isEnglish ? "Editor" : "Editör"}: {item.editor}
+                </p>
+              )}
               {item.isbn && <p>ISBN: {item.isbn}</p>}
               {item.doi && (
                 <p>
@@ -968,22 +1059,35 @@ function RecordCards({
                     href={`https://doi.org/${item.doi}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#1e3a5f] hover:text-[#c9a227] underline underline-offset-2 transition-colors break-all"
+                    className="break-all text-[#1e3a5f] underline underline-offset-2 transition-colors hover:text-[#c9a227] dark:text-[#9eb7d4]"
                   >
                     {item.doi}
                   </a>
                 </p>
               )}
-              {item.language && <p>Dil: {item.language}</p>}
-              {item.scope && <p>Kapsam: {item.scope}</p>}
-              {item.year && <p>Tarih/Yıl: {item.year}</p>}
+              {item.language && (
+                <p>
+                  {isEnglish ? "Language" : "Dil"}:{" "}
+                  {translateValue(item.language)}
+                </p>
+              )}
+              {item.scope && (
+                <p>
+                  {isEnglish ? "Scope" : "Kapsam"}: {translateValue(item.scope)}
+                </p>
+              )}
+              {item.year && (
+                <p>
+                  {isEnglish ? "Date/Year" : "Tarih/Yıl"}: {item.year}
+                </p>
+              )}
               {(item.startDate || item.endDate) && (
                 <p>
-                  Süre: {item.startDate ?? "-"}{" "}
+                  {isEnglish ? "Period" : "Süre"}: {item.startDate ?? "-"}{" "}
                   {item.endDate ? `- ${item.endDate}` : ""}
                 </p>
               )}
-              {item.details && <p>{item.details}</p>}
+              {item.details && <p>{translateValue(item.details)}</p>}
             </div>
           </div>
         );
@@ -993,6 +1097,7 @@ function RecordCards({
 }
 
 export default function Home() {
+  const { isEnglish } = useLanguage();
   const [activeSection, setActiveSection] = useState<SectionId>("hakkinda");
   const [contactTab, setContactTab] = useState<"contact" | "cv">("contact");
 
@@ -1032,10 +1137,18 @@ export default function Home() {
     course => course.level === "Yüksek Lisans"
   );
   const doktoraCourses = courses.filter(course => course.level === "Doktora");
+  const displayedAbout = isEnglish ? aboutParagraphsEn : aboutParagraphs;
+  const displayedEducation = isEnglish ? educationCardsEn : educationCards;
+
+  useEffect(() => {
+    document.title = isEnglish
+      ? "Assoc. Prof. Dr. Orhan Albayrak"
+      : "Doç. Dr. Orhan Albayrak";
+  }, [isEnglish]);
 
   return (
     <div
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-white text-[#243247] transition-colors duration-300 dark:bg-[#0b111b] dark:text-[#d6dfeb]"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       <SinglePageDock activeSection={activeSection} onNavigate={scrollTo} />
@@ -1047,17 +1160,31 @@ export default function Home() {
 
       <section
         id="hakkinda"
-        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#f5f2eb] pb-16 pt-28 scroll-mt-24 md:pb-20"
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#f5f2eb] pb-16 pt-28 scroll-mt-24 transition-colors duration-300 dark:bg-[#090f18] md:pb-20"
       >
-        <div className="hero-grid absolute inset-0 opacity-70" />
+        <CursorGrid
+          cellSize={64}
+          color="#7a2948"
+          radius={170}
+          holdTime={240}
+          fadeDuration={720}
+          lineWidth={1.4}
+          maxOpacity={0.92}
+          fillOpacity={0.05}
+          gridOpacity={0.09}
+          cellRadius={7}
+          pulseSpeed={560}
+          ambient
+          className="z-0 opacity-90"
+        />
         <div className="absolute -left-28 top-28 size-80 rounded-full bg-[#c9a227]/15 blur-3xl" />
         <div className="absolute -right-20 bottom-12 size-96 rounded-full bg-[#7a2948]/15 blur-3xl" />
 
         <div className="container relative z-10">
-          <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_.92fr] lg:gap-20">
-            <div className="animate-fade-in-up order-2 lg:order-1">
+          <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-20">
+            <div className="animate-fade-in-up order-2 min-w-0 lg:order-1">
               <h1
-                className="text-[clamp(3.5rem,8vw,7.5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-[#14243b]"
+                className="text-[clamp(3.5rem,8vw,7.5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-[#14243b] dark:text-[#edf3fa]"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
                 Orhan
@@ -1066,10 +1193,10 @@ export default function Home() {
                   Albayrak
                 </span>
               </h1>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] md:text-xl">
-                Elektronik Mühendisliği'nden Siyaset Bilimine uzanan çok
-                disiplinli bir profil. Dijital çağda siyaset, yapay
-                zeka ve demokrasi üzerine araştırmalar.
+              <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] dark:text-[#b3c0d0] md:text-xl">
+                {isEnglish
+                  ? "A multidisciplinary profile spanning Electronics Engineering and Political Science. Research on politics, artificial intelligence, and democracy in the digital age."
+                  : "Elektronik Mühendisliği'nden Siyaset Bilimine uzanan çok disiplinli bir profil. Dijital çağda siyaset, yapay zeka ve demokrasi üzerine araştırmalar."}
               </p>
               <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
                 <button
@@ -1077,58 +1204,70 @@ export default function Home() {
                   className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#1e3a5f] px-4 py-3 font-semibold text-white shadow-lg shadow-[#1e3a5f]/15 transition hover:-translate-y-0.5 hover:bg-[#142b49]"
                 >
                   <BookOpen className="shrink-0" size={18} />
-                  Yayınları İncele
+                  {isEnglish ? "Publications" : "Yayınları İncele"}
                 </button>
                 <button
                   onClick={() => {
                     setContactTab("contact");
                     scrollTo("iletisim");
                   }}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white"
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white dark:border-white/15 dark:bg-white/10 dark:text-white dark:hover:bg-white/15"
                 >
                   <Mail className="shrink-0" size={18} />
-                  İletişim
+                  {isEnglish ? "Contact" : "İletişim"}
                 </button>
                 <button
                   onClick={openCvRequest}
                   className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#7a2948] px-4 py-3 font-semibold text-white shadow-lg shadow-[#7a2948]/15 transition hover:-translate-y-0.5 hover:bg-[#5d1e37]"
                 >
                   <FileText className="shrink-0" size={18} />
-                  CV Talep Et
+                  {isEnglish ? "Request CV" : "CV Talep Et"}
                 </button>
               </div>
-              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">
+              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678] dark:border-white/10 dark:text-[#9dacbf]">
                 <span>
-                  <strong className="text-[#1e3a5f]">2023</strong> Doçentlik
+                  <strong className="text-[#1e3a5f] dark:text-white">
+                    2023
+                  </strong>{" "}
+                  {isEnglish ? "Associate Professor" : "Doçentlik"}
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">20K+</strong> İstihdam
-                  etkisi
+                  <strong className="text-[#1e3a5f] dark:text-white">
+                    20K+
+                  </strong>{" "}
+                  {isEnglish ? "Employment impact" : "İstihdam etkisi"}
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">3</strong> Disiplin
+                  <strong className="text-[#1e3a5f] dark:text-white">3</strong>{" "}
+                  {isEnglish ? "Disciplines" : "Disiplin"}
                 </span>
               </div>
             </div>
 
-            <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+            <div className="order-1 flex min-w-0 justify-center lg:order-2 lg:justify-end">
               <div className="relative w-full max-w-[420px]">
                 <div className="absolute inset-x-8 bottom-0 h-[78%] rounded-[5rem_5rem_8rem_2.5rem] bg-gradient-to-br from-[#14243b] via-[#1e3a5f] to-[#7a2948] shadow-[0_40px_80px_rgba(20,36,59,0.28)]" />
                 <div className="absolute inset-x-2 bottom-4 h-[72%] rounded-[5rem_5rem_8rem_2.5rem] border border-white/25" />
                 <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[4.5rem_4.5rem_7rem_2.25rem] border border-white/30 shadow-2xl">
                   <img
                     src={PROFILE_IMG}
-                    alt="Doç. Dr. Orhan Albayrak"
+                    alt={
+                      isEnglish
+                        ? "Assoc. Prof. Dr. Orhan Albayrak"
+                        : "Doç. Dr. Orhan Albayrak"
+                    }
                     className="h-full w-full object-cover object-top"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#14243b]/80 to-transparent" />
                 </div>
-                <div className="absolute -bottom-5 -left-2 max-w-[240px] rounded-2xl border border-white/70 bg-white/85 p-4 shadow-xl backdrop-blur-xl sm:-left-8">
+                <div className="absolute -bottom-5 -left-2 max-w-[240px] rounded-2xl border border-white/70 bg-white/85 p-4 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/90 sm:-left-8">
                   <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7a2948]">
-                    Akademik odak
+                    {isEnglish ? "Academic focus" : "Akademik odak"}
                   </p>
-                  <p className="mt-1 text-sm font-semibold leading-snug text-[#1e3a5f]">
-                    Dijital siyaset, demokrasi ve toplum
+                  <p className="mt-1 text-sm font-semibold leading-snug text-[#1e3a5f] dark:text-white">
+                    {isEnglish
+                      ? "Digital politics, democracy, and society"
+                      : "Dijital siyaset, demokrasi ve toplum"}
                   </p>
                 </div>
               </div>
@@ -1140,24 +1279,24 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section className="bg-white py-20 transition-colors dark:bg-[#0b111b]">
         <div className="container">
           <AnimatedSection>
             <div className="grid md:grid-cols-3 gap-12 items-start">
               <div className="md:col-span-2">
-                <SectionTitle title="Hakkında" />
-                <div className="space-y-4 text-gray-600 leading-relaxed">
-                  {aboutParagraphs.map(paragraph => (
+                <SectionTitle title={isEnglish ? "About" : "Hakkında"} />
+                <div className="space-y-4 leading-relaxed text-gray-600 dark:text-gray-300">
+                  {displayedAbout.map(paragraph => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
               </div>
-              <div className="bg-[#f8f9fc] rounded-2xl p-6 border border-gray-100">
+              <div className="rounded-2xl border border-gray-100 bg-[#f8f9fc] p-6 transition-colors dark:border-white/10 dark:bg-[#111a27]">
                 <h3
-                  className="font-semibold text-[#1e3a5f] mb-4 text-lg"
+                  className="mb-4 text-lg font-semibold text-[#1e3a5f] dark:text-white"
                   style={{ fontFamily: "'DM Serif Display', serif" }}
                 >
-                  Temel Bilgiler
+                  {isEnglish ? "Key Information" : "Temel Bilgiler"}
                 </h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
@@ -1166,8 +1305,12 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Doğum Yeri</p>
-                      <p className="text-gray-500">Arsin, Trabzon (1960)</p>
+                      <p className="font-medium text-gray-700 dark:text-gray-200">
+                        {isEnglish ? "Birthplace" : "Doğum Yeri"}
+                      </p>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Arsin, Trabzon (1960)
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -1176,8 +1319,12 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Unvan</p>
-                      <p className="text-gray-500">Doçent Doktor</p>
+                      <p className="font-medium text-gray-700 dark:text-gray-200">
+                        {isEnglish ? "Title" : "Unvan"}
+                      </p>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        {isEnglish ? "Associate Professor" : "Doçent Doktor"}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -1186,9 +1333,13 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Mevcut Kurum</p>
-                      <p className="text-gray-500">
-                        Bezmialem Vakıf Üniversitesi
+                      <p className="font-medium text-gray-700 dark:text-gray-200">
+                        {isEnglish ? "Current Institution" : "Mevcut Kurum"}
+                      </p>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        {isEnglish
+                          ? "Bezmialem Vakif University"
+                          : "Bezmialem Vakıf Üniversitesi"}
                       </p>
                     </div>
                   </div>
@@ -1198,9 +1349,13 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Diller</p>
-                      <p className="text-gray-500">
-                        Türkçe, İngilizce, Osmanlıca
+                      <p className="font-medium text-gray-700 dark:text-gray-200">
+                        {isEnglish ? "Languages" : "Diller"}
+                      </p>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        {isEnglish
+                          ? "Turkish, English, Ottoman Turkish"
+                          : "Türkçe, İngilizce, Osmanlıca"}
                       </p>
                     </div>
                   </div>
@@ -1211,15 +1366,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="egitim" className="py-20 bg-[#f8f9fc] scroll-mt-24">
+      <section
+        id="egitim"
+        className="scroll-mt-24 bg-[#f8f9fc] py-20 transition-colors dark:bg-[#111a27]"
+      >
         <div className="container">
           <AnimatedSection>
-            <SectionTitle title="Eğitim" />
+            <SectionTitle title={isEnglish ? "Education" : "Eğitim"} />
             <div className="grid md:grid-cols-2 gap-6">
-              {educationCards.map(edu => (
+              {displayedEducation.map(edu => (
                 <div
                   key={`${edu.degree}-${edu.years}`}
-                  className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm"
+                  className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-colors dark:border-white/10 dark:bg-[#151f2d]"
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl bg-[#1e3a5f] flex items-center justify-center shrink-0">
@@ -1235,13 +1393,15 @@ export default function Home() {
                         </span>
                       </div>
                       <h3
-                        className="font-semibold text-[#1e3a5f] text-lg leading-tight"
+                        className="text-lg font-semibold leading-tight text-[#1e3a5f] dark:text-white"
                         style={{ fontFamily: "'DM Serif Display', serif" }}
                       >
                         {edu.field}
                       </h3>
-                      <p className="text-gray-500 text-sm mt-1">{edu.school}</p>
-                      <p className="text-gray-400 text-xs mt-2 italic">
+                      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        {edu.school}
+                      </p>
+                      <p className="mt-2 text-xs italic text-gray-400 dark:text-gray-500">
                         {edu.thesis}
                       </p>
                     </div>
@@ -1253,40 +1413,68 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="kariyer" className="py-20 bg-white scroll-mt-24">
+      <section
+        id="kariyer"
+        className="scroll-mt-24 bg-white py-20 transition-colors dark:bg-[#0b111b]"
+      >
         <div className="container space-y-14">
           <AnimatedSection className="space-y-10 md:space-y-12">
             <SectionTitle
-              title="Kariyer"
-              subtitle="Mesleki Deneyim ve Görevler"
+              title={isEnglish ? "Career" : "Kariyer"}
+              subtitle={
+                isEnglish
+                  ? "Professional Experience and Appointments"
+                  : "Mesleki Deneyim ve Görevler"
+              }
             />
 
             <div className="space-y-4">
-              <SubsectionTitle title="Akademik Görev" />
+              <SubsectionTitle
+                title={isEnglish ? "Academic Appointments" : "Akademik Görev"}
+              />
               <RecordCards items={academicRoles} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="İdari Görev" />
+              <SubsectionTitle
+                title={isEnglish ? "Administrative Roles" : "İdari Görev"}
+              />
               <RecordCards items={adminRoles} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Üniversite Dışı Deneyim" />
+              <SubsectionTitle
+                title={
+                  isEnglish
+                    ? "Non-University Experience"
+                    : "Üniversite Dışı Deneyim"
+                }
+              />
               <RecordCards items={externalExperiences} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Verdiği Dersler" />
+              <SubsectionTitle
+                title={isEnglish ? "Courses Taught" : "Verdiği Dersler"}
+              />
               <div className="space-y-7">
                 {[
-                  { label: "Lisans", data: lisansCourses },
-                  { label: "Yüksek Lisans", data: yuksekLisansCourses },
-                  { label: "Doktora", data: doktoraCourses },
+                  {
+                    label: isEnglish ? "Undergraduate" : "Lisans",
+                    data: lisansCourses,
+                  },
+                  {
+                    label: isEnglish ? "Master’s" : "Yüksek Lisans",
+                    data: yuksekLisansCourses,
+                  },
+                  {
+                    label: isEnglish ? "Doctoral" : "Doktora",
+                    data: doktoraCourses,
+                  },
                 ].map(group => (
                   <div key={group.label}>
                     <h4
-                      className="text-xl font-semibold text-[#1e3a5f] mb-3"
+                      className="mb-3 text-xl font-semibold text-[#1e3a5f] dark:text-white"
                       style={{ fontFamily: "'DM Serif Display', serif" }}
                     >
                       {group.label}
@@ -1295,14 +1483,24 @@ export default function Home() {
                       {group.data.map((course, courseIndex) => (
                         <div
                           key={`${course.title}-${course.academicYear}-${course.term}-${courseIndex}`}
-                          className="bg-[#f8f9fc] rounded-xl border border-gray-100 p-3"
+                          className="rounded-xl border border-gray-100 bg-[#f8f9fc] p-3 transition-colors dark:border-white/10 dark:bg-[#151f2d]"
                         >
-                          <p className="font-medium text-[#1e3a5f] text-base leading-snug break-words">
+                          <p className="break-words text-base font-medium leading-snug text-[#1e3a5f] dark:text-[#dce8f5]">
                             {course.title}
                           </p>
-                          <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                            {course.language} · {course.term} ·{" "}
-                            {course.academicYear}
+                          <p className="mt-1 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                            {isEnglish
+                              ? course.language === "Türkçe"
+                                ? "Turkish"
+                                : "English"
+                              : course.language}{" "}
+                            ·{" "}
+                            {isEnglish
+                              ? course.term === "Güz"
+                                ? "Fall"
+                                : "Spring"
+                              : course.term}{" "}
+                            · {course.academicYear}
                           </p>
                         </div>
                       ))}
@@ -1313,45 +1511,75 @@ export default function Home() {
             </div>
 
             <div className="space-y-4 mt-8 md:mt-10">
-              <SubsectionTitle title="Proje Görevleri" />
+              <SubsectionTitle
+                title={isEnglish ? "Project Roles" : "Proje Görevleri"}
+              />
               <RecordCards items={projectRoles} />
             </div>
           </AnimatedSection>
         </div>
       </section>
 
-      <section id="yayinlar" className="py-20 bg-[#f8f9fc] scroll-mt-24">
+      <section
+        id="yayinlar"
+        className="scroll-mt-24 bg-[#f8f9fc] py-20 transition-colors dark:bg-[#111a27]"
+      >
         <div className="container space-y-14">
           <AnimatedSection className="space-y-10 md:space-y-12">
-            <SectionTitle title="Yayınlar" subtitle="Akademik Çalışmalar" />
+            <SectionTitle
+              title={isEnglish ? "Publications" : "Yayınlar"}
+              subtitle={isEnglish ? "Academic Work" : "Akademik Çalışmalar"}
+            />
 
             <div className="space-y-4">
-              <SubsectionTitle title="Uluslararası Hakemli Dergilerde Yayımlanan Makaleler" />
+              <SubsectionTitle
+                title={
+                  isEnglish
+                    ? "Articles in International Peer-Reviewed Journals"
+                    : "Uluslararası Hakemli Dergilerde Yayımlanan Makaleler"
+                }
+              />
               <RecordCards items={internationalArticles} venueLabel="Dergi" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Ulusal Hakemli Dergilerde Yayımlanan Makaleler" />
+              <SubsectionTitle
+                title={
+                  isEnglish
+                    ? "Articles in National Peer-Reviewed Journals"
+                    : "Ulusal Hakemli Dergilerde Yayımlanan Makaleler"
+                }
+              />
               <RecordCards items={nationalArticles} venueLabel="Dergi" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Diğer Yayınlar" />
+              <SubsectionTitle
+                title={isEnglish ? "Other Publications" : "Diğer Yayınlar"}
+              />
               <RecordCards items={otherPublications} venueLabel="Dergi" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Kitaplarım" />
+              <SubsectionTitle title={isEnglish ? "Books" : "Kitaplarım"} />
               <RecordCards items={authoredBooks} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Kitap Bölümleri" />
+              <SubsectionTitle
+                title={isEnglish ? "Book Chapters" : "Kitap Bölümleri"}
+              />
               <RecordCards items={bookChapters} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Uluslararası Bildiriler" />
+              <SubsectionTitle
+                title={
+                  isEnglish
+                    ? "International Conference Papers"
+                    : "Uluslararası Bildiriler"
+                }
+              />
               <RecordCards
                 items={internationalPapers}
                 venueLabel="Etkinlik"
@@ -1360,7 +1588,11 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Ulusal Bildiriler" />
+              <SubsectionTitle
+                title={
+                  isEnglish ? "National Conference Papers" : "Ulusal Bildiriler"
+                }
+              />
               <RecordCards
                 items={nationalPapers}
                 venueLabel="Etkinlik"
@@ -1369,37 +1601,51 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Editörlük" />
+              <SubsectionTitle
+                title={isEnglish ? "Editorial Work" : "Editörlük"}
+              />
               <RecordCards items={editors} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Konuşmalar" />
+              <SubsectionTitle title={isEnglish ? "Talks" : "Konuşmalar"} />
               <RecordCards items={speeches} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Çalıştaylar" />
+              <SubsectionTitle
+                title={isEnglish ? "Workshops" : "Çalıştaylar"}
+              />
               <RecordCards items={workshops} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Seminerler" />
+              <SubsectionTitle title={isEnglish ? "Seminars" : "Seminerler"} />
               <RecordCards items={seminars} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Kongre Düzenleme" />
+              <SubsectionTitle
+                title={
+                  isEnglish ? "Conference Organization" : "Kongre Düzenleme"
+                }
+              />
               <RecordCards items={conferenceOrganizations} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Araştırma, Kurs, Sertifika" />
+              <SubsectionTitle
+                title={
+                  isEnglish
+                    ? "Research, Courses, and Certificates"
+                    : "Araştırma, Kurs, Sertifika"
+                }
+              />
               <RecordCards items={certificates} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Üyelik" />
+              <SubsectionTitle title={isEnglish ? "Memberships" : "Üyelik"} />
               <RecordCards items={memberships} />
             </div>
           </AnimatedSection>
@@ -1422,48 +1668,71 @@ export default function Home() {
               className="text-3xl md:text-4xl font-bold text-white mb-4"
               style={{ fontFamily: "'DM Serif Display', serif" }}
             >
-              Dünya Birincisi Proje
+              {isEnglish ? "World-Champion Project" : "Dünya Birincisi Proje"}
             </h2>
             <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
-              Yaklaşık <strong className="text-[#c9a227]">20.000 kişiye</strong>{" "}
-              istihdam sağlayan Özel İdare Meslek Kursları projesi, Malezya'da
-              düzenlenen{" "}
-              <strong className="text-[#c9a227]">
-                Dünya Ticaret Odaları Proje Yarışması
-              </strong>
-              'nda dünya birincisi seçilmiştir.
+              {isEnglish ? (
+                <>
+                  The Special Provincial Administration Vocational Courses
+                  project, which provided employment for approximately{" "}
+                  <strong className="text-[#c9a227]">20,000 people</strong>, was
+                  named the world’s best project at the{" "}
+                  <strong className="text-[#c9a227]">
+                    World Chambers Competition
+                  </strong>{" "}
+                  held in Malaysia.
+                </>
+              ) : (
+                <>
+                  Yaklaşık{" "}
+                  <strong className="text-[#c9a227]">20.000 kişiye</strong>{" "}
+                  istihdam sağlayan Özel İdare Meslek Kursları projesi,
+                  Malezya'da düzenlenen{" "}
+                  <strong className="text-[#c9a227]">
+                    Dünya Ticaret Odaları Proje Yarışması
+                  </strong>
+                  'nda dünya birincisi seçilmiştir.
+                </>
+              )}
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      <section id="iletisim" className="py-20 bg-white scroll-mt-24">
+      <section
+        id="iletisim"
+        className="scroll-mt-24 bg-white py-20 transition-colors dark:bg-[#0b111b]"
+      >
         <div className="container">
           <AnimatedSection>
             <SectionTitle
-              title="İletişim"
-              subtitle="Akademik İşbirliği ve Ulaşım"
+              title={isEnglish ? "Contact" : "İletişim"}
+              subtitle={
+                isEnglish
+                  ? "Academic Collaboration and Enquiries"
+                  : "Akademik İşbirliği ve Ulaşım"
+              }
             />
             <div className="grid gap-8 lg:grid-cols-[1.55fr_.75fr] lg:items-start">
-              <div className="rounded-3xl border border-gray-100 bg-[#f8f9fc] p-5 shadow-sm md:p-8">
+              <div className="rounded-3xl border border-gray-100 bg-[#f8f9fc] p-5 shadow-sm transition-colors dark:border-white/10 dark:bg-[#111a27] md:p-8">
                 <Tabs
                   value={contactTab}
                   onValueChange={value =>
                     setContactTab(value as "contact" | "cv")
                   }
                 >
-                  <TabsList className="mb-7 grid h-auto w-full grid-cols-2 rounded-full bg-white p-1.5 shadow-sm">
+                  <TabsList className="mb-7 grid h-auto w-full grid-cols-2 rounded-full bg-white p-1.5 shadow-sm dark:bg-[#151f2d]">
                     <TabsTrigger
                       value="contact"
                       className="rounded-full py-2.5 data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white"
                     >
-                      İletişim Formu
+                      {isEnglish ? "Contact Form" : "İletişim Formu"}
                     </TabsTrigger>
                     <TabsTrigger
                       value="cv"
                       className="rounded-full py-2.5 data-[state=active]:bg-[#7a2948] data-[state=active]:text-white"
                     >
-                      CV Talep Et
+                      {isEnglish ? "Request CV" : "CV Talep Et"}
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="contact">
@@ -1483,7 +1752,7 @@ export default function Home() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c9a227]">
-                        Doğrudan iletişim
+                        {isEnglish ? "Direct contact" : "Doğrudan iletişim"}
                       </p>
                       <p className="mt-3 break-all text-base font-medium">
                         orhan.albayrak@bezmialem.edu.tr
@@ -1496,47 +1765,63 @@ export default function Home() {
                   </div>
                 </a>
 
-                <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+                <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-colors dark:border-white/10 dark:bg-[#151f2d]">
                   <h3
-                    className="mb-5 text-lg font-semibold text-[#1e3a5f]"
+                    className="mb-5 text-lg font-semibold text-[#1e3a5f] dark:text-white"
                     style={{ fontFamily: "'DM Serif Display', serif" }}
                   >
-                    Üyelikler & Bağlantılar
+                    {isEnglish
+                      ? "Memberships & Affiliations"
+                      : "Üyelikler & Bağlantılar"}
                   </h3>
                   <div className="space-y-3">
                     {[
                       {
-                        name: "Bezmialem Vakıf Üniversitesi",
-                        role: "Doçent Doktor",
+                        name: isEnglish
+                          ? "Bezmialem Vakif University"
+                          : "Bezmialem Vakıf Üniversitesi",
+                        role: isEnglish
+                          ? "Associate Professor"
+                          : "Doçent Doktor",
                         url: "https://bezmialem.edu.tr",
                       },
                       {
-                        name: "TDED – Türkiye Dil ve Edebiyat Derneği",
-                        role: "Yönetim Kurulu Üyesi",
+                        name: isEnglish
+                          ? "TDED – Turkish Language and Literature Association"
+                          : "TDED – Türkiye Dil ve Edebiyat Derneği",
+                        role: isEnglish
+                          ? "Board Member"
+                          : "Yönetim Kurulu Üyesi",
                         url: "https://www.tded.org.tr",
                       },
                       {
-                        name: "İstanbul Ticaret Odası",
-                        role: "Meclis Üyesi",
+                        name: isEnglish
+                          ? "Istanbul Chamber of Commerce"
+                          : "İstanbul Ticaret Odası",
+                        role: isEnglish ? "Assembly Member" : "Meclis Üyesi",
                         url: "https://www.ito.org.tr",
                       },
                       {
                         name: "İTÜ 1773 Teknopark A.Ş.",
-                        role: "Yönetim Kurulu Üyesi",
+                        role: isEnglish
+                          ? "Board Member"
+                          : "Yönetim Kurulu Üyesi",
                         url: "#",
                       },
                       {
-                        name: "FGA Vakfı",
-                        role: "Mütevelli Heyet Başkanı",
+                        name: isEnglish ? "FGA Foundation" : "FGA Vakfı",
+                        role: isEnglish
+                          ? "Chair of the Board of Trustees"
+                          : "Mütevelli Heyet Başkanı",
                         url: "#",
                       },
                     ].map(aff => (
                       <div
                         key={aff.name}
-                        className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
+                        className="flex items-center justify-between border-b border-gray-100 py-2 last:border-0 dark:border-white/10"
                       >
                         <div>
-                          <p className="text-sm font-medium text-[#1e3a5f]">
+                          <p className="text-sm font-medium text-[#1e3a5f] dark:text-[#dce8f5]">
                             {aff.name}
                           </p>
                           <p className="text-xs text-gray-400">{aff.role}</p>
@@ -1569,7 +1854,7 @@ export default function Home() {
                 className="font-semibold text-lg"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
-                Doç. Dr. Orhan Albayrak
+                {isEnglish ? "Assoc. Prof. Dr." : "Doç. Dr."} Orhan Albayrak
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 md:justify-end">
@@ -1612,7 +1897,9 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-6 pt-6 border-t border-white/10 text-center text-white/40 text-xs">
-            © 2026 Doç. Dr. Orhan Albayrak. Tüm hakları saklıdır.
+            © 2026 {isEnglish ? "Assoc. Prof. Dr." : "Doç. Dr."} Orhan
+            Albayrak.{" "}
+            {isEnglish ? "All rights reserved." : "Tüm hakları saklıdır."}
           </div>
         </div>
       </footer>
