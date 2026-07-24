@@ -29,7 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
-const PROFILE_IMG = "/images/oalbayrakprofil_kolaj.png";
+const PROFILE_IMG = "/images/oalbayrakprofil_yeni.png";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak";
 const INSTAGRAM_URL = "https://www.instagram.com/drorhanalbayrak/";
