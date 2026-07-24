@@ -8,6 +8,7 @@ import {
   ExternalLink,
   Globe,
   GraduationCap,
+  Linkedin,
   Mail,
   MapPin,
   Menu,
@@ -20,6 +21,10 @@ const HERO_BG =
 const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
 const PROFILE_IMG = "/images/oalbayrakprofil.jpeg";
+
+// LinkedIn bağlantısı üç yerde (hero, iletişim, footer) kullanılır; adres yalnızca burada tutulur.
+// TODO: Gerçek profil adresiyle değiştirilecek — şu an placeholder.
+const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak";
 
 type EducationItem = {
   degree: string;
@@ -47,6 +52,18 @@ type RecordItem = {
   startDate?: string;
   endDate?: string;
   details?: string;
+  /** Kitap bölümü çalışmalarında bölümün adı (kitabın adı `title` alanında durur). */
+  chapter?: string;
+  publisher?: string;
+  editor?: string;
+  edition?: string;
+  pages?: string;
+  isbn?: string;
+  /** Yalnızca DOI son eki; kartta https://doi.org/ ön ekiyle bağlantıya dönüşür. */
+  doi?: string;
+  /** Dergi künyesi: cilt(sayı), sayfa aralığı. */
+  citation?: string;
+  language?: string;
 };
 
 const aboutParagraphs = [
@@ -62,7 +79,8 @@ const educationCards: EducationItem[] = [
     field: "Siyaset Bilimi ve Uluslararası İlişkiler",
     school: "İstanbul Sabahattin Zaim Üniversitesi",
     years: "2016–2020",
-    thesis: "Siyaset Bilimi ve Uluslararası İlişkiler Bölümü",
+    thesis:
+      "Tez: \"Parti üyelerinin siyasi katılım düzeyi: İstanbul Ak Parti ve CHP örneği\" (29.09.2020) — Danışman: Prof. Dr. Ömer Çaha",
   },
   {
     degree: "Yüksek Lisans",
@@ -99,7 +117,7 @@ const academicRoles: RecordItem[] = [
     title: "DOÇENT",
     organization: "BEZM-İ ÂLEM VAKIF ÜNİVERSİTESİ / SAĞLIK BİLİMLERİ FAKÜLTESİ / SAĞLIK YÖNETİMİ BÖLÜMÜ",
     startDate: "15.10.2024",
-    endDate: "15.02.2025",
+    details: "Hâlen devam ediyor.",
   },
   {
     title: "DOKTOR ÖĞRETİM ÜYESİ",
@@ -122,6 +140,12 @@ const adminRoles: RecordItem[] = [
 
 const externalExperiences: RecordItem[] = [
   {
+    title: "ADF – İleri Teknoloji Fonu",
+    role: "Yönetim Kurulu Üyesi",
+    scope: "Ticari (Özel)",
+    startDate: "01.03.2026",
+  },
+  {
     title: "ÜNDER-Üniversite Öğretim Elemanları Dayanışma Derneği",
     role: "Yüksek İstişare Kurulu Üyesi",
     scope: "Türkiye",
@@ -135,9 +159,17 @@ const externalExperiences: RecordItem[] = [
   },
   {
     title: "İstanbul Ticaret Odası",
-    role: "Meclis Üyesi",
-    scope: "Türkiye",
+    role: "Meclis Üyesi – Eğitim Meslek Komitesi",
+    scope: "Mesleki Dernekler",
     startDate: "15.10.2022",
+  },
+  {
+    title: "İstanbul Ticaret Odası",
+    role: "Meclis Üyesi, Eğitim Komitesi Üyesi",
+    scope: "Mesleki Dernekler",
+    startDate: "15.10.2018",
+    endDate: "15.10.2022",
+    details: "8000 eğitim kurumunu temsilen seçilmiş meclis üyesi.",
   },
   {
     title: "1773 İstanbul Teknik Üniversitesi Teknopark A.Ş.",
@@ -180,6 +212,12 @@ const externalExperiences: RecordItem[] = [
     startDate: "01.01.2004",
     endDate: "01.01.2009",
   },
+  {
+    title: "Marmara Üniversitesi Teknopark A.Ş.",
+    role: "Ortak – Teknopark Kurucu Ortağı",
+    scope: "Ticari (Özel)",
+    startDate: "01.01.2016",
+  },
 ];
 
 const courses: CourseItem[] = [
@@ -216,105 +254,356 @@ const courses: CourseItem[] = [
 const projectRoles: RecordItem[] = [
   {
     title: "Sanayi Politikaları ve Teknoloji Yönetimi Gençlik Çalışanları Hareketliliği",
-    scope: "Avrupa Birliği",
+    role: "Proje Koordinatörü",
+    scope: "Avrupa Birliği · Uluslararası",
+    startDate: "03.03.2023",
+    endDate: "10.04.2025",
     details:
-      "Araştırmacı: Egehan Özkan Alakaş, Cengiz Akyıldız, Eyüp Vural Aydın, Hamide Arslan, Yusuf Ceylan, Mehmet Saim Aşçı, Pınar Başar, Tuncel Öz, Yahya Fidan, Merve Arslan, Orhan Albayrak, Sabri Öz.",
+      "Proje Koordinatörleri: Cengiz Akyıldız, Eyüp Vural Aydın, Hamide Arslan, Orhan Albayrak. Araştırmacılar: Egehan Özkan Alakaş, Yusuf Ceylan, Mehmet Saim Aşçı, Pınar Başar, Tuncel Öz, Yahya Fidan, Merve Arslan, Sabri Öz.",
   },
 ];
 
-const articles: RecordItem[] = [
-  { title: "Siyasetin Finansmanı", year: "2023", venue: "Süleyman Demirel Üniversitesi Fen-Edebiyat Fakültesi Sosyal Bilimler Dergisi", scope: "TR DİZİN" },
-  { title: "Çevrecilik Neden Muhafazakâr Düşüncelerle İlişkilidir? Ve Yeşil Muhafazakârlıkla İlişkili Bir Bilişsel Duygusal (CAM) Haritalama Örneği", year: "2023", venue: "Avrasya Bilimler Akademisi Sosyal Bilimler Dergisi", scope: "Diğer endeksler" },
-  { title: "Pandemi Sürecinde Eğitim", year: "2021", venue: "Mimar Mühendisler Grubu Dergisi", scope: "Endekste taranmıyor" },
-  { title: "Japonya'da Eğitim Sistemi ve Mesleki Eğitime Farklı Bir Bakış: Japonya Örneği", year: "2020", venue: "Mimar Mühendisler Grubu Dergisi", scope: "Endekste taranmıyor" },
-  { title: "Eğitim ve Mesleki Eğitim, Sorunları ve Çözüm Önerileri, Mesleği Eğitimin Cazip Hale Gelmesi İçin Bir Öneri", year: "2020", venue: "Mimar Mühendisler Grubu Dergisi", scope: "Endekste taranmıyor" },
-  { title: "Comparing Political Participation Levels of Party Members Within the Two Main Parties of Turkey Based on Their Media Usage and Expectations", year: "2021", venue: "Journal of Political Science and International Relations", scope: "Diğer endeksler" },
-  { title: "Dijital Diplomasi: Diplomasi 3.0", year: "2023", venue: "İstanbul Ticaret Üniversitesi Sosyal Bilimler Dergisi", scope: "TR DİZİN" },
-  { title: "Türkiye'de Okul Özerkliği ve Özgürlükçü Eğitim Anlayışı", year: "2021", venue: "Alanyazın Dergisi", scope: "Diğer endeksler" },
-];
-
-const books: RecordItem[] = [
-  { title: "Demokrasi ve Etkin Yurttaşlık", year: "2025", venue: "Yeni Medya Aracılığıyla Dijital Demokrasi ve Siyasi Katılımın Dönüşümü", scope: "Ulusal" },
-  { title: "Geleceğin Koridorları", year: "2023", venue: "Küresel Güney'de Siyasetçi Olmanın Zorlukları", scope: "Uluslararası" },
-  { title: "Yapay Zekâyla Demokrasi Üzerine Söyleşi: Sesli Sorular, Dijital Cevaplar", year: "2023", scope: "Uluslararası" },
-  { title: "Dijital Çağda Siyaset", year: "2023", scope: "Uluslararası" },
-  { title: "Eastern and Western Ethicians: A Critical Comparison", year: "2022", venue: "Meta-Politics and Ethics", scope: "Uluslararası" },
-  { title: "Teoriden Pratiğe Türkiye Siyaseti", year: "2021", venue: "Saha Çalışmaları ve Etik İlkelerin AK Parti'nin Seçim Sonuçları Üzerindeki Etkileri", scope: "Uluslararası" },
-  { title: "Parti Üyelerinin Siyasi Katılımı", year: "2021", scope: "Uluslararası" },
-];
-
-const symposiums: RecordItem[] = [
+const internationalArticles: RecordItem[] = [
   {
-    title: "Political participation levels of party members: The Case of AK Party and CHP in Istanbul",
-    role: "Sözlü Sunum",
+    title: "Türkiye'de Okul Özerkliği ve Özgürlükçü Eğitim Anlayışı",
+    year: "2021",
+    venue: "Alanyazın Dergisi",
+    citation: "2(2), 83-90",
+    doi: "10.22596/cresjournal",
+    scope: "Uluslararası hakemli dergi",
+  },
+  {
+    title: "Comparing Political Participation Levels of Party Members Within the Two Main Parties of Turkey Based on Their Media Usage and Expectations",
+    year: "2021",
+    venue: "Journal of Political Science and International Relations",
+    citation: "4(1), 8-17",
+    doi: "10.11648/j.jpsir.20210401.12",
+    scope: "Uluslararası hakemli dergi",
+  },
+];
+
+const nationalArticles: RecordItem[] = [
+  {
+    title: "Dijital Diplomasi: Diplomasi 3.0",
+    year: "2023",
+    venue: "İstanbul Ticaret Üniversitesi Sosyal Bilimler Dergisi",
+    citation: "22(46), 493-508",
+    doi: "10.46928/iticusbe.1288805",
+    scope: "TR DİZİN",
+  },
+  {
+    title: "Siyasetin Finansmanı",
+    year: "2023",
+    venue: "Süleyman Demirel Üniversitesi Fen-Edebiyat Fakültesi Sosyal Bilimler Dergisi",
+    citation: "(59), 209-221",
+    scope: "TR DİZİN",
+  },
+  {
+    title: "Çevrecilik Neden Muhafazakâr Düşüncelerle İlişkilidir? Ve Yeşil Muhafazakârlıkla İlişkili Bir Bilişsel Duygusal (CAM) Haritalama Örneği",
+    year: "2023",
+    venue: "Avrasya Bilimler Akademisi Sosyal Bilimler Dergisi",
+    citation: "(49), 69-85",
+    scope: "Ulusal hakemli dergi",
+  },
+];
+
+const otherPublications: RecordItem[] = [
+  {
+    title: "Pandemi Sürecinde Eğitim",
+    year: "2021",
+    venue: "Mimar Mühendisler Grubu Dergisi",
+    citation: "(118), 46-51",
+    scope: "Ulusal · Hakemsiz",
+  },
+  {
+    title: "Eğitim ve Mesleki Eğitim, Sorunları ve Çözüm Önerileri, Mesleği Eğitimin Cazip Hale Gelmesi İçin Bir Öneri",
+    year: "2020",
+    venue: "Mimar Mühendisler Grubu Dergisi",
+    citation: "(116), 80-96",
+    scope: "Ulusal · Hakemsiz",
+  },
+  {
+    title: "Japonya'da Eğitim Sistemi ve Mesleki Eğitime Farklı Bir Bakış: Japonya Örneği",
+    year: "2020",
+    venue: "Mimar Mühendisler Grubu Dergisi",
+    citation: "(116), 52-64",
+    scope: "Ulusal · Hakemsiz",
+  },
+];
+
+const authoredBooks: RecordItem[] = [
+  {
+    title: "Yapay Zekâyla Demokrasi Üzerine Söyleşi: Sesli Sorular, Dijital Cevaplar",
+    year: "2023",
+    publisher: "Özgür Yayınevi",
+    editor: "Dr. Eyüp Öz",
+    edition: "1",
+    pages: "148",
+    isbn: "978-975-447-711-5",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+  },
+  {
+    title: "Dijital Çağda Siyaset",
+    year: "2023",
+    publisher: "Akademisyen Yayınevi",
+    editor: "Prof. Dr. Ali Rafet Özkan",
+    edition: "1",
+    pages: "407",
+    isbn: "978-625-399-244-6",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+  },
+  {
+    title: "Parti Üyelerinin Siyasi Katılımı",
+    year: "2021",
+    publisher: "Orion Akademi",
+    editor: "Prof. Dr. Ali Rafet Özkan",
+    edition: "1",
+    pages: "280",
+    isbn: "978-605-06875-9-0",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+  },
+];
+
+const bookChapters: RecordItem[] = [
+  {
+    title: "Demokrasi ve Etkin Yurttaşlık",
+    chapter: "Yeni Medya Aracılığıyla Dijital Demokrasi ve Siyasi Katılımın Dönüşümü",
+    year: "2025",
+    publisher: "Çizgi Kitabevi, İstanbul",
+    editor: "M. M. Yavuz, D. Geylani, M. Köse",
+    edition: "1",
+    pages: "355",
+    isbn: "978-625-396-595-2",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+  },
+  {
+    title: "Geleceğin Koridorları",
+    chapter: "Küresel Güney'de Siyasetçi Olmanın Zorlukları",
+    year: "2023",
+    publisher: "Hiperlink Eğitim İletişim Yay. Ltd. Şti.",
+    editor: "Prof. Dr. Figen Yıldırım, Doç. Dr. Sabri Öz",
+    edition: "1",
+    pages: "384",
+    isbn: "978-625-6482-35-7",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+  },
+  {
+    title: "Eastern and Western Ethicians: A Critical Comparison",
+    chapter: "Meta-Politics and Ethics",
+    year: "2022",
+    publisher: "Livre De Lyon",
+    editor: "Prof. Dr. Ali Rafet Özkan, Prof. Dr. Emine Öztürk, Doç. Dr. Sadagat Abbasova",
+    edition: "1",
+    pages: "432",
+    isbn: "978-2-38236-470-3",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+  },
+  {
+    title: "Teoriden Pratiğe Türkiye Siyaseti",
+    chapter: "Saha Çalışmaları ve Etik İlkelerin AK Parti'nin Seçim Sonuçları Üzerindeki Etkileri",
+    year: "2021",
+    publisher: "Liberte Yayınları, İstanbul",
+    editor: "Prof. Dr. Alim Yılmaz, Dr. İkram Bağcı",
+    edition: "1",
+    pages: "280",
+    isbn: "978-605-9823-56-2",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+  },
+];
+
+const internationalPapers: RecordItem[] = [
+  {
+    title: "Political participation levels of party members: The Case of Ak Party and CHP in Istanbul",
+    role: "Tam Metin Bildiri · Sözlü Sunum",
     year: "12-16.07.2025",
-    venue: "28th IPSA World Congress of Political Science, Seoul",
-    scope: "Uluslararası",
-  },
-  {
-    title: "Dijital Demokrasi ve Siyasi Katılım",
-    role: "Sözlü Sunum",
-    year: "24.10.2024",
-    venue: "II. Politik Psikoloji Sempozyumu - Demokrasi ve Etkin Yurttaşlık",
-    scope: "Ulusal",
-  },
-  {
-    title: "Digital Political Polarization and Ways to Prevent It",
-    role: "Sözlü Sunum",
-    year: "12.08.2023",
-    venue: "10th International Congress on Humanities and Social Sciences in a Changing World",
+    venue: "28th IPSA World Congress of Political Science, Seoul, Güney Kore",
     scope: "Uluslararası",
   },
   {
     title: "Technology: Threat or Opportunity for the Future of Democracy?",
-    role: "Sözlü Sunum",
+    role: "Özet Bildiri · Sözlü Sunum",
     year: "12.10.2023",
     venue: "Digital Diplomacy: Trends & Features",
     scope: "Uluslararası",
   },
   {
-    title: "Party members' attitudes toward their own leaders",
-    role: "Sözlü Sunum",
-    year: "20.11.2021",
-    venue: "I. International Artuklu Congress on Economic Administrative and Political Sciences",
+    title: "Digital Political Polarization and Ways to Prevent It",
+    role: "Özet Bildiri · Sözlü Sunum",
+    year: "12.08.2023",
+    venue: "10th International Congress on Humanities and Social Sciences in a Changing World",
+    citation: "1-526",
     scope: "Uluslararası",
   },
   {
     title: "Metaverse-Politics and Ethics",
-    role: "Sözlü Sunum",
-    year: "11.11.2022",
-    venue: "International Social Sciences Congress in the Age of Digital Transformation",
+    role: "Özet Bildiri · Sözlü Sunum",
+    year: "11-12.11.2022",
+    venue: "International Social Sciences Congress in the Age of Digital Transformation, İstanbul",
+    citation: "1-663",
+    scope: "Uluslararası",
+  },
+  {
+    title: "Party members' attitudes toward their own leaders: The Cases of Istanbul Ak Party and CHP",
+    role: "Özet Bildiri · Sözlü Sunum",
+    year: "20.11.2021",
+    venue: "I. International Artuklu Congress on Economic Administrative and Political Sciences",
+    citation: "1-444",
     scope: "Uluslararası",
   },
   {
     title: "Türkiye'de Okul Özerkliği ve Özgürlükçü Eğitim Anlayışı",
-    role: "Sözlü Sunum",
+    role: "Özet Bildiri · Sözlü Sunum",
     year: "23.06.2021",
     venue: "2023 Vizyonu, Salgın Krizi ve Dijitalleşme Bağlamında Okul Özerkliği",
+    citation: "1-133",
+    doi: "10.22596/cresjournal",
     scope: "Uluslararası",
+  },
+];
+
+const nationalPapers: RecordItem[] = [
+  {
+    title: "Dijital Demokrasi ve Siyasi Katılım",
+    role: "Özet Bildiri · Sözlü Sunum",
+    year: "24.10.2024",
+    venue: "II. Politik Psikoloji Sempozyumu - Demokrasi ve Etkin Yurttaşlık",
+    scope: "Ulusal",
+  },
+  {
+    title: "Etik Değerlere Saygılı bir Metaverse Oluşturma",
+    role: "Tam Metin Bildiri · Sözlü Sunum",
+    year: "2024",
+    venue: "Sosyal Bilimler ve Yapay Zeka Kongresi",
+    scope: "Ulusal",
+  },
+];
+
+const workshops: RecordItem[] = [
+  {
+    title: "Türkiye'de Yabancı Dille Öğretim",
+    role: "Oturum Başkanı",
+    venue: "İstanbul Sabahattin Zaim Üniversitesi",
+    year: "04.05.2026",
+    scope: "Ulusal",
+  },
+  {
+    title: "Savaş Ortamındaki Çocuklarda Ölüm Algısı",
+    venue: "IX. Uluslararası Maneviyat Psikolojisi Sempozyumu — Sağlık Bilimleri Üniversitesi, İlim Yayma Cemiyeti",
+    year: "11-12.11.2025",
+    scope: "Uluslararası",
+  },
+  {
+    title: "Orta Öğretimde Zorunlu Eğitim Çalıştayı",
+    venue: "BYOTELL Kozyatağı, İstanbul",
+    year: "31.05.2025",
+    scope: "Ulusal",
+    details:
+      "21. yüzyılda lise eğitiminin süresi ve yapısı ile bu alandaki politikalar ele alınarak bilimsel temelli çözüm önerileri geliştirilmiştir. Türkiye Yüzyılı Maarif Modeli kapsamında planlanan \"düşünsel makas değişimine\" katkı sunmak ve Türkiye'nin sosyo-ekonomik ve kültürel gerçeklikleri çerçevesinde politika yapıcılara yol gösterecek bir perspektif oluşturmak amaçlanmıştır.",
+  },
+];
+
+const seminars: RecordItem[] = [
+  {
+    title: "Algı Yönetimi ve Manipülasyon",
+    venue: "TDED Genel Merkezi, Eyüp",
+    year: "12.04.2025",
+    scope: "Ulusal",
+    details: "Pınar Yayınları'nca yayımlanan, Mücahit Gültekin'in \"Kanmanın ve Kandırmanın Psikolojisi\" adlı kitabının sunumu.",
+  },
+  {
+    title: "Artificial Intelligence and Diplomacy",
+    venue: "Çevrim içi",
+    year: "03.10.2023",
+    scope: "Uluslararası",
+    details: "Digital diplomacy and inclusive peace studies for youth.",
+  },
+  {
+    title: "InCites Benchmarking and Analytics",
+    venue: "Haliç Üniversitesi, İstanbul",
+    year: "22.09.2021",
+    scope: "Uluslararası",
+    details: "Web of Science ile ilgili webinar.",
+  },
+];
+
+const speeches: RecordItem[] = [
+  {
+    title: "Yapay Zeka ve Eğitim",
+    venue: "İstanbul Medeniyet Üniversitesi Eğitim Fakültesi",
+    year: "15.04.2026",
+    scope: "Ulusal",
+    details: "Yapay zeka ve eğitim ilişkisi.",
+  },
+  {
+    title: "Gerçekliğin Gölgesinde: Yapay Zekâya Akıl, Kalp, Ruh ve Marifetle Bakmak",
+    venue: "Ensar Vakfı Genel Merkezi",
+    year: "22.11.2025",
+    scope: "Ulusal",
+    details: "Yapay zeka ile maneviyat ilişkisi.",
+  },
+  {
+    title: "Yapay Zeka ve Günlük Hayat",
+    organization: "T.C. Kültür ve Turizm Bakanlığı",
+    venue: "Rami Kütüphanesi, İstanbul",
+    year: "04.04.2025",
+    scope: "Ulusal",
+  },
+  {
+    title: "Dijital Çağda Siyaset",
+    venue: "Konya Selçuk Üniversitesi",
+    year: "07.11.2023",
+    scope: "Ulusal",
+    details: "Dijitalleşme ve siyaset ilişkisi.",
+  },
+  {
+    title: "Digital Diplomacy and Inclusive Peace Studies for Youth",
+    venue: "Artificial Intelligence and Diplomacy, İstanbul",
+    year: "03.10.2023",
+    scope: "Uluslararası",
+  },
+  {
+    title: "Eğitim Yolculuğu",
+    venue: "TVNet Televizyonu",
+    year: "05.11.2020",
+    scope: "Ulusal",
+    details: "Meslek liselerinin eğitim sistemimizdeki yeri ve önemi.",
+  },
+];
+
+const conferenceOrganizations: RecordItem[] = [
+  {
+    title: "Geçmişten Günümüze Türkçenin İmlası Uluslararası Sempozyumu",
+    role: "Oturum Başkanı",
+    venue: "İstanbul Üniversitesi Edebiyat Fakültesi",
+    year: "24-26.09.2025",
+    scope: "Uluslararası",
+    details: "\"ChatGPT'ye sorduk: Türkçe Noktalama İşaretlerine Eleştirel Bir Bakış\" oturumu.",
   },
 ];
 
 const editors: RecordItem[] = [
   {
     title: "GÖÇ VE KÜLTÜREL ETKİLEŞİM (Migration and Cultural Interaction)",
-    role: "Editör",
-    year: "2019",
+    role: "Editör · Kitap",
+    organization: "İstanbul Sabahattin Zaim Üniversitesi",
+    startDate: "01.04.2019",
+    endDate: "02.04.2019",
     scope: "Uluslararası",
-    details: "Avustralya National Univ ve Sabahattin Zaim Üniv. görev yapan Prof. Dr. M. Mehdi İlha...",
+    details:
+      "Avustralya National Üniversitesi ve İstanbul Sabahattin Zaim Üniversitesi'nde görev yapan, koronadan vefat eden Prof. Dr. M. Mehdi İlhan Hoca anısına.",
   },
 ];
 
 const certificates: RecordItem[] = [
   {
-    title: "Digital Diplomacy and Inclusive Peace Studies for Youth",
-    role: "Konuşmalarım",
-    scope: "Uluslararası",
-    venue: "İstanbul",
-    year: "03.10.2023",
-  },
-  {
-    title: "Marmara Üniversitesi-İşletme Bilimleri Uygulama ve Araştırma Merkezi",
+    title: "Marmara Üniversitesi – İşletme Bilimleri Uygulama ve Araştırma Merkezi",
     role: "Sertifika",
     scope: "Ulusal",
     venue: "İstanbul",
@@ -327,13 +616,6 @@ const certificates: RecordItem[] = [
     venue: "İstanbul",
     year: "03.06.2010",
   },
-  {
-    title: "InCites Benchmarking and Analytics",
-    role: "Seminer",
-    scope: "Uluslararası",
-    venue: "İstanbul",
-    year: "22.09.2021",
-  },
 ];
 
 const memberships: RecordItem[] = [
@@ -344,7 +626,13 @@ const memberships: RecordItem[] = [
     details: "Bilimsel Kuruluş",
   },
   {
-    title: "İstanbul Teknik Üniversitesi Teknopark A.Ş.",
+    title: "ÜNDER – Üniversite Öğretim Elemanları Dayanışma Derneği",
+    role: "Üye · Yüksek İstişare Kurulu Üyesi (20.10.2024)",
+    year: "2023",
+    details: "Bilimsel Kuruluş",
+  },
+  {
+    title: "1773 İstanbul Teknik Üniversitesi Teknopark A.Ş.",
     role: "Yönetim Kurulu Üyesi",
     year: "2022",
     details: "Bilimsel Kuruluş",
@@ -363,7 +651,10 @@ function useScrollAnimation() {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      // threshold 0: eleman ekrana ilk değdiğinde tetiklenir. Oransal bir eşik (ör. 0.1)
+      // kullanılırsa, viewport'un 10 katından uzun bölümler bu oranı hiç yakalayamaz ve
+      // kalıcı olarak görünmez kalır (Yayınlar bölümünde mobilde yaşanan durum).
+      { threshold: 0 }
     );
     if (ref.current) {
       observer.observe(ref.current);
@@ -406,27 +697,53 @@ function SubsectionTitle({ title }: { title: string }) {
   );
 }
 
-function RecordCards({ items }: { items: RecordItem[] }) {
+function RecordCards({ items, venueLabel = "Yer/Etkinlik" }: { items: RecordItem[]; venueLabel?: string }) {
   return (
     <div className="grid md:grid-cols-2 gap-4">
-      {items.map((item) => (
-        <div key={`${item.title}-${item.year ?? item.startDate ?? "x"}`} className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm">
-          <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">{item.title}</p>
-          {item.organization && <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">{item.organization}</p>}
-          <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
-            {item.role && <p>Görev: {item.role}</p>}
-            {item.venue && <p>Yer/Etkinlik: {item.venue}</p>}
-            {item.scope && <p>Kapsam: {item.scope}</p>}
-            {item.year && <p>Tarih/Yıl: {item.year}</p>}
-            {(item.startDate || item.endDate) && (
-              <p>
-                Süre: {item.startDate ?? "-"} {item.endDate ? `- ${item.endDate}` : ""}
-              </p>
-            )}
-            {item.details && <p>{item.details}</p>}
+      {items.map((item) => {
+        // Yayınevi, basım ve sayfa bilgisi tek satırda toplanır; boş olanlar araya nokta koymadan atlanır.
+        const imprint = [item.publisher, item.edition && `${item.edition}. Basım`, item.pages && `${item.pages} sayfa`]
+          .filter(Boolean)
+          .join(" · ");
+
+        return (
+          <div key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`} className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm">
+            <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">{item.title}</p>
+            {item.chapter && <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">Bölüm: {item.chapter}</p>}
+            {item.organization && <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">{item.organization}</p>}
+            <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
+              {item.role && <p>Görev: {item.role}</p>}
+              {item.venue && <p>{venueLabel}: {item.venue}</p>}
+              {item.citation && <p>Künye: {item.citation}</p>}
+              {imprint && <p>{imprint}</p>}
+              {item.editor && <p>Editör: {item.editor}</p>}
+              {item.isbn && <p>ISBN: {item.isbn}</p>}
+              {item.doi && (
+                <p>
+                  DOI:{" "}
+                  <a
+                    href={`https://doi.org/${item.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#1e3a5f] hover:text-[#c9a227] underline underline-offset-2 transition-colors break-all"
+                  >
+                    {item.doi}
+                  </a>
+                </p>
+              )}
+              {item.language && <p>Dil: {item.language}</p>}
+              {item.scope && <p>Kapsam: {item.scope}</p>}
+              {item.year && <p>Tarih/Yıl: {item.year}</p>}
+              {(item.startDate || item.endDate) && (
+                <p>
+                  Süre: {item.startDate ?? "-"} {item.endDate ? `- ${item.endDate}` : ""}
+                </p>
+              )}
+              {item.details && <p>{item.details}</p>}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -548,6 +865,15 @@ export default function Home() {
                   <BookOpen size={18} />
                   Yayınlarım
                 </button>
+                <a
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#0A66C2] hover:bg-[#004182] text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+                >
+                  <Linkedin size={18} />
+                  LinkedIn'de Bağlan
+                </a>
                 <button onClick={() => scrollTo("iletisim")} className="border border-white/50 hover:border-white text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
                   <Mail size={18} />
                   İletişim
@@ -724,18 +1050,38 @@ export default function Home() {
             <SectionTitle title="Yayınlar" subtitle="Akademik Çalışmalar" />
 
             <div className="space-y-4">
-              <SubsectionTitle title="Makale" />
-              <RecordCards items={articles} />
+              <SubsectionTitle title="Uluslararası Hakemli Dergilerde Yayımlanan Makaleler" />
+              <RecordCards items={internationalArticles} venueLabel="Dergi" />
+            </div>
+
+            <div className="space-y-4">
+              <SubsectionTitle title="Ulusal Hakemli Dergilerde Yayımlanan Makaleler" />
+              <RecordCards items={nationalArticles} venueLabel="Dergi" />
+            </div>
+
+            <div className="space-y-4">
+              <SubsectionTitle title="Diğer Yayınlar" />
+              <RecordCards items={otherPublications} venueLabel="Dergi" />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title="Kitaplarım" />
-              <RecordCards items={books} />
+              <RecordCards items={authoredBooks} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Tebliğ (Bildiri)" />
-              <RecordCards items={symposiums} />
+              <SubsectionTitle title="Kitap Bölümleri" />
+              <RecordCards items={bookChapters} />
+            </div>
+
+            <div className="space-y-4">
+              <SubsectionTitle title="Uluslararası Bildiriler" />
+              <RecordCards items={internationalPapers} venueLabel="Etkinlik" />
+            </div>
+
+            <div className="space-y-4">
+              <SubsectionTitle title="Ulusal Bildiriler" />
+              <RecordCards items={nationalPapers} venueLabel="Etkinlik" />
             </div>
 
             <div className="space-y-4">
@@ -744,8 +1090,28 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
+              <SubsectionTitle title="Konuşmalar" />
+              <RecordCards items={speeches} venueLabel="Yer" />
+            </div>
+
+            <div className="space-y-4">
+              <SubsectionTitle title="Çalıştaylar" />
+              <RecordCards items={workshops} venueLabel="Yer" />
+            </div>
+
+            <div className="space-y-4">
+              <SubsectionTitle title="Seminerler" />
+              <RecordCards items={seminars} venueLabel="Yer" />
+            </div>
+
+            <div className="space-y-4">
+              <SubsectionTitle title="Kongre Düzenleme" />
+              <RecordCards items={conferenceOrganizations} venueLabel="Yer" />
+            </div>
+
+            <div className="space-y-4">
               <SubsectionTitle title="Araştırma, Kurs, Sertifika" />
-              <RecordCards items={certificates} />
+              <RecordCards items={certificates} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
@@ -797,6 +1163,20 @@ export default function Home() {
                     <div>
                       <p className="text-xs text-gray-400">Kurumsal E-posta</p>
                       <p className="text-[#1e3a5f] font-medium text-sm">orhan.albayrak@bezmialem.edu.tr</p>
+                    </div>
+                  </a>
+                  <a
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-4 rounded-xl border border-[#0A66C2]/30 bg-[#0A66C2]/5 hover:border-[#0A66C2] transition-colors group"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-[#0A66C2]/10 flex items-center justify-center group-hover:bg-[#0A66C2] transition-colors">
+                      <Linkedin size={18} className="text-[#0A66C2] group-hover:text-white transition-colors" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400">LinkedIn</p>
+                      <p className="text-[#0A66C2] font-medium text-sm">Profesyonel ağda bağlantı kurun</p>
                     </div>
                   </a>
                   <a
@@ -871,6 +1251,15 @@ export default function Home() {
               <p className="text-white/60 text-sm">Akademisyen · Araştırmacı · Yazar</p>
             </div>
             <div className="flex items-center gap-4">
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
+              >
+                <Linkedin size={15} />
+                LinkedIn
+              </a>
               <a href="https://orcid.org/0000-0002-1937-6011" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#c9a227] transition-colors text-sm">
                 ORCID
               </a>
