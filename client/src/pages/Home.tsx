@@ -1172,7 +1172,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section id="hakkinda" className="py-20 bg-white scroll-mt-24">
         <div className="container">
           <AnimatedSection>
             <div className="grid md:grid-cols-3 gap-12 items-start">
