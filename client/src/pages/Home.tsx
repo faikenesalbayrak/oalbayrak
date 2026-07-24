@@ -82,6 +82,14 @@ const aboutParagraphs = [
 
 const educationCards: EducationItem[] = [
   {
+    degree: "Doçentlik",
+    field: "Siyaset Sosyolojisi",
+    school:
+      "ÜAK Temel Alan: Sosyal, Beşeri ve İdari Bilimler / Bilim Alanı: Siyaset Bilimi",
+    years: "2023",
+    thesis: "Doçentlik Ünvanı",
+  },
+  {
     degree: "Doktora",
     field: "Siyaset Bilimi ve Uluslararası İlişkiler",
     school: "İstanbul Sabahattin Zaim Üniversitesi",
@@ -109,14 +117,6 @@ const educationCards: EducationItem[] = [
     school: "İstanbul Teknik Üniversitesi",
     years: "1977–1982",
     thesis: "Elektronik ve Haberleşme Fakültesi",
-  },
-  {
-    degree: "Doçentlik",
-    field: "Siyaset Sosyolojisi",
-    school:
-      "ÜAK Temel Alan: Sosyal, Beşeri ve İdari Bilimler / Bilim Alanı: Siyaset Bilimi",
-    years: "2023",
-    thesis: "Doçentlik Ünvanı",
   },
 ];
 
@@ -163,16 +163,29 @@ const externalExperiences: RecordItem[] = [
     startDate: "20.10.2024",
   },
   {
-    title: "Türkiye Dil ve Edebiyat Derneği",
+    title: "1773 İstanbul Teknik Üniversitesi Teknopark A.Ş.",
     role: "Yönetim Kurulu Üyesi",
     scope: "Türkiye",
-    startDate: "01.06.2022",
+    startDate: "08.12.2022",
   },
   {
     title: "İstanbul Ticaret Odası",
     role: "Meclis Üyesi – Eğitim Meslek Komitesi",
     scope: "Mesleki Dernekler",
     startDate: "15.10.2022",
+  },
+  {
+    title: "Türkiye Dil ve Edebiyat Derneği",
+    role: "Yönetim Kurulu Üyesi",
+    scope: "Türkiye",
+    startDate: "01.06.2022",
+  },
+  {
+    title: "İstanbul Ticaret Üniversitesi",
+    role: "Mütevelli Heyet Üyesi",
+    scope: "Türkiye",
+    startDate: "01.01.2018",
+    endDate: "01.01.2022",
   },
   {
     title: "İstanbul Ticaret Odası",
@@ -183,10 +196,10 @@ const externalExperiences: RecordItem[] = [
     details: "8000 eğitim kurumunu temsilen seçilmiş meclis üyesi.",
   },
   {
-    title: "1773 İstanbul Teknik Üniversitesi Teknopark A.Ş.",
-    role: "Yönetim Kurulu Üyesi",
-    scope: "Türkiye",
-    startDate: "08.12.2022",
+    title: "Marmara Üniversitesi Teknopark A.Ş.",
+    role: "Ortak – Teknopark Kurucu Ortağı",
+    scope: "Ticari (Özel)",
+    startDate: "01.01.2016",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -206,13 +219,6 @@ const externalExperiences: RecordItem[] = [
     title: "İstanbul Ticaret Üniversitesi",
     role: "Mütevelli Heyet Üyesi",
     scope: "Türkiye",
-    startDate: "01.01.2018",
-    endDate: "01.01.2022",
-  },
-  {
-    title: "İstanbul Ticaret Üniversitesi",
-    role: "Mütevelli Heyet Üyesi",
-    scope: "Türkiye",
     startDate: "01.01.2009",
     endDate: "01.01.2013",
   },
@@ -222,12 +228,6 @@ const externalExperiences: RecordItem[] = [
     scope: "Türkiye",
     startDate: "01.01.2004",
     endDate: "01.01.2009",
-  },
-  {
-    title: "Marmara Üniversitesi Teknopark A.Ş.",
-    role: "Ortak – Teknopark Kurucu Ortağı",
-    scope: "Ticari (Özel)",
-    startDate: "01.01.2016",
   },
 ];
 
@@ -831,12 +831,6 @@ const memberships: RecordItem[] = [
     year: "2023",
     details: "Bilimsel Kuruluş",
   },
-  {
-    title: "1773 İstanbul Teknik Üniversitesi Teknopark A.Ş.",
-    role: "Yönetim Kurulu Üyesi",
-    year: "2022",
-    details: "Bilimsel Kuruluş",
-  },
 ];
 
 function useScrollAnimation() {
@@ -918,9 +912,11 @@ function SubsectionTitle({ title }: { title: string }) {
 function RecordCards({
   items,
   venueLabel = "Yer/Etkinlik",
+  showRoleLabel = true,
 }: {
   items: RecordItem[];
   venueLabel?: string;
+  showRoleLabel?: boolean;
 }) {
   return (
     <div className="grid md:grid-cols-2 gap-4">
@@ -953,13 +949,15 @@ function RecordCards({
               </p>
             )}
             <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
-              {item.role && <p>Görev: {item.role}</p>}
+              {item.role && (
+                <p>{showRoleLabel ? `Görev: ${item.role}` : item.role}</p>
+              )}
               {item.venue && (
                 <p>
                   {venueLabel}: {item.venue}
                 </p>
               )}
-              {item.citation && <p>Künye: {item.citation}</p>}
+              {item.citation && <p>Cilt/Sayı-Sayfa: {item.citation}</p>}
               {imprint && <p>{imprint}</p>}
               {item.editor && <p>Editör: {item.editor}</p>}
               {item.isbn && <p>ISBN: {item.isbn}</p>}
@@ -1058,10 +1056,6 @@ export default function Home() {
         <div className="container relative z-10">
           <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_.92fr] lg:gap-20">
             <div className="animate-fade-in-up order-2 lg:order-1">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#1e3a5f]/15 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f] backdrop-blur-sm">
-                <span className="size-2 rounded-full bg-[#c9a227]" />
-                Akademisyen · Araştırmacı · Yazar
-              </div>
               <h1
                 className="text-[clamp(3.5rem,8vw,7.5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-[#14243b]"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
@@ -1074,7 +1068,7 @@ export default function Home() {
               </h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] md:text-xl">
                 Elektronik Mühendisliği'nden Siyaset Bilimine uzanan çok
-                disiplinli bir akademik profil. Dijital çağda siyaset, yapay
+                disiplinli bir profil. Dijital çağda siyaset, yapay
                 zeka ve demokrasi üzerine araştırmalar.
               </p>
               <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
@@ -1151,7 +1145,7 @@ export default function Home() {
           <AnimatedSection>
             <div className="grid md:grid-cols-3 gap-12 items-start">
               <div className="md:col-span-2">
-                <SectionTitle title="Hakkında" subtitle="Akademik Profil" />
+                <SectionTitle title="Hakkında" />
                 <div className="space-y-4 text-gray-600 leading-relaxed">
                   {aboutParagraphs.map(paragraph => (
                     <p key={paragraph}>{paragraph}</p>
@@ -1220,7 +1214,7 @@ export default function Home() {
       <section id="egitim" className="py-20 bg-[#f8f9fc] scroll-mt-24">
         <div className="container">
           <AnimatedSection>
-            <SectionTitle title="Eğitim" subtitle="Akademik Geçmiş" />
+            <SectionTitle title="Eğitim" />
             <div className="grid md:grid-cols-2 gap-6">
               {educationCards.map(edu => (
                 <div
@@ -1358,12 +1352,20 @@ export default function Home() {
 
             <div className="space-y-4">
               <SubsectionTitle title="Uluslararası Bildiriler" />
-              <RecordCards items={internationalPapers} venueLabel="Etkinlik" />
+              <RecordCards
+                items={internationalPapers}
+                venueLabel="Etkinlik"
+                showRoleLabel={false}
+              />
             </div>
 
             <div className="space-y-4">
               <SubsectionTitle title="Ulusal Bildiriler" />
-              <RecordCards items={nationalPapers} venueLabel="Etkinlik" />
+              <RecordCards
+                items={nationalPapers}
+                venueLabel="Etkinlik"
+                showRoleLabel={false}
+              />
             </div>
 
             <div className="space-y-4">
@@ -1568,9 +1570,6 @@ export default function Home() {
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
                 Doç. Dr. Orhan Albayrak
-              </p>
-              <p className="text-white/60 text-sm">
-                Akademisyen · Araştırmacı · Yazar
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 md:justify-end">
