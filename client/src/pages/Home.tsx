@@ -1,3 +1,4 @@
+import { translations, type Language } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
@@ -28,7 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
-const PROFILE_IMG = "/images/oalbayrakprofil.jpeg";
+const PROFILE_IMG = "/images/oalbayrakprofil_kolaj.png";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak";
 const INSTAGRAM_URL = "https://www.instagram.com/drorhanalbayrak/";
@@ -820,7 +821,7 @@ const certificates: RecordItem[] = [
 
 const memberships: RecordItem[] = [
   {
-    title: "INTERNATIONAL POLITICAL SCIENCE ASSOCIATION",
+    title: "International Political Science Association (IPSA)",
     role: "Üye",
     year: "2025",
     details: "Bilimsel Kuruluş",
@@ -993,8 +994,11 @@ function RecordCards({
 }
 
 export default function Home() {
+  const [lang, setLang] = useState<Language>("tr");
   const [activeSection, setActiveSection] = useState<SectionId>("hakkinda");
   const [contactTab, setContactTab] = useState<"contact" | "cv">("contact");
+
+  const t = translations[lang];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1038,11 +1042,18 @@ export default function Home() {
       className="min-h-screen bg-white"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
-      <SinglePageDock activeSection={activeSection} onNavigate={scrollTo} />
+      <SinglePageDock
+        activeSection={activeSection}
+        onNavigate={scrollTo}
+        lang={lang}
+        onLanguageChange={setLang}
+      />
       <MobileSidebar
         activeSection={activeSection}
         onNavigate={scrollTo}
         onOpenCvRequest={openCvRequest}
+        lang={lang}
+        onLanguageChange={setLang}
       />
 
       <section
@@ -1057,19 +1068,13 @@ export default function Home() {
           <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_.92fr] lg:gap-20">
             <div className="animate-fade-in-up order-2 lg:order-1">
               <h1
-                className="text-[clamp(3.5rem,8vw,7.5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-[#14243b]"
+                className="text-[clamp(2.5rem,5.5vw,5rem)] font-bold leading-[1.05] tracking-[-0.035em] text-[#14243b]"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
-                Orhan
-                <br />
-                <span className="-mx-[0.08em] inline-block bg-gradient-to-r from-[#7a2948] via-[#a23b5e] to-[#c9a227] bg-clip-text px-[0.08em] pb-[0.08em] text-transparent italic">
-                  Albayrak
-                </span>
+                {t.heroTitle}
               </h1>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] md:text-xl">
-                Elektronik Mühendisliği'nden Siyaset Bilimine uzanan çok
-                disiplinli bir profil. Dijital çağda siyaset, yapay
-                zeka ve demokrasi üzerine araştırmalar.
+                {t.heroDesc}
               </p>
               <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
                 <button
@@ -1077,7 +1082,7 @@ export default function Home() {
                   className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#1e3a5f] px-4 py-3 font-semibold text-white shadow-lg shadow-[#1e3a5f]/15 transition hover:-translate-y-0.5 hover:bg-[#142b49]"
                 >
                   <BookOpen className="shrink-0" size={18} />
-                  Yayınları İncele
+                  {t.explorePubs}
                 </button>
                 <button
                   onClick={() => {
@@ -1087,14 +1092,14 @@ export default function Home() {
                   className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white"
                 >
                   <Mail className="shrink-0" size={18} />
-                  İletişim
+                  {t.contactBtn}
                 </button>
                 <button
                   onClick={openCvRequest}
                   className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#7a2948] px-4 py-3 font-semibold text-white shadow-lg shadow-[#7a2948]/15 transition hover:-translate-y-0.5 hover:bg-[#5d1e37]"
                 >
                   <FileText className="shrink-0" size={18} />
-                  CV Talep Et
+                  {t.requestCv}
                 </button>
               </div>
               <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">
@@ -1115,20 +1120,17 @@ export default function Home() {
               <div className="relative w-full max-w-[420px]">
                 <div className="absolute inset-x-8 bottom-0 h-[78%] rounded-[5rem_5rem_8rem_2.5rem] bg-gradient-to-br from-[#14243b] via-[#1e3a5f] to-[#7a2948] shadow-[0_40px_80px_rgba(20,36,59,0.28)]" />
                 <div className="absolute inset-x-2 bottom-4 h-[72%] rounded-[5rem_5rem_8rem_2.5rem] border border-white/25" />
-                <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[4.5rem_4.5rem_7rem_2.25rem] border border-white/30 shadow-2xl">
+                <div className="relative mx-auto aspect-square w-[88%] overflow-hidden rounded-[3rem] border border-white/30 bg-white p-2 shadow-2xl">
                   <img
                     src={PROFILE_IMG}
                     alt="Doç. Dr. Orhan Albayrak"
-                    className="h-full w-full object-cover object-top"
+                    className="h-full w-full rounded-[2.5rem] object-cover object-center"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#14243b]/80 to-transparent" />
                 </div>
-                <div className="absolute -bottom-5 -left-2 max-w-[240px] rounded-2xl border border-white/70 bg-white/85 p-4 shadow-xl backdrop-blur-xl sm:-left-8">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7a2948]">
-                    Akademik odak
-                  </p>
-                  <p className="mt-1 text-sm font-semibold leading-snug text-[#1e3a5f]">
-                    Dijital siyaset, demokrasi ve toplum
+                <div className="absolute -bottom-5 -left-2 max-w-[280px] rounded-2xl border border-white/70 bg-white/90 p-4 shadow-xl backdrop-blur-xl sm:-left-8">
+                  <p className="text-sm font-medium italic leading-relaxed text-[#1e3a5f]">
+                    “{t.profileBadge}”
                   </p>
                 </div>
               </div>
@@ -1145,9 +1147,9 @@ export default function Home() {
           <AnimatedSection>
             <div className="grid md:grid-cols-3 gap-12 items-start">
               <div className="md:col-span-2">
-                <SectionTitle title="Hakkında" />
+                <SectionTitle title={t.aboutTitle} />
                 <div className="space-y-4 text-gray-600 leading-relaxed">
-                  {aboutParagraphs.map(paragraph => (
+                  {t.aboutParagraphs.map(paragraph => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
@@ -1157,7 +1159,7 @@ export default function Home() {
                   className="font-semibold text-[#1e3a5f] mb-4 text-lg"
                   style={{ fontFamily: "'DM Serif Display', serif" }}
                 >
-                  Temel Bilgiler
+                  {t.basicInfo.title}
                 </h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
@@ -1166,8 +1168,8 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Doğum Yeri</p>
-                      <p className="text-gray-500">Arsin, Trabzon (1960)</p>
+                      <p className="font-medium text-gray-700">{t.basicInfo.birthPlace}</p>
+                      <p className="text-gray-500">{t.basicInfo.birthPlaceVal}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -1176,8 +1178,8 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Unvan</p>
-                      <p className="text-gray-500">Doçent Doktor</p>
+                      <p className="font-medium text-gray-700">{t.basicInfo.titleLabel}</p>
+                      <p className="text-gray-500">{t.basicInfo.titleVal}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -1186,9 +1188,9 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Mevcut Kurum</p>
+                      <p className="font-medium text-gray-700">{t.basicInfo.institution}</p>
                       <p className="text-gray-500">
-                        Bezmialem Vakıf Üniversitesi
+                        {t.basicInfo.institutionVal}
                       </p>
                     </div>
                   </div>
@@ -1198,9 +1200,9 @@ export default function Home() {
                       className="text-[#c9a227] mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="font-medium text-gray-700">Diller</p>
+                      <p className="font-medium text-gray-700">{t.basicInfo.languages}</p>
                       <p className="text-gray-500">
-                        Türkçe, İngilizce, Osmanlıca
+                        {t.basicInfo.languagesVal}
                       </p>
                     </div>
                   </div>
@@ -1214,7 +1216,7 @@ export default function Home() {
       <section id="egitim" className="py-20 bg-[#f8f9fc] scroll-mt-24">
         <div className="container">
           <AnimatedSection>
-            <SectionTitle title="Eğitim" />
+            <SectionTitle title={t.educationTitle} />
             <div className="grid md:grid-cols-2 gap-6">
               {educationCards.map(edu => (
                 <div
@@ -1256,28 +1258,25 @@ export default function Home() {
       <section id="kariyer" className="py-20 bg-white scroll-mt-24">
         <div className="container space-y-14">
           <AnimatedSection className="space-y-10 md:space-y-12">
-            <SectionTitle
-              title="Kariyer"
-              subtitle="Mesleki Deneyim ve Görevler"
-            />
+            <SectionTitle title={t.careerTitle} />
 
             <div className="space-y-4">
-              <SubsectionTitle title="Akademik Görev" />
+              <SubsectionTitle title={t.subsections.academicRole} />
               <RecordCards items={academicRoles} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="İdari Görev" />
+              <SubsectionTitle title={t.subsections.adminRole} />
               <RecordCards items={adminRoles} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Üniversite Dışı Deneyim" />
+              <SubsectionTitle title={t.subsections.externalExp} />
               <RecordCards items={externalExperiences} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Verdiği Dersler" />
+              <SubsectionTitle title={t.subsections.coursesTaught} />
               <div className="space-y-7">
                 {[
                   { label: "Lisans", data: lisansCourses },
@@ -1313,7 +1312,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-4 mt-8 md:mt-10">
-              <SubsectionTitle title="Proje Görevleri" />
+              <SubsectionTitle title={t.subsections.projectRoles} />
               <RecordCards items={projectRoles} />
             </div>
           </AnimatedSection>
@@ -1323,35 +1322,35 @@ export default function Home() {
       <section id="yayinlar" className="py-20 bg-[#f8f9fc] scroll-mt-24">
         <div className="container space-y-14">
           <AnimatedSection className="space-y-10 md:space-y-12">
-            <SectionTitle title="Yayınlar" subtitle="Akademik Çalışmalar" />
+            <SectionTitle title={t.publicationsTitle} />
 
             <div className="space-y-4">
-              <SubsectionTitle title="Uluslararası Hakemli Dergilerde Yayımlanan Makaleler" />
+              <SubsectionTitle title={t.subsections.intArticles} />
               <RecordCards items={internationalArticles} venueLabel="Dergi" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Ulusal Hakemli Dergilerde Yayımlanan Makaleler" />
+              <SubsectionTitle title={t.subsections.natArticles} />
               <RecordCards items={nationalArticles} venueLabel="Dergi" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Diğer Yayınlar" />
+              <SubsectionTitle title={t.subsections.otherPubs} />
               <RecordCards items={otherPublications} venueLabel="Dergi" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Kitaplarım" />
+              <SubsectionTitle title={t.subsections.myBooks} />
               <RecordCards items={authoredBooks} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Kitap Bölümleri" />
+              <SubsectionTitle title={t.subsections.bookChapters} />
               <RecordCards items={bookChapters} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Uluslararası Bildiriler" />
+              <SubsectionTitle title={t.subsections.intPapers} />
               <RecordCards
                 items={internationalPapers}
                 venueLabel="Etkinlik"
@@ -1360,7 +1359,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Ulusal Bildiriler" />
+              <SubsectionTitle title={t.subsections.natPapers} />
               <RecordCards
                 items={nationalPapers}
                 venueLabel="Etkinlik"
@@ -1369,37 +1368,37 @@ export default function Home() {
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Editörlük" />
+              <SubsectionTitle title={t.subsections.editorship} />
               <RecordCards items={editors} />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Konuşmalar" />
+              <SubsectionTitle title={t.subsections.speeches} />
               <RecordCards items={speeches} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Çalıştaylar" />
+              <SubsectionTitle title={t.subsections.workshops} />
               <RecordCards items={workshops} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Seminerler" />
+              <SubsectionTitle title={t.subsections.seminars} />
               <RecordCards items={seminars} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Kongre Düzenleme" />
+              <SubsectionTitle title={t.subsections.conferences} />
               <RecordCards items={conferenceOrganizations} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Araştırma, Kurs, Sertifika" />
+              <SubsectionTitle title={t.subsections.certificates} />
               <RecordCards items={certificates} venueLabel="Yer" />
             </div>
 
             <div className="space-y-4">
-              <SubsectionTitle title="Üyelik" />
+              <SubsectionTitle title={t.subsections.memberships} />
               <RecordCards items={memberships} />
             </div>
           </AnimatedSection>
@@ -1422,16 +1421,10 @@ export default function Home() {
               className="text-3xl md:text-4xl font-bold text-white mb-4"
               style={{ fontFamily: "'DM Serif Display', serif" }}
             >
-              Dünya Birincisi Proje
+              {t.awardSection.title}
             </h2>
             <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
-              Yaklaşık <strong className="text-[#c9a227]">20.000 kişiye</strong>{" "}
-              istihdam sağlayan Özel İdare Meslek Kursları projesi, Malezya'da
-              düzenlenen{" "}
-              <strong className="text-[#c9a227]">
-                Dünya Ticaret Odaları Proje Yarışması
-              </strong>
-              'nda dünya birincisi seçilmiştir.
+              {t.awardSection.desc}
             </p>
           </AnimatedSection>
         </div>
@@ -1440,10 +1433,7 @@ export default function Home() {
       <section id="iletisim" className="py-20 bg-white scroll-mt-24">
         <div className="container">
           <AnimatedSection>
-            <SectionTitle
-              title="İletişim"
-              subtitle="Akademik İşbirliği ve Ulaşım"
-            />
+            <SectionTitle title={t.contactBtn} />
             <div className="grid gap-8 lg:grid-cols-[1.55fr_.75fr] lg:items-start">
               <div className="rounded-3xl border border-gray-100 bg-[#f8f9fc] p-5 shadow-sm md:p-8">
                 <Tabs
@@ -1457,13 +1447,13 @@ export default function Home() {
                       value="contact"
                       className="rounded-full py-2.5 data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white"
                     >
-                      İletişim Formu
+                      {t.contactFormTab}
                     </TabsTrigger>
                     <TabsTrigger
                       value="cv"
                       className="rounded-full py-2.5 data-[state=active]:bg-[#7a2948] data-[state=active]:text-white"
                     >
-                      CV Talep Et
+                      {t.cvFormTab}
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="contact">
@@ -1483,7 +1473,7 @@ export default function Home() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c9a227]">
-                        Doğrudan iletişim
+                        {t.directContact}
                       </p>
                       <p className="mt-3 break-all text-base font-medium">
                         orhan.albayrak@bezmialem.edu.tr
@@ -1501,7 +1491,7 @@ export default function Home() {
                     className="mb-5 text-lg font-semibold text-[#1e3a5f]"
                     style={{ fontFamily: "'DM Serif Display', serif" }}
                   >
-                    Üyelikler & Bağlantılar
+                    {t.membershipsTitle}
                   </h3>
                   <div className="space-y-3">
                     {[
@@ -1512,7 +1502,7 @@ export default function Home() {
                       },
                       {
                         name: "TDED – Türkiye Dil ve Edebiyat Derneği",
-                        role: "Yönetim Kurulu Üyesi",
+                        role: "Genel Başkan Yardımcısı ve YK Üyesi",
                         url: "https://www.tded.org.tr",
                       },
                       {

@@ -29,11 +29,15 @@ export const DOCK_ITEMS: DockItem[] = [
 type SinglePageDockProps = {
   activeSection: SectionId;
   onNavigate: (id: SectionId) => void;
+  lang: "tr" | "en";
+  onLanguageChange: (lang: "tr" | "en") => void;
 };
 
 export function SinglePageDock({
   activeSection,
   onNavigate,
+  lang,
+  onLanguageChange,
 }: SinglePageDockProps) {
   return (
     <nav
@@ -82,6 +86,35 @@ export function SinglePageDock({
             </button>
           );
         })}
+
+        <div className="ml-1 flex items-center gap-1 border-l border-gray-200 pl-2">
+          <button
+            type="button"
+            onClick={() => onLanguageChange("tr")}
+            title="Türkçe"
+            className={cn(
+              "flex h-7 w-7 items-center justify-center rounded-full text-base transition-transform",
+              lang === "tr"
+                ? "scale-110 ring-2 ring-[#c9a227]"
+                : "opacity-60 hover:opacity-100"
+            )}
+          >
+            🇹🇷
+          </button>
+          <button
+            type="button"
+            onClick={() => onLanguageChange("en")}
+            title="English"
+            className={cn(
+              "flex h-7 w-7 items-center justify-center rounded-full text-base transition-transform",
+              lang === "en"
+                ? "scale-110 ring-2 ring-[#c9a227]"
+                : "opacity-60 hover:opacity-100"
+            )}
+          >
+            🇬🇧
+          </button>
+        </div>
       </div>
     </nav>
   );

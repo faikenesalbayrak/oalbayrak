@@ -8,12 +8,16 @@ type MobileSidebarProps = {
   activeSection: SectionId;
   onNavigate: (id: SectionId) => void;
   onOpenCvRequest: () => void;
+  lang: "tr" | "en";
+  onLanguageChange: (lang: "tr" | "en") => void;
 };
 
 export function MobileSidebar({
   activeSection,
   onNavigate,
   onOpenCvRequest,
+  lang,
+  onLanguageChange,
 }: MobileSidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -50,39 +54,70 @@ export function MobileSidebar({
 
   return (
     <>
-      <motion.button
-        ref={triggerRef}
-        type="button"
-        aria-label={isOpen ? "Menüyü kapat" : "Menüyü aç"}
-        aria-expanded={isOpen}
-        aria-controls="mobile-site-menu"
-        initial={{ y: -16, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.15, duration: 0.24, ease: "easeOut" }}
-        onClick={() => setIsOpen(open => !open)}
-        className="fixed left-4 top-4 z-[70] flex size-11 items-center justify-center rounded-2xl border border-white/60 bg-white/70 text-[#1e3a5f] shadow-[0_18px_45px_rgba(20,36,59,0.16)] backdrop-blur-2xl transition active:scale-95 md:hidden"
-      >
-        <span className="relative h-4 w-5" aria-hidden="true">
-          <span
+      <div className="fixed left-4 top-4 z-[70] flex items-center gap-2 md:hidden">
+        <motion.button
+          ref={triggerRef}
+          type="button"
+          aria-label={isOpen ? "Menüyü kapat" : "Menüyü aç"}
+          aria-expanded={isOpen}
+          aria-controls="mobile-site-menu"
+          initial={{ y: -16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.15, duration: 0.24, ease: "easeOut" }}
+          onClick={() => setIsOpen(open => !open)}
+          className="flex size-11 items-center justify-center rounded-2xl border border-white/60 bg-white/70 text-[#1e3a5f] shadow-[0_18px_45px_rgba(20,36,59,0.16)] backdrop-blur-2xl transition active:scale-95"
+        >
+          <span className="relative h-4 w-5" aria-hidden="true">
+            <span
+              className={cn(
+                "absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)]",
+                isOpen && "top-1/2 -translate-y-1/2 rotate-45"
+              )}
+            />
+            <span
+              className={cn(
+                "absolute left-0 top-1/2 h-0.5 w-5 -translate-y-1/2 rounded-full bg-current transition-all duration-200",
+                isOpen && "w-0 opacity-0"
+              )}
+            />
+            <span
+              className={cn(
+                "absolute bottom-0 left-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)]",
+                isOpen && "bottom-1/2 translate-y-1/2 -rotate-45"
+              )}
+            />
+          </span>
+        </motion.button>
+
+        <div className="flex h-11 items-center gap-1 rounded-2xl border border-white/60 bg-white/70 px-2 shadow-[0_18px_45px_rgba(20,36,59,0.16)] backdrop-blur-2xl">
+          <button
+            type="button"
+            onClick={() => onLanguageChange("tr")}
+            title="Türkçe"
             className={cn(
-              "absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)]",
-              isOpen && "top-1/2 -translate-y-1/2 rotate-45"
+              "flex h-7 w-7 items-center justify-center rounded-full text-base transition-transform",
+              lang === "tr"
+                ? "scale-110 ring-2 ring-[#c9a227]"
+                : "opacity-60 hover:opacity-100"
             )}
-          />
-          <span
+          >
+            🇹🇷
+          </button>
+          <button
+            type="button"
+            onClick={() => onLanguageChange("en")}
+            title="English"
             className={cn(
-              "absolute left-0 top-1/2 h-0.5 w-5 -translate-y-1/2 rounded-full bg-current transition-all duration-200",
-              isOpen && "w-0 opacity-0"
+              "flex h-7 w-7 items-center justify-center rounded-full text-base transition-transform",
+              lang === "en"
+                ? "scale-110 ring-2 ring-[#c9a227]"
+                : "opacity-60 hover:opacity-100"
             )}
-          />
-          <span
-            className={cn(
-              "absolute bottom-0 left-0 h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-[cubic-bezier(.22,1,.36,1)]",
-              isOpen && "bottom-1/2 translate-y-1/2 -rotate-45"
-            )}
-          />
-        </span>
-      </motion.button>
+          >
+            🇬🇧
+          </button>
+        </div>
+      </div>
 
       <aside
         id="mobile-site-menu"
