@@ -16,11 +16,13 @@ import { Loader2, Send } from "lucide-react";
 import { useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const FIELD_CLASS =
-  "border-gray-200 bg-white placeholder:text-gray-400 focus-visible:border-[#1e3a5f] focus-visible:ring-[#1e3a5f]/20";
+  "border-gray-200 bg-white placeholder:text-gray-400 focus-visible:border-[#1e3a5f] focus-visible:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-[#0f1825] dark:text-white dark:placeholder:text-gray-500";
 
 export function ContactForm() {
+  const { isEnglish } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<ContactPayload>({
     resolver: zodResolver(contactSchema) as Resolver<ContactPayload>,
@@ -39,14 +41,22 @@ export function ContactForm() {
     const result = await postForm("/api/contact", values);
     setSubmitting(false);
     if (result.success) {
-      toast.success("Mesajınız iletildi. Teşekkürler!");
+      toast.success(
+        isEnglish
+          ? "Your message has been sent. Thank you!"
+          : "Mesajınız iletildi. Teşekkürler!"
+      );
       form.reset();
       return;
     }
     toast.error(
       result.status === 429
-        ? "Çok fazla deneme yapıldı. Lütfen biraz sonra tekrar deneyin."
-        : "Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin."
+        ? isEnglish
+          ? "Too many attempts. Please try again shortly."
+          : "Çok fazla deneme yapıldı. Lütfen biraz sonra tekrar deneyin."
+        : isEnglish
+          ? "The message could not be sent. Please try again later."
+          : "Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin."
     );
   });
 
@@ -54,10 +64,13 @@ export function ContactForm() {
     <Form {...form}>
       <form onSubmit={onSubmit} noValidate className="space-y-5">
         <div>
-          <h3 className="text-2xl font-semibold text-[#1e3a5f]">Bize yazın</h3>
-          <p className="mt-1 text-sm leading-relaxed text-gray-500">
-            Akademik iş birliği, konuşmacı daveti veya genel sorularınız için
-            formu doldurabilirsiniz.
+          <h3 className="text-2xl font-semibold text-[#1e3a5f] dark:text-white">
+            {isEnglish ? "Write to us" : "Bize yazın"}
+          </h3>
+          <p className="mt-1 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+            {isEnglish
+              ? "Use this form for academic collaboration, speaking invitations, or general enquiries."
+              : "Akademik iş birliği, konuşmacı daveti veya genel sorularınız için formu doldurabilirsiniz."}
           </p>
         </div>
 
@@ -83,11 +96,11 @@ export function ContactForm() {
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ad Soyad</FormLabel>
+                <FormLabel>{isEnglish ? "Full name" : "Ad Soyad"}</FormLabel>
                 <FormControl>
                   <Input
                     autoComplete="name"
-                    placeholder="Ad Soyad"
+                    placeholder={isEnglish ? "Full name" : "Ad Soyad"}
                     className={FIELD_CLASS}
                     {...field}
                   />
@@ -101,12 +114,14 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>E-posta</FormLabel>
+                <FormLabel>{isEnglish ? "Email" : "E-posta"}</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     autoComplete="email"
-                    placeholder="ornek@eposta.com"
+                    placeholder={
+                      isEnglish ? "name@example.com" : "ornek@eposta.com"
+                    }
                     className={FIELD_CLASS}
                     {...field}
                   />
@@ -122,10 +137,12 @@ export function ContactForm() {
           name="subject"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Konu</FormLabel>
+              <FormLabel>{isEnglish ? "Subject" : "Konu"}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Mesajınızın konusu"
+                  placeholder={
+                    isEnglish ? "Subject of your message" : "Mesajınızın konusu"
+                  }
                   className={FIELD_CLASS}
                   {...field}
                 />
@@ -139,11 +156,15 @@ export function ContactForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Mesaj</FormLabel>
+              <FormLabel>{isEnglish ? "Message" : "Mesaj"}</FormLabel>
               <FormControl>
                 <Textarea
                   rows={5}
-                  placeholder="Mesajınızı buraya yazın…"
+                  placeholder={
+                    isEnglish
+                      ? "Write your message here…"
+                      : "Mesajınızı buraya yazın…"
+                  }
                   className={FIELD_CLASS}
                   {...field}
                 />
@@ -165,9 +186,10 @@ export function ContactForm() {
                     className="mt-0.5 data-[state=checked]:border-[#1e3a5f] data-[state=checked]:bg-[#1e3a5f]"
                   />
                 </FormControl>
-                <FormLabel className="text-sm font-normal leading-relaxed text-gray-500">
-                  Kişisel verilerimin bu talebi yanıtlamak amacıyla işlenmesini
-                  kabul ediyorum.
+                <FormLabel className="text-sm font-normal leading-relaxed text-gray-500 dark:text-gray-400">
+                  {isEnglish
+                    ? "I consent to the processing of my personal data for the purpose of responding to this request."
+                    : "Kişisel verilerimin bu talebi yanıtlamak amacıyla işlenmesini kabul ediyorum."}
                 </FormLabel>
               </div>
               <FormMessage />
@@ -185,7 +207,13 @@ export function ContactForm() {
           ) : (
             <Send size={16} aria-hidden="true" />
           )}
-          {submitting ? "Gönderiliyor…" : "Mesajı Gönder"}
+          {submitting
+            ? isEnglish
+              ? "Sending…"
+              : "Gönderiliyor…"
+            : isEnglish
+              ? "Send Message"
+              : "Mesajı Gönder"}
         </button>
       </form>
     </Form>
