@@ -1,30 +1,37 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  ArrowUpRight,
   Award,
   BookOpen,
   Building,
   Calendar,
   ChevronDown,
   ExternalLink,
+  FileText,
   Globe,
   GraduationCap,
+  Instagram,
   Linkedin,
   Mail,
   MapPin,
-  Menu,
   Twitter,
-  X,
 } from "lucide-react";
+import {
+  SinglePageDock,
+  DOCK_ITEMS,
+  type SectionId,
+} from "@/components/nav/SinglePageDock";
+import { MobileSidebar } from "@/components/nav/MobileSidebar";
+import { ContactForm } from "@/components/site/ContactForm";
+import { CvRequestForm } from "@/components/site/CvRequestForm";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const HERO_BG =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/hero_bg-3PFdCpxzfeE2EjZVSnYNvu.webp";
 const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
 const PROFILE_IMG = "/images/oalbayrakprofil.jpeg";
 
-// LinkedIn bağlantısı üç yerde (hero, iletişim, footer) kullanılır; adres yalnızca burada tutulur.
-// TODO: Gerçek profil adresiyle değiştirilecek — şu an placeholder.
 const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak";
+const INSTAGRAM_URL = "https://www.instagram.com/drorhanalbayrak/";
 
 type EducationItem = {
   degree: string;
@@ -80,7 +87,7 @@ const educationCards: EducationItem[] = [
     school: "İstanbul Sabahattin Zaim Üniversitesi",
     years: "2016–2020",
     thesis:
-      "Tez: \"Parti üyelerinin siyasi katılım düzeyi: İstanbul Ak Parti ve CHP örneği\" (29.09.2020) — Danışman: Prof. Dr. Ömer Çaha",
+      'Tez: "Parti üyelerinin siyasi katılım düzeyi: İstanbul Ak Parti ve CHP örneği" (29.09.2020) — Danışman: Prof. Dr. Ömer Çaha',
   },
   {
     degree: "Yüksek Lisans",
@@ -106,7 +113,8 @@ const educationCards: EducationItem[] = [
   {
     degree: "Doçentlik",
     field: "Siyaset Sosyolojisi",
-    school: "ÜAK Temel Alan: Sosyal, Beşeri ve İdari Bilimler / Bilim Alanı: Siyaset Bilimi",
+    school:
+      "ÜAK Temel Alan: Sosyal, Beşeri ve İdari Bilimler / Bilim Alanı: Siyaset Bilimi",
     years: "2023",
     thesis: "Doçentlik Ünvanı",
   },
@@ -115,13 +123,15 @@ const educationCards: EducationItem[] = [
 const academicRoles: RecordItem[] = [
   {
     title: "DOÇENT",
-    organization: "BEZM-İ ÂLEM VAKIF ÜNİVERSİTESİ / SAĞLIK BİLİMLERİ FAKÜLTESİ / SAĞLIK YÖNETİMİ BÖLÜMÜ",
+    organization:
+      "BEZM-İ ÂLEM VAKIF ÜNİVERSİTESİ / SAĞLIK BİLİMLERİ FAKÜLTESİ / SAĞLIK YÖNETİMİ BÖLÜMÜ",
     startDate: "15.10.2024",
     details: "Hâlen devam ediyor.",
   },
   {
     title: "DOKTOR ÖĞRETİM ÜYESİ",
-    organization: "HALİÇ ÜNİVERSİTESİ / İŞLETME FAKÜLTESİ / SİYASET BİLİMİ VE ULUSLARARASI İLİŞKİLER BÖLÜMÜ",
+    organization:
+      "HALİÇ ÜNİVERSİTESİ / İŞLETME FAKÜLTESİ / SİYASET BİLİMİ VE ULUSLARARASI İLİŞKİLER BÖLÜMÜ",
     details: "Siyaset Bilimi ve Uluslararası İlişkiler PR. (Tam Burslu)",
     startDate: "01.09.2021",
     endDate: "19.03.2024",
@@ -131,7 +141,8 @@ const academicRoles: RecordItem[] = [
 const adminRoles: RecordItem[] = [
   {
     title: "Bölüm Başkan Yardımcısı",
-    organization: "HALİÇ ÜNİVERSİTESİ / İŞLETME FAKÜLTESİ / SİYASET BİLİMİ VE ULUSLARARASI İLİŞKİLER BÖLÜMÜ",
+    organization:
+      "HALİÇ ÜNİVERSİTESİ / İŞLETME FAKÜLTESİ / SİYASET BİLİMİ VE ULUSLARARASI İLİŞKİLER BÖLÜMÜ",
     scope: "Türkiye",
     startDate: "02.12.2022",
     endDate: "01.03.2023",
@@ -221,39 +232,208 @@ const externalExperiences: RecordItem[] = [
 ];
 
 const courses: CourseItem[] = [
-  { title: "Sağlık Yönetiminde İstatistik", language: "Türkçe", term: "Güz", academicYear: "2024-2025", level: "Lisans" },
-  { title: "Dijital Çağda Toplum", language: "Türkçe", term: "Güz", academicYear: "2023-2024", level: "Lisans" },
-  { title: "Türk Siyasal Hayatı", language: "Türkçe", term: "Güz", academicYear: "2023-2024", level: "Lisans" },
-  { title: "Sosyal Bilimlerde Matematik", language: "Türkçe", term: "Güz", academicYear: "2023-2024", level: "Lisans" },
-  { title: "Toplum Bilimde Temel Kavramlar", language: "Türkçe", term: "Güz", academicYear: "2023-2024", level: "Lisans" },
-  { title: "Bitirme Projesi", language: "Türkçe", term: "Bahar", academicYear: "2022-2023", level: "Lisans" },
-  { title: "Siyasal İletişim", language: "Türkçe", term: "Bahar", academicYear: "2022-2023", level: "Lisans" },
-  { title: "Uluslararası İlişkilere Giriş", language: "Türkçe", term: "Bahar", academicYear: "2022-2023", level: "Lisans" },
-  { title: "Bilişim Teknolojileri", language: "Türkçe", term: "Bahar", academicYear: "2022-2023", level: "Lisans" },
-  { title: "Dijital Çağda Toplum", language: "Türkçe", term: "Güz", academicYear: "2022-2023", level: "Lisans" },
-  { title: "Sosyal Bilimlerde İstatistik", language: "Türkçe", term: "Güz", academicYear: "2022-2023", level: "Lisans" },
-  { title: "Toplum Bilimde Temel Kavramlar", language: "Türkçe", term: "Güz", academicYear: "2022-2023", level: "Lisans" },
-  { title: "Dijital Çağda Siyaset", language: "Türkçe", term: "Bahar", academicYear: "2021-2022", level: "Lisans" },
-  { title: "Siyasi Kültür ve Demokrasi", language: "Türkçe", term: "Bahar", academicYear: "2021-2022", level: "Lisans" },
-  { title: "Uluslararası İlişkilere Giriş", language: "Türkçe", term: "Bahar", academicYear: "2021-2022", level: "Lisans" },
-  { title: "Sosyal Bilimlerde İstatistik", language: "Türkçe", term: "Güz", academicYear: "2021-2022", level: "Lisans" },
-  { title: "Toplum Bilimde Temel Kavramlar", language: "Türkçe", term: "Güz", academicYear: "2021-2022", level: "Lisans" },
-  { title: "Siyasi Kültür ve Demokrasi", language: "Türkçe", term: "Bahar", academicYear: "2020-2021", level: "Lisans" },
-  { title: "Uluslararası İlişkilere Giriş", language: "Türkçe", term: "Bahar", academicYear: "2020-2021", level: "Lisans" },
-  { title: "Term Project", language: "İngilizce", term: "Bahar", academicYear: "2023-2024", level: "Yüksek Lisans" },
-  { title: "Term Project", language: "İngilizce", term: "Bahar", academicYear: "2021-2022", level: "Yüksek Lisans" },
-  { title: "Business Statistics", language: "İngilizce", term: "Bahar", academicYear: "2021-2022", level: "Yüksek Lisans" },
-  { title: "Business Statistics", language: "İngilizce", term: "Güz", academicYear: "2021-2022", level: "Yüksek Lisans" },
-  { title: "Araştırma ve Yayın Etiği", language: "Türkçe", term: "Bahar", academicYear: "2022-2023", level: "Doktora" },
-  { title: "Araştırma ve Yayın Etiği", language: "Türkçe", term: "Güz", academicYear: "2023-2024", level: "Doktora" },
-  { title: "Araştırma ve Yayın Etiği", language: "Türkçe", term: "Bahar", academicYear: "2021-2022", level: "Doktora" },
-  { title: "Araştırma ve Yayın Etiği", language: "Türkçe", term: "Güz", academicYear: "2022-2023", level: "Doktora" },
-  { title: "Araştırma ve Yayın Etiği", language: "Türkçe", term: "Güz", academicYear: "2023-2024", level: "Doktora" },
+  {
+    title: "Sağlık Yönetiminde İstatistik",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2024-2025",
+    level: "Lisans",
+  },
+  {
+    title: "Dijital Çağda Toplum",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2023-2024",
+    level: "Lisans",
+  },
+  {
+    title: "Türk Siyasal Hayatı",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2023-2024",
+    level: "Lisans",
+  },
+  {
+    title: "Sosyal Bilimlerde Matematik",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2023-2024",
+    level: "Lisans",
+  },
+  {
+    title: "Toplum Bilimde Temel Kavramlar",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2023-2024",
+    level: "Lisans",
+  },
+  {
+    title: "Bitirme Projesi",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2022-2023",
+    level: "Lisans",
+  },
+  {
+    title: "Siyasal İletişim",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2022-2023",
+    level: "Lisans",
+  },
+  {
+    title: "Uluslararası İlişkilere Giriş",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2022-2023",
+    level: "Lisans",
+  },
+  {
+    title: "Bilişim Teknolojileri",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2022-2023",
+    level: "Lisans",
+  },
+  {
+    title: "Dijital Çağda Toplum",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2022-2023",
+    level: "Lisans",
+  },
+  {
+    title: "Sosyal Bilimlerde İstatistik",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2022-2023",
+    level: "Lisans",
+  },
+  {
+    title: "Toplum Bilimde Temel Kavramlar",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2022-2023",
+    level: "Lisans",
+  },
+  {
+    title: "Dijital Çağda Siyaset",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2021-2022",
+    level: "Lisans",
+  },
+  {
+    title: "Siyasi Kültür ve Demokrasi",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2021-2022",
+    level: "Lisans",
+  },
+  {
+    title: "Uluslararası İlişkilere Giriş",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2021-2022",
+    level: "Lisans",
+  },
+  {
+    title: "Sosyal Bilimlerde İstatistik",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2021-2022",
+    level: "Lisans",
+  },
+  {
+    title: "Toplum Bilimde Temel Kavramlar",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2021-2022",
+    level: "Lisans",
+  },
+  {
+    title: "Siyasi Kültür ve Demokrasi",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2020-2021",
+    level: "Lisans",
+  },
+  {
+    title: "Uluslararası İlişkilere Giriş",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2020-2021",
+    level: "Lisans",
+  },
+  {
+    title: "Term Project",
+    language: "İngilizce",
+    term: "Bahar",
+    academicYear: "2023-2024",
+    level: "Yüksek Lisans",
+  },
+  {
+    title: "Term Project",
+    language: "İngilizce",
+    term: "Bahar",
+    academicYear: "2021-2022",
+    level: "Yüksek Lisans",
+  },
+  {
+    title: "Business Statistics",
+    language: "İngilizce",
+    term: "Bahar",
+    academicYear: "2021-2022",
+    level: "Yüksek Lisans",
+  },
+  {
+    title: "Business Statistics",
+    language: "İngilizce",
+    term: "Güz",
+    academicYear: "2021-2022",
+    level: "Yüksek Lisans",
+  },
+  {
+    title: "Araştırma ve Yayın Etiği",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2022-2023",
+    level: "Doktora",
+  },
+  {
+    title: "Araştırma ve Yayın Etiği",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2023-2024",
+    level: "Doktora",
+  },
+  {
+    title: "Araştırma ve Yayın Etiği",
+    language: "Türkçe",
+    term: "Bahar",
+    academicYear: "2021-2022",
+    level: "Doktora",
+  },
+  {
+    title: "Araştırma ve Yayın Etiği",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2022-2023",
+    level: "Doktora",
+  },
+  {
+    title: "Araştırma ve Yayın Etiği",
+    language: "Türkçe",
+    term: "Güz",
+    academicYear: "2023-2024",
+    level: "Doktora",
+  },
 ];
 
 const projectRoles: RecordItem[] = [
   {
-    title: "Sanayi Politikaları ve Teknoloji Yönetimi Gençlik Çalışanları Hareketliliği",
+    title:
+      "Sanayi Politikaları ve Teknoloji Yönetimi Gençlik Çalışanları Hareketliliği",
     role: "Proje Koordinatörü",
     scope: "Avrupa Birliği · Uluslararası",
     startDate: "03.03.2023",
@@ -273,7 +453,8 @@ const internationalArticles: RecordItem[] = [
     scope: "Uluslararası hakemli dergi",
   },
   {
-    title: "Comparing Political Participation Levels of Party Members Within the Two Main Parties of Turkey Based on Their Media Usage and Expectations",
+    title:
+      "Comparing Political Participation Levels of Party Members Within the Two Main Parties of Turkey Based on Their Media Usage and Expectations",
     year: "2021",
     venue: "Journal of Political Science and International Relations",
     citation: "4(1), 8-17",
@@ -294,12 +475,14 @@ const nationalArticles: RecordItem[] = [
   {
     title: "Siyasetin Finansmanı",
     year: "2023",
-    venue: "Süleyman Demirel Üniversitesi Fen-Edebiyat Fakültesi Sosyal Bilimler Dergisi",
+    venue:
+      "Süleyman Demirel Üniversitesi Fen-Edebiyat Fakültesi Sosyal Bilimler Dergisi",
     citation: "(59), 209-221",
     scope: "TR DİZİN",
   },
   {
-    title: "Çevrecilik Neden Muhafazakâr Düşüncelerle İlişkilidir? Ve Yeşil Muhafazakârlıkla İlişkili Bir Bilişsel Duygusal (CAM) Haritalama Örneği",
+    title:
+      "Çevrecilik Neden Muhafazakâr Düşüncelerle İlişkilidir? Ve Yeşil Muhafazakârlıkla İlişkili Bir Bilişsel Duygusal (CAM) Haritalama Örneği",
     year: "2023",
     venue: "Avrasya Bilimler Akademisi Sosyal Bilimler Dergisi",
     citation: "(49), 69-85",
@@ -316,14 +499,16 @@ const otherPublications: RecordItem[] = [
     scope: "Ulusal · Hakemsiz",
   },
   {
-    title: "Eğitim ve Mesleki Eğitim, Sorunları ve Çözüm Önerileri, Mesleği Eğitimin Cazip Hale Gelmesi İçin Bir Öneri",
+    title:
+      "Eğitim ve Mesleki Eğitim, Sorunları ve Çözüm Önerileri, Mesleği Eğitimin Cazip Hale Gelmesi İçin Bir Öneri",
     year: "2020",
     venue: "Mimar Mühendisler Grubu Dergisi",
     citation: "(116), 80-96",
     scope: "Ulusal · Hakemsiz",
   },
   {
-    title: "Japonya'da Eğitim Sistemi ve Mesleki Eğitime Farklı Bir Bakış: Japonya Örneği",
+    title:
+      "Japonya'da Eğitim Sistemi ve Mesleki Eğitime Farklı Bir Bakış: Japonya Örneği",
     year: "2020",
     venue: "Mimar Mühendisler Grubu Dergisi",
     citation: "(116), 52-64",
@@ -333,7 +518,8 @@ const otherPublications: RecordItem[] = [
 
 const authoredBooks: RecordItem[] = [
   {
-    title: "Yapay Zekâyla Demokrasi Üzerine Söyleşi: Sesli Sorular, Dijital Cevaplar",
+    title:
+      "Yapay Zekâyla Demokrasi Üzerine Söyleşi: Sesli Sorular, Dijital Cevaplar",
     year: "2023",
     publisher: "Özgür Yayınevi",
     editor: "Dr. Eyüp Öz",
@@ -370,7 +556,8 @@ const authoredBooks: RecordItem[] = [
 const bookChapters: RecordItem[] = [
   {
     title: "Demokrasi ve Etkin Yurttaşlık",
-    chapter: "Yeni Medya Aracılığıyla Dijital Demokrasi ve Siyasi Katılımın Dönüşümü",
+    chapter:
+      "Yeni Medya Aracılığıyla Dijital Demokrasi ve Siyasi Katılımın Dönüşümü",
     year: "2025",
     publisher: "Çizgi Kitabevi, İstanbul",
     editor: "M. M. Yavuz, D. Geylani, M. Köse",
@@ -397,7 +584,8 @@ const bookChapters: RecordItem[] = [
     chapter: "Meta-Politics and Ethics",
     year: "2022",
     publisher: "Livre De Lyon",
-    editor: "Prof. Dr. Ali Rafet Özkan, Prof. Dr. Emine Öztürk, Doç. Dr. Sadagat Abbasova",
+    editor:
+      "Prof. Dr. Ali Rafet Özkan, Prof. Dr. Emine Öztürk, Doç. Dr. Sadagat Abbasova",
     edition: "1",
     pages: "432",
     isbn: "978-2-38236-470-3",
@@ -406,7 +594,8 @@ const bookChapters: RecordItem[] = [
   },
   {
     title: "Teoriden Pratiğe Türkiye Siyaseti",
-    chapter: "Saha Çalışmaları ve Etik İlkelerin AK Parti'nin Seçim Sonuçları Üzerindeki Etkileri",
+    chapter:
+      "Saha Çalışmaları ve Etik İlkelerin AK Parti'nin Seçim Sonuçları Üzerindeki Etkileri",
     year: "2021",
     publisher: "Liberte Yayınları, İstanbul",
     editor: "Prof. Dr. Alim Yılmaz, Dr. İkram Bağcı",
@@ -420,7 +609,8 @@ const bookChapters: RecordItem[] = [
 
 const internationalPapers: RecordItem[] = [
   {
-    title: "Political participation levels of party members: The Case of Ak Party and CHP in Istanbul",
+    title:
+      "Political participation levels of party members: The Case of Ak Party and CHP in Istanbul",
     role: "Tam Metin Bildiri · Sözlü Sunum",
     year: "12-16.07.2025",
     venue: "28th IPSA World Congress of Political Science, Seoul, Güney Kore",
@@ -437,7 +627,8 @@ const internationalPapers: RecordItem[] = [
     title: "Digital Political Polarization and Ways to Prevent It",
     role: "Özet Bildiri · Sözlü Sunum",
     year: "12.08.2023",
-    venue: "10th International Congress on Humanities and Social Sciences in a Changing World",
+    venue:
+      "10th International Congress on Humanities and Social Sciences in a Changing World",
     citation: "1-526",
     scope: "Uluslararası",
   },
@@ -445,15 +636,18 @@ const internationalPapers: RecordItem[] = [
     title: "Metaverse-Politics and Ethics",
     role: "Özet Bildiri · Sözlü Sunum",
     year: "11-12.11.2022",
-    venue: "International Social Sciences Congress in the Age of Digital Transformation, İstanbul",
+    venue:
+      "International Social Sciences Congress in the Age of Digital Transformation, İstanbul",
     citation: "1-663",
     scope: "Uluslararası",
   },
   {
-    title: "Party members' attitudes toward their own leaders: The Cases of Istanbul Ak Party and CHP",
+    title:
+      "Party members' attitudes toward their own leaders: The Cases of Istanbul Ak Party and CHP",
     role: "Özet Bildiri · Sözlü Sunum",
     year: "20.11.2021",
-    venue: "I. International Artuklu Congress on Economic Administrative and Political Sciences",
+    venue:
+      "I. International Artuklu Congress on Economic Administrative and Political Sciences",
     citation: "1-444",
     scope: "Uluslararası",
   },
@@ -461,7 +655,8 @@ const internationalPapers: RecordItem[] = [
     title: "Türkiye'de Okul Özerkliği ve Özgürlükçü Eğitim Anlayışı",
     role: "Özet Bildiri · Sözlü Sunum",
     year: "23.06.2021",
-    venue: "2023 Vizyonu, Salgın Krizi ve Dijitalleşme Bağlamında Okul Özerkliği",
+    venue:
+      "2023 Vizyonu, Salgın Krizi ve Dijitalleşme Bağlamında Okul Özerkliği",
     citation: "1-133",
     doi: "10.22596/cresjournal",
     scope: "Uluslararası",
@@ -495,7 +690,8 @@ const workshops: RecordItem[] = [
   },
   {
     title: "Savaş Ortamındaki Çocuklarda Ölüm Algısı",
-    venue: "IX. Uluslararası Maneviyat Psikolojisi Sempozyumu — Sağlık Bilimleri Üniversitesi, İlim Yayma Cemiyeti",
+    venue:
+      "IX. Uluslararası Maneviyat Psikolojisi Sempozyumu — Sağlık Bilimleri Üniversitesi, İlim Yayma Cemiyeti",
     year: "11-12.11.2025",
     scope: "Uluslararası",
   },
@@ -505,7 +701,7 @@ const workshops: RecordItem[] = [
     year: "31.05.2025",
     scope: "Ulusal",
     details:
-      "21. yüzyılda lise eğitiminin süresi ve yapısı ile bu alandaki politikalar ele alınarak bilimsel temelli çözüm önerileri geliştirilmiştir. Türkiye Yüzyılı Maarif Modeli kapsamında planlanan \"düşünsel makas değişimine\" katkı sunmak ve Türkiye'nin sosyo-ekonomik ve kültürel gerçeklikleri çerçevesinde politika yapıcılara yol gösterecek bir perspektif oluşturmak amaçlanmıştır.",
+      '21. yüzyılda lise eğitiminin süresi ve yapısı ile bu alandaki politikalar ele alınarak bilimsel temelli çözüm önerileri geliştirilmiştir. Türkiye Yüzyılı Maarif Modeli kapsamında planlanan "düşünsel makas değişimine" katkı sunmak ve Türkiye\'nin sosyo-ekonomik ve kültürel gerçeklikleri çerçevesinde politika yapıcılara yol gösterecek bir perspektif oluşturmak amaçlanmıştır.',
   },
 ];
 
@@ -515,7 +711,8 @@ const seminars: RecordItem[] = [
     venue: "TDED Genel Merkezi, Eyüp",
     year: "12.04.2025",
     scope: "Ulusal",
-    details: "Pınar Yayınları'nca yayımlanan, Mücahit Gültekin'in \"Kanmanın ve Kandırmanın Psikolojisi\" adlı kitabının sunumu.",
+    details:
+      "Pınar Yayınları'nca yayımlanan, Mücahit Gültekin'in \"Kanmanın ve Kandırmanın Psikolojisi\" adlı kitabının sunumu.",
   },
   {
     title: "Artificial Intelligence and Diplomacy",
@@ -542,7 +739,8 @@ const speeches: RecordItem[] = [
     details: "Yapay zeka ve eğitim ilişkisi.",
   },
   {
-    title: "Gerçekliğin Gölgesinde: Yapay Zekâya Akıl, Kalp, Ruh ve Marifetle Bakmak",
+    title:
+      "Gerçekliğin Gölgesinde: Yapay Zekâya Akıl, Kalp, Ruh ve Marifetle Bakmak",
     venue: "Ensar Vakfı Genel Merkezi",
     year: "22.11.2025",
     scope: "Ulusal",
@@ -584,7 +782,8 @@ const conferenceOrganizations: RecordItem[] = [
     venue: "İstanbul Üniversitesi Edebiyat Fakültesi",
     year: "24-26.09.2025",
     scope: "Uluslararası",
-    details: "\"ChatGPT'ye sorduk: Türkçe Noktalama İşaretlerine Eleştirel Bir Bakış\" oturumu.",
+    details:
+      '"ChatGPT\'ye sorduk: Türkçe Noktalama İşaretlerine Eleştirel Bir Bakış" oturumu.',
   },
 ];
 
@@ -603,7 +802,8 @@ const editors: RecordItem[] = [
 
 const certificates: RecordItem[] = [
   {
-    title: "Marmara Üniversitesi – İşletme Bilimleri Uygulama ve Araştırma Merkezi",
+    title:
+      "Marmara Üniversitesi – İşletme Bilimleri Uygulama ve Araştırma Merkezi",
     role: "Sertifika",
     scope: "Ulusal",
     venue: "İstanbul",
@@ -665,7 +865,13 @@ function useScrollAnimation() {
   return { ref, visible };
 }
 
-function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function AnimatedSection({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const { ref, visible } = useScrollAnimation();
   return (
     <div
@@ -677,10 +883,19 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
   );
 }
 
-function SectionTitle({ title, subtitle }: { title: string; subtitle?: string }) {
+function SectionTitle({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle?: string;
+}) {
   return (
     <div className="mb-10">
-      <h2 className="text-3xl md:text-4xl font-bold text-[#1e3a5f] mb-2" style={{ fontFamily: "'DM Serif Display', serif" }}>
+      <h2
+        className="text-3xl md:text-4xl font-bold text-[#1e3a5f] mb-2"
+        style={{ fontFamily: "'DM Serif Display', serif" }}
+      >
         {title}
       </h2>
       {subtitle && <p className="text-gray-500 text-lg">{subtitle}</p>}
@@ -691,29 +906,59 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle?: string })
 
 function SubsectionTitle({ title }: { title: string }) {
   return (
-    <h3 className="text-2xl font-semibold text-[#1e3a5f] mb-4 mt-1" style={{ fontFamily: "'DM Serif Display', serif" }}>
+    <h3
+      className="text-2xl font-semibold text-[#1e3a5f] mb-4 mt-1"
+      style={{ fontFamily: "'DM Serif Display', serif" }}
+    >
       {title}
     </h3>
   );
 }
 
-function RecordCards({ items, venueLabel = "Yer/Etkinlik" }: { items: RecordItem[]; venueLabel?: string }) {
+function RecordCards({
+  items,
+  venueLabel = "Yer/Etkinlik",
+}: {
+  items: RecordItem[];
+  venueLabel?: string;
+}) {
   return (
     <div className="grid md:grid-cols-2 gap-4">
-      {items.map((item) => {
+      {items.map(item => {
         // Yayınevi, basım ve sayfa bilgisi tek satırda toplanır; boş olanlar araya nokta koymadan atlanır.
-        const imprint = [item.publisher, item.edition && `${item.edition}. Basım`, item.pages && `${item.pages} sayfa`]
+        const imprint = [
+          item.publisher,
+          item.edition && `${item.edition}. Basım`,
+          item.pages && `${item.pages} sayfa`,
+        ]
           .filter(Boolean)
           .join(" · ");
 
         return (
-          <div key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`} className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm">
-            <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">{item.title}</p>
-            {item.chapter && <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">Bölüm: {item.chapter}</p>}
-            {item.organization && <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">{item.organization}</p>}
+          <div
+            key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
+            className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm"
+          >
+            <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">
+              {item.title}
+            </p>
+            {item.chapter && (
+              <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
+                Bölüm: {item.chapter}
+              </p>
+            )}
+            {item.organization && (
+              <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">
+                {item.organization}
+              </p>
+            )}
             <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
               {item.role && <p>Görev: {item.role}</p>}
-              {item.venue && <p>{venueLabel}: {item.venue}</p>}
+              {item.venue && (
+                <p>
+                  {venueLabel}: {item.venue}
+                </p>
+              )}
               {item.citation && <p>Künye: {item.citation}</p>}
               {imprint && <p>{imprint}</p>}
               {item.editor && <p>Editör: {item.editor}</p>}
@@ -736,7 +981,8 @@ function RecordCards({ items, venueLabel = "Yer/Etkinlik" }: { items: RecordItem
               {item.year && <p>Tarih/Yıl: {item.year}</p>}
               {(item.startDate || item.endDate) && (
                 <p>
-                  Süre: {item.startDate ?? "-"} {item.endDate ? `- ${item.endDate}` : ""}
+                  Süre: {item.startDate ?? "-"}{" "}
+                  {item.endDate ? `- ${item.endDate}` : ""}
                 </p>
               )}
               {item.details && <p>{item.details}</p>}
@@ -749,25 +995,17 @@ function RecordCards({ items, venueLabel = "Yer/Etkinlik" }: { items: RecordItem
 }
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState("hakkinda");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navItems = [
-    { id: "hakkinda", label: "Hakkında" },
-    { id: "egitim", label: "Eğitim" },
-    { id: "kariyer", label: "Kariyer" },
-    { id: "yayinlar", label: "Yayınlar" },
-    { id: "iletisim", label: "İletişim" },
-  ];
+  const [activeSection, setActiveSection] = useState<SectionId>("hakkinda");
+  const [contactTab, setContactTab] = useState<"contact" | "cv">("contact");
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navItems.map((item) => document.getElementById(item.id));
+      const sections = DOCK_ITEMS.map(item => document.getElementById(item.id));
       const scrollY = window.scrollY + 120;
       for (let i = sections.length - 1; i >= 0; i -= 1) {
         const section = sections[i];
         if (section && section.offsetTop <= scrollY) {
-          setActiveSection(navItems[i].id);
+          setActiveSection(DOCK_ITEMS[i].id);
           break;
         }
       }
@@ -776,124 +1014,134 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollTo = (id: string) => {
+  const scrollTo = (id: SectionId) => {
     const target = document.getElementById(id);
     if (target) {
-      const headerOffset = window.innerWidth < 768 ? 76 : 84;
-      const y = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+      const headerOffset = 88;
+      const y =
+        target.getBoundingClientRect().top + window.scrollY - headerOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
-    setMobileMenuOpen(false);
   };
 
-  const lisansCourses = courses.filter((course) => course.level === "Lisans");
-  const yuksekLisansCourses = courses.filter((course) => course.level === "Yüksek Lisans");
-  const doktoraCourses = courses.filter((course) => course.level === "Doktora");
+  const openCvRequest = () => {
+    setContactTab("cv");
+    scrollTo("iletisim");
+  };
+
+  const lisansCourses = courses.filter(course => course.level === "Lisans");
+  const yuksekLisansCourses = courses.filter(
+    course => course.level === "Yüksek Lisans"
+  );
+  const doktoraCourses = courses.filter(course => course.level === "Doktora");
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
-        <div className="container flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#1e3a5f] flex items-center justify-center text-white font-bold text-sm" style={{ fontFamily: "'DM Serif Display', serif" }}>
-              OA
-            </div>
-            <span className="font-semibold text-[#1e3a5f] hidden sm:block text-sm">Doç. Dr. Orhan Albayrak</span>
-          </div>
-
-          <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollTo(item.id)}
-                className={`px-3 py-2 text-sm rounded-md transition-colors ${
-                  activeSection === item.id ? "text-[#1e3a5f] font-semibold" : "text-gray-500 hover:text-[#1e3a5f]"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          <button className="md:hidden p-2 text-[#1e3a5f]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 px-4 py-3 flex flex-col gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollTo(item.id)}
-                className={`text-left px-3 py-2 text-sm rounded-md ${activeSection === item.id ? "bg-[#1e3a5f] text-white" : "text-gray-600 hover:bg-gray-50"}`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </nav>
+    <div
+      className="min-h-screen bg-white"
+      style={{ fontFamily: "'DM Sans', sans-serif" }}
+    >
+      <SinglePageDock activeSection={activeSection} onNavigate={scrollTo} />
+      <MobileSidebar
+        activeSection={activeSection}
+        onNavigate={scrollTo}
+        onOpenCvRequest={openCvRequest}
+      />
 
       <section
         id="hakkinda"
-        className="relative min-h-screen flex items-center pt-16 scroll-mt-24"
-        style={{
-          backgroundImage: `url(${HERO_BG})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#f5f2eb] pb-16 pt-28 scroll-mt-24 md:pb-20"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a5f]/90 via-[#1e3a5f]/70 to-transparent" />
-        <div className="container relative z-10 py-20">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in-up">
-              <p className="text-[#c9a227] font-medium text-sm tracking-widest uppercase mb-4">Akademisyen · Araştırmacı · Yazar</p>
-              <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-4" style={{ fontFamily: "'DM Serif Display', serif" }}>
-                Doç. Dr.
-                <br />
+        <div className="hero-grid absolute inset-0 opacity-70" />
+        <div className="absolute -left-28 top-28 size-80 rounded-full bg-[#c9a227]/15 blur-3xl" />
+        <div className="absolute -right-20 bottom-12 size-96 rounded-full bg-[#7a2948]/15 blur-3xl" />
+
+        <div className="container relative z-10">
+          <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_.92fr] lg:gap-20">
+            <div className="animate-fade-in-up order-2 lg:order-1">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#1e3a5f]/15 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#1e3a5f] backdrop-blur-sm">
+                <span className="size-2 rounded-full bg-[#c9a227]" />
+                Akademisyen · Araştırmacı · Yazar
+              </div>
+              <h1
+                className="text-[clamp(3.5rem,8vw,7.5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-[#14243b]"
+                style={{ fontFamily: "'DM Serif Display', serif" }}
+              >
                 Orhan
                 <br />
-                Albayrak
+                <span className="-mx-[0.08em] inline-block bg-gradient-to-r from-[#7a2948] via-[#a23b5e] to-[#c9a227] bg-clip-text px-[0.08em] pb-[0.08em] text-transparent italic">
+                  Albayrak
+                </span>
               </h1>
-              <div className="gold-line w-24 mb-6" />
-              <p className="text-white/80 text-lg leading-relaxed mb-8 max-w-lg">
-                Elektronik Mühendisliği'nden Siyaset Bilimine uzanan çok disiplinli bir akademik profil. Dijital çağda siyaset, yapay zeka ve demokrasi üzerine araştırmalar.
+              <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] md:text-xl">
+                Elektronik Mühendisliği'nden Siyaset Bilimine uzanan çok
+                disiplinli bir akademik profil. Dijital çağda siyaset, yapay
+                zeka ve demokrasi üzerine araştırmalar.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <button onClick={() => scrollTo("yayinlar")} className="bg-[#c9a227] hover:bg-[#b8911f] text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
-                  <BookOpen size={18} />
-                  Yayınlarım
-                </button>
-                <a
-                  href={LINKEDIN_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#0A66C2] hover:bg-[#004182] text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+              <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
+                <button
+                  onClick={() => scrollTo("yayinlar")}
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#1e3a5f] px-4 py-3 font-semibold text-white shadow-lg shadow-[#1e3a5f]/15 transition hover:-translate-y-0.5 hover:bg-[#142b49]"
                 >
-                  <Linkedin size={18} />
-                  LinkedIn'de Bağlan
-                </a>
-                <button onClick={() => scrollTo("iletisim")} className="border border-white/50 hover:border-white text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
-                  <Mail size={18} />
+                  <BookOpen className="shrink-0" size={18} />
+                  Yayınları İncele
+                </button>
+                <button
+                  onClick={() => {
+                    setContactTab("contact");
+                    scrollTo("iletisim");
+                  }}
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white"
+                >
+                  <Mail className="shrink-0" size={18} />
                   İletişim
                 </button>
+                <button
+                  onClick={openCvRequest}
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#7a2948] px-4 py-3 font-semibold text-white shadow-lg shadow-[#7a2948]/15 transition hover:-translate-y-0.5 hover:bg-[#5d1e37]"
+                >
+                  <FileText className="shrink-0" size={18} />
+                  CV Talep Et
+                </button>
+              </div>
+              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">
+                <span>
+                  <strong className="text-[#1e3a5f]">2023</strong> Doçentlik
+                </span>
+                <span>
+                  <strong className="text-[#1e3a5f]">20K+</strong> İstihdam
+                  etkisi
+                </span>
+                <span>
+                  <strong className="text-[#1e3a5f]">3</strong> Disiplin
+                </span>
               </div>
             </div>
 
-            <div className="hidden md:flex justify-center">
-              <div className="relative">
-                <div className="w-72 h-72 rounded-2xl overflow-hidden border-4 border-[#c9a227]/50 shadow-2xl">
-                  <img src={PROFILE_IMG} alt="Doç. Dr. Orhan Albayrak" className="w-full h-full object-cover" />
+            <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+              <div className="relative w-full max-w-[420px]">
+                <div className="absolute inset-x-8 bottom-0 h-[78%] rounded-[5rem_5rem_8rem_2.5rem] bg-gradient-to-br from-[#14243b] via-[#1e3a5f] to-[#7a2948] shadow-[0_40px_80px_rgba(20,36,59,0.28)]" />
+                <div className="absolute inset-x-2 bottom-4 h-[72%] rounded-[5rem_5rem_8rem_2.5rem] border border-white/25" />
+                <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[4.5rem_4.5rem_7rem_2.25rem] border border-white/30 shadow-2xl">
+                  <img
+                    src={PROFILE_IMG}
+                    alt="Doç. Dr. Orhan Albayrak"
+                    className="h-full w-full object-cover object-top"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#14243b]/80 to-transparent" />
                 </div>
-                <div className="absolute -bottom-4 -right-4 bg-[#c9a227] text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium">
-                  ORCID: 0000-0002-1937-6011
+                <div className="absolute -bottom-5 -left-2 max-w-[240px] rounded-2xl border border-white/70 bg-white/85 p-4 shadow-xl backdrop-blur-xl sm:-left-8">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7a2948]">
+                    Akademik odak
+                  </p>
+                  <p className="mt-1 text-sm font-semibold leading-snug text-[#1e3a5f]">
+                    Dijital siyaset, demokrasi ve toplum
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 animate-bounce">
+        <div className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 animate-bounce text-[#1e3a5f]/35 md:block">
           <ChevronDown size={28} />
         </div>
       </section>
@@ -905,51 +1153,61 @@ export default function Home() {
               <div className="md:col-span-2">
                 <SectionTitle title="Hakkında" subtitle="Akademik Profil" />
                 <div className="space-y-4 text-gray-600 leading-relaxed">
-                  {aboutParagraphs.map((paragraph) => (
+                  {aboutParagraphs.map(paragraph => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
               </div>
               <div className="bg-[#f8f9fc] rounded-2xl p-6 border border-gray-100">
-                <h3 className="font-semibold text-[#1e3a5f] mb-4 text-lg" style={{ fontFamily: "'DM Serif Display', serif" }}>
+                <h3
+                  className="font-semibold text-[#1e3a5f] mb-4 text-lg"
+                  style={{ fontFamily: "'DM Serif Display', serif" }}
+                >
                   Temel Bilgiler
                 </h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
-                    <MapPin size={16} className="text-[#c9a227] mt-0.5 shrink-0" />
+                    <MapPin
+                      size={16}
+                      className="text-[#c9a227] mt-0.5 shrink-0"
+                    />
                     <div>
                       <p className="font-medium text-gray-700">Doğum Yeri</p>
                       <p className="text-gray-500">Arsin, Trabzon (1960)</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <GraduationCap size={16} className="text-[#c9a227] mt-0.5 shrink-0" />
+                    <GraduationCap
+                      size={16}
+                      className="text-[#c9a227] mt-0.5 shrink-0"
+                    />
                     <div>
                       <p className="font-medium text-gray-700">Unvan</p>
                       <p className="text-gray-500">Doçent Doktor</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Building size={16} className="text-[#c9a227] mt-0.5 shrink-0" />
+                    <Building
+                      size={16}
+                      className="text-[#c9a227] mt-0.5 shrink-0"
+                    />
                     <div>
                       <p className="font-medium text-gray-700">Mevcut Kurum</p>
-                      <p className="text-gray-500">Bezmialem Vakıf Üniversitesi</p>
+                      <p className="text-gray-500">
+                        Bezmialem Vakıf Üniversitesi
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Globe size={16} className="text-[#c9a227] mt-0.5 shrink-0" />
+                    <Globe
+                      size={16}
+                      className="text-[#c9a227] mt-0.5 shrink-0"
+                    />
                     <div>
                       <p className="font-medium text-gray-700">Diller</p>
-                      <p className="text-gray-500">Türkçe, İngilizce, Osmanlıca</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <BookOpen size={16} className="text-[#c9a227] mt-0.5 shrink-0" />
-                    <div>
-                      <p className="font-medium text-gray-700">ORCID</p>
-                      <a href="https://orcid.org/0000-0002-1937-6011" target="_blank" rel="noopener noreferrer" className="text-[#1e3a5f] hover:text-[#c9a227] transition-colors">
-                        0000-0002-1937-6011
-                      </a>
+                      <p className="text-gray-500">
+                        Türkçe, İngilizce, Osmanlıca
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -964,24 +1222,34 @@ export default function Home() {
           <AnimatedSection>
             <SectionTitle title="Eğitim" subtitle="Akademik Geçmiş" />
             <div className="grid md:grid-cols-2 gap-6">
-              {educationCards.map((edu) => (
-                <div key={`${edu.degree}-${edu.years}`} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+              {educationCards.map(edu => (
+                <div
+                  key={`${edu.degree}-${edu.years}`}
+                  className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm"
+                >
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl bg-[#1e3a5f] flex items-center justify-center shrink-0">
                       <GraduationCap size={22} className="text-white" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-semibold bg-[#c9a227]/15 text-[#c9a227] px-2 py-0.5 rounded-full">{edu.degree}</span>
+                        <span className="text-xs font-semibold bg-[#c9a227]/15 text-[#c9a227] px-2 py-0.5 rounded-full">
+                          {edu.degree}
+                        </span>
                         <span className="text-xs text-gray-400 flex items-center gap-1">
                           <Calendar size={11} /> {edu.years}
                         </span>
                       </div>
-                      <h3 className="font-semibold text-[#1e3a5f] text-lg leading-tight" style={{ fontFamily: "'DM Serif Display', serif" }}>
+                      <h3
+                        className="font-semibold text-[#1e3a5f] text-lg leading-tight"
+                        style={{ fontFamily: "'DM Serif Display', serif" }}
+                      >
                         {edu.field}
                       </h3>
                       <p className="text-gray-500 text-sm mt-1">{edu.school}</p>
-                      <p className="text-gray-400 text-xs mt-2 italic">{edu.thesis}</p>
+                      <p className="text-gray-400 text-xs mt-2 italic">
+                        {edu.thesis}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -994,7 +1262,10 @@ export default function Home() {
       <section id="kariyer" className="py-20 bg-white scroll-mt-24">
         <div className="container space-y-14">
           <AnimatedSection className="space-y-10 md:space-y-12">
-            <SectionTitle title="Kariyer" subtitle="Mesleki Deneyim ve Görevler" />
+            <SectionTitle
+              title="Kariyer"
+              subtitle="Mesleki Deneyim ve Görevler"
+            />
 
             <div className="space-y-4">
               <SubsectionTitle title="Akademik Görev" />
@@ -1018,15 +1289,26 @@ export default function Home() {
                   { label: "Lisans", data: lisansCourses },
                   { label: "Yüksek Lisans", data: yuksekLisansCourses },
                   { label: "Doktora", data: doktoraCourses },
-                ].map((group) => (
+                ].map(group => (
                   <div key={group.label}>
-                    <h4 className="text-xl font-semibold text-[#1e3a5f] mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>{group.label}</h4>
+                    <h4
+                      className="text-xl font-semibold text-[#1e3a5f] mb-3"
+                      style={{ fontFamily: "'DM Serif Display', serif" }}
+                    >
+                      {group.label}
+                    </h4>
                     <div className="grid md:grid-cols-2 gap-3">
-                      {group.data.map((course) => (
-                        <div key={`${course.title}-${course.academicYear}-${course.term}`} className="bg-[#f8f9fc] rounded-xl border border-gray-100 p-3">
-                          <p className="font-medium text-[#1e3a5f] text-base leading-snug break-words">{course.title}</p>
+                      {group.data.map((course, courseIndex) => (
+                        <div
+                          key={`${course.title}-${course.academicYear}-${course.term}-${courseIndex}`}
+                          className="bg-[#f8f9fc] rounded-xl border border-gray-100 p-3"
+                        >
+                          <p className="font-medium text-[#1e3a5f] text-base leading-snug break-words">
+                            {course.title}
+                          </p>
                           <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                            {course.language} · {course.term} · {course.academicYear}
+                            {course.language} · {course.term} ·{" "}
+                            {course.academicYear}
                           </p>
                         </div>
                       ))}
@@ -1134,12 +1416,20 @@ export default function Home() {
         <div className="container relative z-10 text-center">
           <AnimatedSection>
             <Award size={40} className="text-[#c9a227] mx-auto mb-4" />
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: "'DM Serif Display', serif" }}>
+            <h2
+              className="text-3xl md:text-4xl font-bold text-white mb-4"
+              style={{ fontFamily: "'DM Serif Display', serif" }}
+            >
               Dünya Birincisi Proje
             </h2>
             <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
-              Yaklaşık <strong className="text-[#c9a227]">20.000 kişiye</strong> istihdam sağlayan Özel İdare Meslek Kursları projesi, Malezya'da düzenlenen{" "}
-              <strong className="text-[#c9a227]">Dünya Ticaret Odaları Proje Yarışması</strong>'nda dünya birincisi seçilmiştir.
+              Yaklaşık <strong className="text-[#c9a227]">20.000 kişiye</strong>{" "}
+              istihdam sağlayan Özel İdare Meslek Kursları projesi, Malezya'da
+              düzenlenen{" "}
+              <strong className="text-[#c9a227]">
+                Dünya Ticaret Odaları Proje Yarışması
+              </strong>
+              'nda dünya birincisi seçilmiştir.
             </p>
           </AnimatedSection>
         </div>
@@ -1148,92 +1438,120 @@ export default function Home() {
       <section id="iletisim" className="py-20 bg-white scroll-mt-24">
         <div className="container">
           <AnimatedSection>
-            <SectionTitle title="İletişim" subtitle="Akademik İşbirliği ve Ulaşım" />
-            <div className="grid md:grid-cols-2 gap-10">
-              <div className="space-y-6">
-                <p className="text-gray-600 leading-relaxed">Akademik işbirliği, konferans davetleri veya araştırma projeleri için aşağıdaki kanallar üzerinden iletişime geçebilirsiniz.</p>
-                <div className="space-y-4">
-                  <a
-                    href="mailto:orhan.albayrak@bezmialem.edu.tr"
-                    className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-[#1e3a5f] transition-colors group"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-[#1e3a5f]/10 flex items-center justify-center group-hover:bg-[#1e3a5f] transition-colors">
-                      <Mail size={18} className="text-[#1e3a5f] group-hover:text-white transition-colors" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-400">Kurumsal E-posta</p>
-                      <p className="text-[#1e3a5f] font-medium text-sm">orhan.albayrak@bezmialem.edu.tr</p>
-                    </div>
-                  </a>
-                  <a
-                    href={LINKEDIN_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl border border-[#0A66C2]/30 bg-[#0A66C2]/5 hover:border-[#0A66C2] transition-colors group"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-[#0A66C2]/10 flex items-center justify-center group-hover:bg-[#0A66C2] transition-colors">
-                      <Linkedin size={18} className="text-[#0A66C2] group-hover:text-white transition-colors" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-400">LinkedIn</p>
-                      <p className="text-[#0A66C2] font-medium text-sm">Profesyonel ağda bağlantı kurun</p>
-                    </div>
-                  </a>
-                  <a
-                    href="https://orcid.org/0000-0002-1937-6011"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-[#1e3a5f] transition-colors group"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-[#1e3a5f]/10 flex items-center justify-center group-hover:bg-[#1e3a5f] transition-colors">
-                      <BookOpen size={18} className="text-[#1e3a5f] group-hover:text-white transition-colors" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-400">ORCID Profili</p>
-                      <p className="text-[#1e3a5f] font-medium text-sm">0000-0002-1937-6011</p>
-                    </div>
-                  </a>
-                  <a
-                    href="https://x.com/OrAlbayrak"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-[#1e3a5f] transition-colors group"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-[#1e3a5f]/10 flex items-center justify-center group-hover:bg-[#1e3a5f] transition-colors">
-                      <Twitter size={18} className="text-[#1e3a5f] group-hover:text-white transition-colors" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-400">Twitter / X</p>
-                      <p className="text-[#1e3a5f] font-medium text-sm">@OrAlbayrak</p>
-                    </div>
-                  </a>
-                </div>
+            <SectionTitle
+              title="İletişim"
+              subtitle="Akademik İşbirliği ve Ulaşım"
+            />
+            <div className="grid gap-8 lg:grid-cols-[1.55fr_.75fr] lg:items-start">
+              <div className="rounded-3xl border border-gray-100 bg-[#f8f9fc] p-5 shadow-sm md:p-8">
+                <Tabs
+                  value={contactTab}
+                  onValueChange={value =>
+                    setContactTab(value as "contact" | "cv")
+                  }
+                >
+                  <TabsList className="mb-7 grid h-auto w-full grid-cols-2 rounded-full bg-white p-1.5 shadow-sm">
+                    <TabsTrigger
+                      value="contact"
+                      className="rounded-full py-2.5 data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white"
+                    >
+                      İletişim Formu
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="cv"
+                      className="rounded-full py-2.5 data-[state=active]:bg-[#7a2948] data-[state=active]:text-white"
+                    >
+                      CV Talep Et
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="contact">
+                    <ContactForm />
+                  </TabsContent>
+                  <TabsContent value="cv">
+                    <CvRequestForm />
+                  </TabsContent>
+                </Tabs>
               </div>
 
-              <div className="bg-[#f8f9fc] rounded-2xl p-6 border border-gray-100">
-                <h3 className="font-semibold text-[#1e3a5f] mb-5 text-lg" style={{ fontFamily: "'DM Serif Display', serif" }}>
-                  Üyelikler & Bağlantılar
-                </h3>
-                <div className="space-y-3">
-                  {[
-                    { name: "Bezmialem Vakıf Üniversitesi", role: "Doçent Doktor", url: "https://bezmialem.edu.tr" },
-                    { name: "TDED – Türkiye Dil ve Edebiyat Derneği", role: "Yönetim Kurulu Üyesi", url: "https://www.tded.org.tr" },
-                    { name: "İstanbul Ticaret Odası", role: "Meclis Üyesi", url: "https://www.ito.org.tr" },
-                    { name: "İTÜ 1773 Teknopark A.Ş.", role: "Yönetim Kurulu Üyesi", url: "#" },
-                    { name: "FGA Vakfı", role: "Mütevelli Heyet Başkanı", url: "#" },
-                  ].map((aff) => (
-                    <div key={aff.name} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                      <div>
-                        <p className="text-sm font-medium text-[#1e3a5f]">{aff.name}</p>
-                        <p className="text-xs text-gray-400">{aff.role}</p>
-                      </div>
-                      {aff.url !== "#" && (
-                        <a href={aff.url} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#c9a227] transition-colors">
-                          <ExternalLink size={14} />
-                        </a>
-                      )}
+              <div className="space-y-5">
+                <a
+                  href="mailto:orhan.albayrak@bezmialem.edu.tr"
+                  className="group block rounded-3xl bg-[#1e3a5f] p-6 text-white shadow-lg shadow-[#1e3a5f]/15 transition hover:-translate-y-1"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c9a227]">
+                        Doğrudan iletişim
+                      </p>
+                      <p className="mt-3 break-all text-base font-medium">
+                        orhan.albayrak@bezmialem.edu.tr
+                      </p>
                     </div>
-                  ))}
+                    <ArrowUpRight
+                      className="shrink-0 text-white/60 transition group-hover:-translate-y-1 group-hover:translate-x-1"
+                      size={20}
+                    />
+                  </div>
+                </a>
+
+                <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+                  <h3
+                    className="mb-5 text-lg font-semibold text-[#1e3a5f]"
+                    style={{ fontFamily: "'DM Serif Display', serif" }}
+                  >
+                    Üyelikler & Bağlantılar
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      {
+                        name: "Bezmialem Vakıf Üniversitesi",
+                        role: "Doçent Doktor",
+                        url: "https://bezmialem.edu.tr",
+                      },
+                      {
+                        name: "TDED – Türkiye Dil ve Edebiyat Derneği",
+                        role: "Yönetim Kurulu Üyesi",
+                        url: "https://www.tded.org.tr",
+                      },
+                      {
+                        name: "İstanbul Ticaret Odası",
+                        role: "Meclis Üyesi",
+                        url: "https://www.ito.org.tr",
+                      },
+                      {
+                        name: "İTÜ 1773 Teknopark A.Ş.",
+                        role: "Yönetim Kurulu Üyesi",
+                        url: "#",
+                      },
+                      {
+                        name: "FGA Vakfı",
+                        role: "Mütevelli Heyet Başkanı",
+                        url: "#",
+                      },
+                    ].map(aff => (
+                      <div
+                        key={aff.name}
+                        className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
+                      >
+                        <div>
+                          <p className="text-sm font-medium text-[#1e3a5f]">
+                            {aff.name}
+                          </p>
+                          <p className="text-xs text-gray-400">{aff.role}</p>
+                        </div>
+                        {aff.url !== "#" && (
+                          <a
+                            href={aff.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-300 hover:text-[#c9a227] transition-colors"
+                          >
+                            <ExternalLink size={14} />
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1245,12 +1563,17 @@ export default function Home() {
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
-              <p className="font-semibold text-lg" style={{ fontFamily: "'DM Serif Display', serif" }}>
+              <p
+                className="font-semibold text-lg"
+                style={{ fontFamily: "'DM Serif Display', serif" }}
+              >
                 Doç. Dr. Orhan Albayrak
               </p>
-              <p className="text-white/60 text-sm">Akademisyen · Araştırmacı · Yazar</p>
+              <p className="text-white/60 text-sm">
+                Akademisyen · Araştırmacı · Yazar
+              </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 md:justify-end">
               <a
                 href={LINKEDIN_URL}
                 target="_blank"
@@ -1260,18 +1583,38 @@ export default function Home() {
                 <Linkedin size={15} />
                 LinkedIn
               </a>
-              <a href="https://orcid.org/0000-0002-1937-6011" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#c9a227] transition-colors text-sm">
-                ORCID
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
+              >
+                <Instagram size={15} />
+                Instagram
               </a>
-              <a href="https://x.com/OrAlbayrak" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#c9a227] transition-colors text-sm">
+              <a
+                href="https://x.com/OrAlbayrak"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
+              >
+                <Twitter size={15} />
                 Twitter
               </a>
-              <a href="https://www.researchgate.net/profile/Orhan-Albayrak-6" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#c9a227] transition-colors text-sm">
+              <a
+                href="https://www.researchgate.net/profile/Orhan-Albayrak-6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
+              >
+                <ExternalLink size={14} />
                 ResearchGate
               </a>
             </div>
           </div>
-          <div className="mt-6 pt-6 border-t border-white/10 text-center text-white/40 text-xs">© 2026 Doç. Dr. Orhan Albayrak. Tüm hakları saklıdır.</div>
+          <div className="mt-6 pt-6 border-t border-white/10 text-center text-white/40 text-xs">
+            © 2026 Doç. Dr. Orhan Albayrak. Tüm hakları saklıdır.
+          </div>
         </div>
       </footer>
     </div>

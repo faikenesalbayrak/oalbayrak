@@ -87,15 +87,21 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
   }
-  h1, h2, h3, h4 {
-    font-family: 'DM Serif Display', serif;
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "DM Serif Display", serif;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -153,7 +159,9 @@
 
   /* Hover card effect */
   .hover-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
   .hover-card:hover {
     transform: translateY(-4px);
@@ -165,7 +173,7 @@
     position: relative;
   }
   .animated-underline::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 0;
@@ -176,6 +184,20 @@
   }
   .animated-underline:hover::after {
     width: 100%;
+  }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(to right, rgb(30 58 95 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(30 58 95 / 0.055) 1px, transparent 1px);
+    background-size: 54px 54px;
+    mask-image: linear-gradient(to bottom, black 15%, transparent 92%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
@@ -196,8 +218,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .animate-fade-in {
