@@ -1047,26 +1047,60 @@ export default function Home() {
 
       <section
         id="hakkinda"
-        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#f5f2eb] pb-16 pt-28 scroll-mt-24 md:pb-20"
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-gradient-to-br from-[#0a192f] via-[#0d2342] to-[#142e54] pb-16 pt-28 scroll-mt-24 text-white md:pb-20"
       >
-        <div className="hero-grid absolute inset-0 opacity-70" />
-        <div className="absolute -left-28 top-28 size-80 rounded-full bg-[#c9a227]/15 blur-3xl" />
-        <div className="absolute -right-20 bottom-12 size-96 rounded-full bg-[#7a2948]/15 blur-3xl" />
+        {/* Görseldeki devre / teknoloji desenlerini ve haritayı simule eden hafif transparan arka plan katmanları */}
+        <div
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle at 15% 25%, rgba(201, 162, 39, 0.25) 0%, transparent 45%), radial-gradient(circle at 85% 75%, rgba(20, 50, 95, 0.5) 0%, transparent 50%)`,
+          }}
+        />
+        <div className="hero-grid absolute inset-0 opacity-20 pointer-events-none" />
+
+        {/* Görselin sağ altındaki altın kavisli çizgi (Gold wave curve) */}
+        <div className="absolute bottom-0 right-0 left-0 h-48 pointer-events-none overflow-hidden">
+          <svg
+            viewBox="0 0 1440 200"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full object-cover opacity-80"
+          >
+            <path
+              d="M-100 180 C 400 190, 800 100, 1540 20"
+              stroke="url(#gold-gradient)"
+              strokeWidth="4"
+            />
+            <path
+              d="M-100 195 C 450 170, 900 120, 1540 40"
+              stroke="url(#gold-gradient)"
+              strokeWidth="1.5"
+              strokeOpacity="0.6"
+            />
+            <defs>
+              <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#c9a227" stopOpacity="0.2" />
+                <stop offset="50%" stopColor="#f3e5ab" stopOpacity="1" />
+                <stop offset="100%" stopColor="#c9a227" stopOpacity="0.8" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
 
         <div className="container relative z-10">
           <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_.92fr] lg:gap-20">
             <div className="animate-fade-in-up order-2 lg:order-1">
               <h1
-                className="text-[clamp(3.5rem,8vw,7.5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-[#14243b]"
+                className="text-[clamp(3.5rem,8vw,7.5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-white"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
                 Orhan
                 <br />
-                <span className="-mx-[0.08em] inline-block bg-gradient-to-r from-[#7a2948] via-[#a23b5e] to-[#c9a227] bg-clip-text px-[0.08em] pb-[0.08em] text-transparent italic">
+                <span className="-mx-[0.08em] inline-block bg-gradient-to-r from-white via-[#f3e5ab] to-[#c9a227] bg-clip-text px-[0.08em] pb-[0.08em] text-transparent italic">
                   Albayrak
                 </span>
               </h1>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] md:text-xl">
+              <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300 md:text-xl">
                 Elektronik Mühendisliği'nden Siyaset Bilimine uzanan çok
                 disiplinli bir profil. Dijital çağda siyaset, yapay
                 zeka ve demokrasi üzerine araştırmalar.
@@ -1074,7 +1108,7 @@ export default function Home() {
               <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
                 <button
                   onClick={() => scrollTo("yayinlar")}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#1e3a5f] px-4 py-3 font-semibold text-white shadow-lg shadow-[#1e3a5f]/15 transition hover:-translate-y-0.5 hover:bg-[#142b49]"
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-[#c9a227] to-[#b38e1b] px-4 py-3 font-semibold text-[#0a192f] shadow-lg shadow-[#c9a227]/20 transition hover:-translate-y-0.5 hover:brightness-110"
                 >
                   <BookOpen className="shrink-0" size={18} />
                   Yayınları İncele
@@ -1084,50 +1118,50 @@ export default function Home() {
                     setContactTab("contact");
                     scrollTo("iletisim");
                   }}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white"
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/30 bg-white/10 px-4 py-3 font-semibold text-white backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20"
                 >
                   <Mail className="shrink-0" size={18} />
                   İletişim
                 </button>
                 <button
                   onClick={openCvRequest}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#7a2948] px-4 py-3 font-semibold text-white shadow-lg shadow-[#7a2948]/15 transition hover:-translate-y-0.5 hover:bg-[#5d1e37]"
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#7a2948] px-4 py-3 font-semibold text-white shadow-lg shadow-[#7a2948]/30 transition hover:-translate-y-0.5 hover:bg-[#5d1e37]"
                 >
                   <FileText className="shrink-0" size={18} />
                   CV Talep Et
                 </button>
               </div>
-              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">
+              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-white/15 pt-5 text-sm text-slate-300">
                 <span>
-                  <strong className="text-[#1e3a5f]">2023</strong> Doçentlik
+                  <strong className="text-[#c9a227]">2023</strong> Doçentlik
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">20K+</strong> İstihdam
+                  <strong className="text-[#c9a227]">20K+</strong> İstihdam
                   etkisi
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">3</strong> Disiplin
+                  <strong className="text-[#c9a227]">3</strong> Disiplin
                 </span>
               </div>
             </div>
 
             <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
               <div className="relative w-full max-w-[420px]">
-                <div className="absolute inset-x-8 bottom-0 h-[78%] rounded-[5rem_5rem_8rem_2.5rem] bg-gradient-to-br from-[#14243b] via-[#1e3a5f] to-[#7a2948] shadow-[0_40px_80px_rgba(20,36,59,0.28)]" />
-                <div className="absolute inset-x-2 bottom-4 h-[72%] rounded-[5rem_5rem_8rem_2.5rem] border border-white/25" />
-                <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[4.5rem_4.5rem_7rem_2.25rem] border border-white/30 shadow-2xl">
+                <div className="absolute inset-x-8 bottom-0 h-[78%] rounded-[5rem_5rem_8rem_2.5rem] bg-gradient-to-br from-[#1e3a5f] via-[#0d2342] to-[#7a2948] shadow-[0_40px_80px_rgba(0,0,0,0.5)]" />
+                <div className="absolute inset-x-2 bottom-4 h-[72%] rounded-[5rem_5rem_8rem_2.5rem] border border-[#c9a227]/40" />
+                <div className="relative mx-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[4.5rem_4.5rem_7rem_2.25rem] border-2 border-[#c9a227]/60 shadow-2xl">
                   <img
                     src={PROFILE_IMG}
                     alt="Doç. Dr. Orhan Albayrak"
                     className="h-full w-full object-cover object-top"
                   />
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#14243b]/80 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0a192f]/90 to-transparent" />
                 </div>
-                <div className="absolute -bottom-5 -left-2 max-w-[240px] rounded-2xl border border-white/70 bg-white/85 p-4 shadow-xl backdrop-blur-xl sm:-left-8">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7a2948]">
+                <div className="absolute -bottom-5 -left-2 max-w-[240px] rounded-2xl border border-white/20 bg-[#0a192f]/90 p-4 shadow-xl backdrop-blur-xl sm:-left-8 text-white">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#c9a227]">
                     Akademik odak
                   </p>
-                  <p className="mt-1 text-sm font-semibold leading-snug text-[#1e3a5f]">
+                  <p className="mt-1 text-sm font-semibold leading-snug text-white">
                     Dijital siyaset, demokrasi ve toplum
                   </p>
                 </div>
@@ -1135,7 +1169,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 animate-bounce text-[#1e3a5f]/35 md:block">
+        <div className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 animate-bounce text-white/50 md:block">
           <ChevronDown size={28} />
         </div>
       </section>
