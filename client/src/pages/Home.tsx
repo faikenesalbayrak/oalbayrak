@@ -1132,13 +1132,16 @@ export default function Home() {
               </div>
               <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">
                 <span>
-                  <strong className="text-[#1e3a5f]">2023</strong> {t.heroStats.associateProf}
+                  <strong className="text-[#1e3a5f]">2023</strong>{" "}
+                  {t.heroStats?.associateProf ?? (lang === "en" ? "Associate Professorship" : "Doçentlik")}
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">20K+</strong> {t.heroStats.employmentImpact}
+                  <strong className="text-[#1e3a5f]">20K+</strong>{" "}
+                  {t.heroStats?.employmentImpact ?? (lang === "en" ? "Employment impact" : "İstihdam etkisi")}
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">3</strong> {t.heroStats.disciplines}
+                  <strong className="text-[#1e3a5f]">3</strong>{" "}
+                  {t.heroStats?.disciplines ?? (lang === "en" ? "Disciplines" : "Disiplin")}
                 </span>
               </div>
             </div>
