@@ -8,6 +8,7 @@ import {
   Calendar,
   ChevronDown,
   ExternalLink,
+  Facebook,
   FileText,
   Globe,
   GraduationCap,
@@ -31,8 +32,11 @@ const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
 const PROFILE_IMG = "/images/oalbayrakprofil_yeni.png";
 
-const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak";
-const INSTAGRAM_URL = "https://www.instagram.com/drorhanalbayrak/";
+const TWITTER_URL = "https://twitter.com/OrAlbayrak";
+const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak/?locale=en";
+const FACEBOOK_URL = "https://www.facebook.com/doc.dr.orhanalbayrak";
+const INSTAGRAM_URL = "https://www.instagram.com/doc.dr.orhanalbayrak/";
+const NSOSYAL_URL = "https://nsosyal.com/drorhanalbayrak";
 
 type EducationItem = {
   degree: string;
@@ -1092,7 +1096,7 @@ export default function Home() {
           <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_.92fr] lg:gap-20">
             <div className="animate-fade-in-up order-2 lg:order-1">
               <h1
-                className="text-[clamp(2.5rem,5.5vw,5rem)] font-bold leading-[1.05] tracking-[-0.035em] text-[#14243b]"
+                className="text-[20pt] font-bold italic leading-snug tracking-normal text-[#7a2948]"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
                 {t.heroTitle}
@@ -1128,14 +1132,13 @@ export default function Home() {
               </div>
               <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">
                 <span>
-                  <strong className="text-[#1e3a5f]">2023</strong> Doçentlik
+                  <strong className="text-[#1e3a5f]">2023</strong> {t.heroStats.associateProf}
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">20K+</strong> İstihdam
-                  etkisi
+                  <strong className="text-[#1e3a5f]">20K+</strong> {t.heroStats.employmentImpact}
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">3</strong> Disiplin
+                  <strong className="text-[#1e3a5f]">3</strong> {t.heroStats.disciplines}
                 </span>
               </div>
             </div>
@@ -1629,42 +1632,62 @@ export default function Home() {
                 Doç. Dr. Orhan Albayrak
               </p>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 md:justify-end">
+            <div className="flex flex-wrap items-center justify-center gap-3 md:justify-end">
+              <a
+                href="https://x.com/OrAlbayrak"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="X (Twitter)"
+                aria-label="X (Twitter)"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
+              >
+                <svg
+                  className="w-4 h-4 fill-current shrink-0"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
               <a
                 href={LINKEDIN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
+                title="LinkedIn"
+                aria-label="LinkedIn"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
               >
-                <Linkedin size={15} />
-                LinkedIn
+                <Linkedin size={18} />
+              </a>
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Facebook"
+                aria-label="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
+              >
+                <Facebook size={18} />
               </a>
               <a
                 href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
+                title="Instagram"
+                aria-label="Instagram"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
               >
-                <Instagram size={15} />
-                Instagram
+                <Instagram size={18} />
               </a>
               <a
-                href="https://x.com/OrAlbayrak"
+                href={NSOSYAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
+                title="N Sosyal"
+                aria-label="N Sosyal"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all font-bold text-xs"
               >
-                <Twitter size={15} />
-                Twitter
-              </a>
-              <a
-                href="https://www.researchgate.net/profile/Orhan-Albayrak-6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-white/60 hover:text-[#c9a227] transition-colors text-sm"
-              >
-                <ExternalLink size={14} />
-                ResearchGate
+                N
               </a>
             </div>
           </div>
