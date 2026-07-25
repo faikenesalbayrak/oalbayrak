@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import {
   BookOpen,
   BriefcaseBusiness,
+  Building2,
   GraduationCap,
   Home,
   Mail,
@@ -23,6 +24,7 @@ export type SectionId =
   | "egitim"
   | "kariyer"
   | "yayinlar"
+  | "ito-bu-ay"
   | "iletisim";
 
 type DockItem = {
@@ -47,6 +49,11 @@ export const DOCK_ITEMS: DockItem[] = [
     id: "yayinlar",
     label: { tr: "Yayınlar", en: "Publications" },
     icon: BookOpen,
+  },
+  {
+    id: "ito-bu-ay",
+    label: { tr: "İTO", en: "ITO" },
+    icon: Building2,
   },
   { id: "iletisim", label: { tr: "İletişim", en: "Contact" }, icon: Mail },
 ];
@@ -152,6 +159,7 @@ export function SinglePageDock({
 
         {DOCK_ITEMS.map(({ id, label, icon: Icon }) => {
           const isActive = activeSection === id;
+          const isIto = id === "ito-bu-ay";
           return (
             <button
               key={id}
@@ -162,20 +170,32 @@ export function SinglePageDock({
               className={cn(
                 "relative flex h-9 items-center justify-center gap-1.5 rounded-full px-2 text-xs font-medium transition-colors sm:px-3 sm:text-sm",
                 isActive
-                  ? "text-[#1e3a5f] dark:text-white"
+                  ? isIto
+                    ? "text-orange-600 dark:text-orange-400 font-bold"
+                    : "text-[#1e3a5f] dark:text-white"
+                  : isIto
+                  ? "text-orange-500 hover:text-orange-600 font-bold dark:text-orange-400 dark:hover:text-orange-300"
                   : "text-gray-500 hover:text-[#1e3a5f] dark:text-gray-400 dark:hover:text-white"
               )}
             >
               {isActive && (
                 <motion.span
                   layoutId="single-page-dock-active"
-                  className="absolute inset-0 rounded-full bg-[#1e3a5f]/10 dark:bg-white/10"
+                  className={cn(
+                    "absolute inset-0 rounded-full",
+                    isIto
+                      ? "bg-orange-500/20 dark:bg-orange-500/30"
+                      : "bg-[#1e3a5f]/10 dark:bg-white/10"
+                  )}
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
               <Icon
                 size={16}
-                className="relative z-10 shrink-0"
+                className={cn(
+                  "relative z-10 shrink-0",
+                  isIto && "text-orange-500"
+                )}
                 aria-hidden="true"
               />
               <span className="relative z-10 hidden md:inline">

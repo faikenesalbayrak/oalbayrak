@@ -27,6 +27,7 @@ import {
 import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
 import { CvRequestForm } from "@/components/site/CvRequestForm";
+import { ItoMonthlySection } from "@/components/ItoMonthlySection";
 import { CursorGrid } from "@/components/ui/cursor-grid";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -2461,6 +2462,8 @@ export default function Home() {
         </div>
       </section>
 
+      <ItoMonthlySection lang={lang} />
+
       <section id="iletisim" className="py-20 bg-white scroll-mt-24">
         <div className="container">
           <AnimatedSection>
@@ -2613,9 +2616,9 @@ export default function Home() {
 
       <footer className="bg-[#1e3a5f] text-white pt-12 pb-8 border-t border-white/10">
         <div className="container max-w-6xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-white/10">
             {/* Col 1: Brand & Profile Info */}
-            <div className="md:col-span-2 space-y-3">
+            <div className="space-y-3">
               <h3
                 className="text-2xl font-semibold tracking-tight text-white"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
@@ -2740,7 +2743,49 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Col 3: İletişim & Kurum / Contact Info */}
+            {/* Col 3: Faydalı Linkler / Useful Links */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-[#c9a227]">
+                {lang === "en" ? "Useful Links" : "Faydalı Linkler"}
+              </h4>
+              <ul className="space-y-2.5 text-sm text-gray-300">
+                <li>
+                  <a
+                    href="https://www.ito.org.tr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:underline transition-colors flex items-center gap-1.5 group"
+                  >
+                    <ExternalLink size={14} className="text-[#c9a227] shrink-0 group-hover:scale-110 transition-transform" />
+                    <span>{lang === "en" ? "Istanbul Chamber of Commerce" : "İstanbul Ticaret Odası"}</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.tobb.org.tr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:underline transition-colors flex items-center gap-1.5 group"
+                  >
+                    <ExternalLink size={14} className="text-[#c9a227] shrink-0 group-hover:scale-110 transition-transform" />
+                    <span>{lang === "en" ? "Union of Chambers and Commodity Exchanges of Turkey" : "Türkiye Odalar ve Borsalar Birliği"}</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.ticaret.gov.tr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:underline transition-colors flex items-center gap-1.5 group"
+                  >
+                    <ExternalLink size={14} className="text-[#c9a227] shrink-0 group-hover:scale-110 transition-transform" />
+                    <span>{lang === "en" ? "Ministry of Trade" : "T.C. Ticaret Bakanlığı"}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 4: İletişim & Kurum / Contact Info */}
             <div className="space-y-3">
               <h4 className="text-sm font-semibold uppercase tracking-wider text-[#c9a227]">
                 {lang === "en" ? "Contact Info" : "İletişim Bilgileri"}

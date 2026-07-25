@@ -65,7 +65,7 @@ export function ContactForm() {
       <form onSubmit={onSubmit} noValidate className="space-y-5">
         <div>
           <h3 className="text-2xl font-semibold text-[#1e3a5f] dark:text-white">
-            {isEnglish ? "Write to us" : "Bize yazın"}
+            {isEnglish ? "Write to me" : "Bana yazın"}
           </h3>
           <p className="mt-1 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
             {isEnglish
