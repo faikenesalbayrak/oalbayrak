@@ -10,6 +10,11 @@ export const translations = {
     explorePubs: "Yayınları İncele",
     contactBtn: "İletişim",
     requestCv: "CV Talep Et",
+    heroStats: {
+      associateProf: "Doçentlik",
+      employmentImpact: "İstihdam etkisi",
+      disciplines: "Disiplin",
+    },
     aboutTitle: "Hakkında",
     educationTitle: "Eğitim",
     careerTitle: "Kariyer",
@@ -93,6 +98,11 @@ export const translations = {
     explorePubs: "Explore Publications",
     contactBtn: "Contact",
     requestCv: "Request CV",
+    heroStats: {
+      associateProf: "Associate Professorship",
+      employmentImpact: "Employment impact",
+      disciplines: "Disciplines",
+    },
     aboutTitle: "About",
     educationTitle: "Education",
     careerTitle: "Career",

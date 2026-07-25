@@ -1079,7 +1079,6 @@ export default function Home() {
       <MobileSidebar
         activeSection={activeSection}
         onNavigate={scrollTo}
-        onOpenCvRequest={openCvRequest}
         lang={lang}
         onLanguageChange={setLang}
       />
@@ -1104,7 +1103,7 @@ export default function Home() {
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] md:text-xl">
                 {t.heroDesc}
               </p>
-              <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="mt-8 grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
                 <button
                   onClick={() => scrollTo("yayinlar")}
                   className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#1e3a5f] px-4 py-3 font-semibold text-white shadow-lg shadow-[#1e3a5f]/15 transition hover:-translate-y-0.5 hover:bg-[#142b49]"
@@ -1121,13 +1120,6 @@ export default function Home() {
                 >
                   <Mail className="shrink-0" size={18} />
                   {t.contactBtn}
-                </button>
-                <button
-                  onClick={openCvRequest}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#7a2948] px-4 py-3 font-semibold text-white shadow-lg shadow-[#7a2948]/15 transition hover:-translate-y-0.5 hover:bg-[#5d1e37]"
-                >
-                  <FileText className="shrink-0" size={18} />
-                  {t.requestCv}
                 </button>
               </div>
               <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">

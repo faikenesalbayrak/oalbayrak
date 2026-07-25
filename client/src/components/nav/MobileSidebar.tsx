@@ -7,7 +7,7 @@ import { DOCK_ITEMS, type SectionId } from "./SinglePageDock";
 type MobileSidebarProps = {
   activeSection: SectionId;
   onNavigate: (id: SectionId) => void;
-  onOpenCvRequest: () => void;
+  onOpenCvRequest?: () => void;
   lang: "tr" | "en";
   onLanguageChange: (lang: "tr" | "en") => void;
 };
@@ -15,7 +15,6 @@ type MobileSidebarProps = {
 export function MobileSidebar({
   activeSection,
   onNavigate,
-  onOpenCvRequest,
   lang,
   onLanguageChange,
 }: MobileSidebarProps) {
@@ -45,11 +44,6 @@ export function MobileSidebar({
   const navigate = (id: SectionId) => {
     setIsOpen(false);
     onNavigate(id);
-  };
-
-  const openCvRequest = () => {
-    setIsOpen(false);
-    onOpenCvRequest();
   };
 
   return (
@@ -208,7 +202,7 @@ export function MobileSidebar({
             </div>
           </nav>
 
-          <div className="grid grid-cols-[1fr_auto] items-center gap-3 border-t border-[#1e3a5f]/10 pt-5">
+          <div className="flex items-center border-t border-[#1e3a5f]/10 pt-5">
             <a
               href="mailto:orhan.albayrak@bezmialem.edu.tr"
               className="flex min-w-0 items-center gap-2 text-sm font-medium text-[#1e3a5f]"
@@ -216,13 +210,6 @@ export function MobileSidebar({
               <Mail size={16} className="shrink-0 text-[#7a2948]" />
               <span className="truncate">orhan.albayrak@bezmialem.edu.tr</span>
             </a>
-            <button
-              type="button"
-              onClick={openCvRequest}
-              className="rounded-full bg-[#7a2948] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7a2948]/15"
-            >
-              CV Talep Et
-            </button>
           </div>
         </div>
       </aside>

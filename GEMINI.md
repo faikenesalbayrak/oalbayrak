@@ -1,3 +1,27 @@
+# Project Guidelines & Rules for Agent
+
+These rules MUST be followed by any AI agent working on this repository (`faikenesalbayrak/oalbayrak`):
+
+1. **User Communication & Technical Level:**
+   - The user using this repository does not have a background in Git or technical version control terminology (e.g., git history, commit, push, pull, branch, merge).
+   - ALWAYS explain what you are doing in plain, simple, friendly, and step-by-step Turkish without using raw git jargon.
+
+2. **Deployment & Branching Strategy:**
+   - This repository is connected to the user's son's Vercel account.
+   - Any commit pushed to the `main` branch automatically deploys to live at `orhanalbayrak.com`.
+   - All production releases MUST go to `main`.
+   - **For major or risky changes:** Create a separate working branch first. Explicitly and politely explain to the user why a separate workspace/branch is being created, what it does, and how it will be safely merged into `main` after verification.
+
+3. **End of Task Confirmation:**
+   - Upon completing any task/fix/feature, ALWAYS ask the user explicitly:
+     *"İşimiz bitti, orhanalbayrak.com sitesinde yeni versiyonun canlıya çıkması için değişiklikleri kaydedip yayınlayayım (commit & push) mı?"*
+
+4. **Local Development & Preview:**
+   - When previewing or testing changes locally, use `localhost:3000` (or `npm run dev` / `pnpm dev` equivalent).
+   - If the user wants to preview the site on their own computer, or BEFORE and AFTER making any changes, ALWAYS offer to run the local server (`localhost:3000`) so the user can inspect it locally first.
+
+---
+
 # Orhan Albayrak Web Sitesi — Tasarım ve Geliştirme Rehberi
 
 Bu dosya, Gemini/Antigravity ve projede çalışan diğer geliştirme ajanları için kalıcı proje bağlamıdır. Yeni bir özellik, sayfa bölümü veya bileşen üretirken bu rehber tasarım kararlarının ana kaynağı kabul edilmelidir.
@@ -28,203 +52,102 @@ Tasarım “kurumsal üniversite şablonu” gibi görünmemelidir. Aynı şekil
 - Sosyal bağlantılar footer'da birlikte tutulur. LinkedIn, Instagram, Twitter/X ve ResearchGate bu grubun parçalarıdır. ORCID arayüzde kullanılmaz.
 - “CV Talep Et” bordo ile ayrıştırılan ikincil ama görünür bir dönüşüm aksiyonudur.
 
-## 3. Renk Sistemi
+## 3. Renk Paleti ve Kullanım Mantığı
 
-### Temel palet
+### Ana Renkler
 
-| Rol | Renk | Kullanım |
-| --- | --- | --- |
-| Ana lacivert | `#1e3a5f` | Ana butonlar, dock monogramı, başlıklar, footer |
-| Koyu mürekkep | `#14243b` | Büyük hero başlığı, yüksek kontrastlı metin |
-| Koyu lacivert hover | `#142b49` | Ana buton hover durumu |
-| Bordo | `#7a2948` | CV aksiyonu, hero gradient'i, özel vurgu |
-| Koyu bordo hover | `#5d1e37` | Bordo buton hover durumu |
-| Orta bordo | `#a23b5e` | Gradient geçişleri |
-| Altın | `#c9a227` | İnce çizgiler, durum işaretleri, premium vurgu |
-| Sıcak krem | `#f5f2eb` | Hero ve mobil sidebar arka planı |
-| Soğuk açık zemin | `#f8f9fc` | Alternatif bölümler ve form paneli |
-| Beyaz | `#ffffff` | Kartlar, dock yüzeyi, form alanları |
-| Gövde metni | `#42506a` | Hero açıklaması ve önemli ikincil metin |
-| Nötr metin | Tailwind `gray-500/600` | Açıklamalar, meta bilgiler |
+- **Deep Navy (`#0A192F` / `slate-950` türevi):** Temel zemin, koyu kartlar, footer, masaüstü dock ve ana navigasyon kimliği.
+- **Warm Cream (`#FDFBF7` / `stone-50` türevi):** Açık zeminler ve okuma alanları.
+- **Pure White (`#FFFFFF`):** Kart zeminleri, form girdileri ve yüksek kontrast gerektiren alanlar.
 
-### Renk kullanım kuralları
+### Vurgu Renkleri
 
-- Bir ekranda lacivert, bordo ve altın aynı ağırlıkta kullanılmamalıdır. Lacivert ana taşıyıcı; bordo aksiyon veya editoryal vurgu; altın ise küçük detaydır.
-- Altın geniş yüzey rengi değildir. İnce çizgi, nokta, küçük etiket veya kısa gradient bitişi olarak kullanılmalıdır.
-- Bordo, “CV Talep Et” gibi özel aksiyonlarda tutarlı biçimde kullanılmalıdır.
-- Uzun metinlerde saf siyah kullanılmamalıdır. Koyu lacivert veya nötr gri tercih edilmelidir.
-- Opaklıklarla çalışırken mevcut karakter korunmalıdır: sınırlar genellikle ana rengin `%10–20`, dekoratif ışımalar `%15`, ikincil metinler `%55–70` yoğunluğundadır.
-- Yeni renk eklemek son çaredir. Önce bu paletin ton ve opaklıklarını kullanın.
+- **Academic Burgundy (`#800020` / `#7A1C2C` türevi):** “CV Talep Et” gibi ikincil ama kritik dönüşüm butonları, rozetler ve vurgu noktaları.
+- **Muted Gold (`#D4AF37` / `#C5A059` türevi):** Hero metin gradient'i, altın ışıltılar, hover sınırları ve küçük etiketler.
 
-## 4. Tipografi
+### Yardımcı Tonlar
 
-### Font aileleri
+- **Slate Grays:** Gövde metinleri, ikincil başlıklar ve pasif sınırlar.
+- **Glass/Border Colors:** `white/10`, `white/20`, `slate-200/60` gibi transparan katmanlar.
 
-- **Başlık:** `DM Serif Display`, serif
-- **Gövde ve arayüz:** `DM Sans`, sans-serif
+### Kullanım Kuralları
 
-Fontlar `client/index.html` ve `client/src/index.css` üzerinden yüklenir. Yeni bir font ailesi eklemeyin.
+- Burgundy ve Gold aynı öğede yarışmamalıdır. Gold estetik ve hafif vurgudur; Burgundy işlevsel ve aksiyon odaklıdır.
+- Arka planda karanlık/aydınlık geçişleri bölüm sınırlarıyla hizalanmalıdır.
+
+## 4. Tipografi Sistemi
+
+- **Serif Font (Playfair Display / Merriweather / Noto Serif):** Hero başlığı, bölüm ana başlıkları, editoryal alıntılar.
+- **Sans-Serif Font (Inter / Plus Jakarta Sans):** Navigasyon, etiketler, kart başlıkları, gövde metinleri, form alanları ve footer.
 
 ### Hiyerarşi
 
-- Hero adı: çok büyük, sıkı tracking ve yaklaşık `0.86–0.92` line-height.
-- Sayfa bölümü başlıkları: `text-3xl` / `md:text-4xl`, lacivert, serif.
-- Alt bölüm başlıkları: `text-2xl`, lacivert, serif.
-- Kart başlıkları: okunaklı, belirgin fakat hero ile yarışmayacak ölçüde.
-- Gövde: çoğunlukla `text-base`, uzun açıklamalarda `leading-relaxed`.
-- Üst etiketler: `text-[10px]`–`text-xs`, uppercase, yüksek tracking.
-- Meta bilgiler: `text-xs`–`text-sm`, nötr gri.
+- `Hero Title`: Masaüstünde `text-5xl` ile `text-7xl` arası, mobilde `text-3xl` ile `text-4xl`.
+- `Section Title`: `text-3xl` ile `text-4xl`, serif, harf aralığı sıkı (`tracking-tight`).
+- `Card Title`: `text-xl`, font-semibold, sans-serif.
+- `Body Text`: `text-base` veya `text-sm`, okunurluk için `leading-relaxed` veya `leading-7`.
+- `Caption / Eyebrow`: `text-xs` veya `text-sm`, `uppercase`, `tracking-wider`, genellikle gold veya burgundy tonunda.
 
-### Editoryal vurgu
+## 5. Layout ve Boşluk Sistemi
 
-Hero'da soyad bordo-altın gradient, serif ve italik kullanılır. Bu güçlü stil yalnızca birincil kimlik anlarında kullanılmalıdır. Her başlığı gradient veya italik yapmak tasarımın etkisini zayıflatır.
+- **Sayfa Tipi:** Tek sayfa (`Single Page Application` / `Landing`).
+- **Maksimum Genişlik:** İçerik konteyneri `max-w-6xl` veya `max-w-7xl` sınırını aşmamalıdır.
+- **Dikey Boşluk:** Bölümler arası dikey iç boşluk mobilde `py-16`, masaüstünde `py-24` veya `py-32` olmalıdır.
+- **Grid Yapısı:** Masaüstünde 12 kolonlu esnek grid veya `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` mantığı kullanılır.
+- **Kenar Boşlukları:** Mobil cihazlarda yan iç boşluklar en az `px-4` / `px-6` korunmalıdır.
 
-## 5. Yerleşim Sistemi
+## 6. Navigasyon Mimarısı
 
-### Container
+### Masaüstü Navigasyonu (`SinglePageDock`)
 
-Ana içerik `.container` sınıfını kullanır:
+- Ekranın alt-orta kısmında yüzen, cam efektli (`backdrop-blur`) ve koyu zeminli dock bileşenidir.
+- Aktif bölüm görünürlük seviyesine göre (`IntersectionObserver`) otomatik güncellenir.
+- Tıklamada ilgili `section id` değerine `smooth scroll` ile kayar.
+- İçerik öğeleri: Hakkında, Deneyim, Yayınlar, İletişim.
+- İkincil eylem: Bordo vurgulu “CV Talep” butonu.
 
-- Mobil: `1rem` yatay boşluk
-- Küçük ekran: `1.5rem`
-- Masaüstü: `2rem`
-- Maksimum genişlik: `1280px`
+### Mobil Navigasyon (`MobileSidebar`)
 
-Yeni bölümler bu container dışında bağımsız yatay hizalar üretmemelidir.
+- Masaüstü dock mobilde gizlenir (`hidden md:flex`).
+- Ekranın üst-sağında cam efektli dairesel hamburger menü düğmesi yer alır.
+- Menü açıldığında ekranı kaplayan, yumuşak animasyonlu dikey sidebar belirir.
+- Bağlantıya tıklandığında menü kendiliğinden kapanır ve hedefe kayar.
 
-### Dikey ritim
+## 7. Sayfa Bölümleri ve Kompozisyon
 
-- Standart ana bölüm: `py-20`
-- Vurgu bandı: `py-16`
-- Bölüm başlığı sonrası boşluk: yaklaşık `2.5rem`
-- Büyük alt gruplar: `2.5–3.5rem` aralık
-- Kart grid boşlukları: çoğunlukla `gap-4`, `gap-6` veya `gap-8`
+### Hero Bölümü
 
-### Grid davranışı
+- Sayfanın ilk ekranıdır; masaüstünde 2 kolonlu yapıdadır.
+- Sol kolon: Akademik unvan, isim, editoryal gold-gradient başlık, özet biyografi, e-posta ve hızlı aksiyonlar.
+- Sağ kolon: Profesyonel akademisyen portresi (çerçeveli, yumuşak gölgeli veya kırpılmış editoryal alan).
+- Alt kısımda hafif aşağı kaydırma göstergesi yer alabilir.
 
-- Mobilde tek kolon temel varsayımdır.
-- İçerik kartları `md:grid-cols-2` ile iki kolona geçer.
-- Hero masaüstünde metin ve portre olmak üzere yaklaşık `1.08fr / 0.92fr` oranındadır.
-- İletişim bölümü masaüstünde formu öne çıkaran yaklaşık `1.55fr / 0.75fr` oranını kullanır.
-- Kolonlar arasında yapay dikey çizgiler yerine boşluk ve yüzey farkı tercih edilir.
+### Hakkında ve Biyografi
 
-## 6. Navigasyon Dili
+- Çift kolonlu veya kartlı editoryal düzen.
+- Önemli odak alanları (Yapay Zekâ, Veri Bilimi vb.) küçük rozetler veya simgelerle desteklenir.
 
-### Masaüstü dock
+### Akademik Deneyim ve Görevler
 
-Kaynak: `client/src/components/nav/SinglePageDock.tsx`
+- Kronolojik dikey zaman çizelgesi (`Timeline`) veya kart yapısı.
+- Kurum adı, unvan, tarih aralığı ve açıklama net ayrılmalıdır.
 
-- `md` ve üzeri ekranlarda görünür.
-- Ekranın üst orta noktasında yüzer.
-- Beyaz, yarı saydam, blur uygulanmış ve hafif gölgeli kapsül yüzeydir.
-- Sol tarafta lacivert daire içinde `OA` monogramı bulunur.
-- Aktif bölüm yumuşak lacivert arka plan kapsülüyle belirtilir.
-- Aktif kapsül Framer Motion `layoutId` ile bölümler arasında akıcı hareket eder.
-- Navigasyon öğeleri butondur; route linki değildir.
-- Bölüm sırası korunmalıdır: Hakkında, Eğitim, Kariyer, Yayınlar, İletişim.
+### Yayınlar ve Araştırmalar
 
-### Mobil hamburger ve sidebar
+- Kategori veya yıla göre filtrelenebilir/düzenlenebilir yapı.
+- Makale adı, dergi/konferans bilgisi, yayın yılı ve erişim bağlantıları.
+- Öne çıkan yayınlar özel rozet ile vurgulanabilir.
 
-Kaynak: `client/src/components/nav/MobileSidebar.tsx`
+### İletişim ve CV Talep Paneli
 
-- `md` altı ekranlarda görünür; masaüstü dock bu aralıkta gizlidir.
-- Hamburger sol üstte, `44 × 44px`, cam görünümlü yuvarlatılmış kare içindedir.
-- Açılışta üç çizgi yumuşak animasyonla X ikonuna dönüşür.
-- Sidebar tam ekran açılır ve soldan kayar.
-- Arka plan sıcak krem, grid desenli ve çok hafif altın/bordo ışımaları içerir.
-- Menü başlıkları büyük serif tipografiyle ve sıra numaralarıyla gösterilir.
-- Aktif bölüm bordo metin, altın sıra numarası ve kısa altın çizgiyle belirtilir.
-- Menü açıkken `body` scroll kilitlenir.
-- Escape tuşu menüyü kapatır ve odağı hamburger düğmesine döndürür.
-- Bölüm seçimi sidebar'ı kapatır ve ilgili bölüme yumuşak kaydırır.
-- Alt satırda kurumsal e-posta ve bordo `CV Talep Et` aksiyonu bulunur.
+- İki sekmeden (`Tabs`) oluşur: **İletişim Formu** ve **CV Talep Formu**.
+- Bordo/altın aksiyon renkleri burada aktif kullanılır.
+- Sol veya üst kısımda doğrudan iletişim bilgileri (E-posta, Kurum Adresi) yer alır.
 
-Mobil navigasyonu tekrar küçük bir dock'a çevirmeyin. Hamburger/sidebar, dar ekranlardaki kalıcı navigasyon desenidir.
+## 8. Formlar, Güvenlik ve API Yapısı
 
-## 7. Hero Tasarım Dili
-
-Kaynak: `client/src/pages/Home.tsx`
-
-Hero, sitenin en güçlü görsel kompozisyonudur.
-
-### Arka plan
-
-- Sıcak krem `#f5f2eb` kullanılır.
-- `hero-grid` sınıfıyla düşük kontrastlı, yaklaşık `54px` aralıklı grid deseni uygulanır.
-- Grid aşağı doğru maskelenerek kaybolur.
-- Sol üstte altın, sağ altta bordo çok düşük opaklıklı blur ışımaları yer alır.
-- Büyük stok fotoğraf veya yoğun illüstrasyon arka plan kullanılmaz.
-
-### Metin alanı
-
-- Küçük kapsül etiket: “Akademisyen · Araştırmacı · Yazar”.
-- İsim büyük ve editoryal serif karakterdedir.
-- “Orhan” koyu mürekkep; “Albayrak” bordo-altın gradient ve italiktir.
-- Açıklama bir veya iki kısa düşünce halinde, maksimum yaklaşık `36rem` genişlikte tutulur.
-- CTA sırası: Yayınları İncele, İletişim, CV Talep Et.
-- CTA'ların altında üç kısa güven/etki metriği yer alır.
-
-### Portre alanı
-
-- Portre organik, asimetrik ve büyük radius'lu bir maske içinde sunulur.
-- Arkasında lacivert-bordo gradient şekil ve yumuşak, geniş gölge bulunur.
-- Portre üstten kırpılmamalı; yüz her breakpoint'te net görünmelidir.
-- Alt köşede cam yüzeyli “Akademik odak” bilgi kartı bulunur.
-- Mobilde portre önce, metin sonra gelir.
-
-### Hero'da kaçınılacaklar
-
-- Düz koyu renk kaplayan arka plan
-- Okunurluğu bozan fotoğraf overlay'leri
-- Birbirine eşit ağırlıkta dört veya daha fazla CTA
-- Neon glow, sert parallax veya sürekli dikkat çeken animasyon
-- Portreyi küçük, standart daire avatarına indirmek
-
-## 8. Bölüm ve Kart Tasarımı
-
-### Bölüm başlıkları
-
-`SectionTitle` deseni korunmalıdır:
-
-- Lacivert serif başlık
-- Altında kısa açıklama
-- En altta yaklaşık `4rem` genişliğinde altın gradient çizgi
-
-### Arka plan ritmi
-
-Uzun tek sayfa yapısında bölümler dönüşümlü olarak beyaz ve `#f8f9fc` zemin kullanır. Arka arkaya çok sayıda aynı zemin, içerik gruplarını birbirine karıştırır.
-
-### Kartlar
-
-- Kart yüzeyi çoğunlukla beyazdır.
-- Border çok açık gri ve `1px` olmalıdır.
-- Radius çoğunlukla `rounded-xl` veya `rounded-2xl`.
-- Normal durumda gölge çok hafiftir.
-- Hover gerekiyorsa `translateY(-4px)` ve geniş, düşük opaklıklı lacivert gölge kullanılır.
-- Kart içi metin uzun olabileceği için `min-w-0`, `break-words` ve rahat line-height korunmalıdır.
-- Akademik kayıt kartlarında dekorasyon bilgi okunurluğunun önüne geçmemelidir.
-
-Her paragrafı veya liste öğesini ayrı karta dönüştürmeyin. Kart yalnızca anlamlı bir içerik birimini sınırlandırmak için kullanılmalıdır.
-
-## 9. Formlar ve Dönüşüm Aksiyonları
-
-Kaynaklar:
-
-- `client/src/components/site/ContactForm.tsx`
-- `client/src/components/site/CvRequestForm.tsx`
-- `client/src/lib/forms/`
-- `api/contact.ts`
-- `api/cv-request.ts`
-
-### Görsel kurallar
-
-- İletişim ve CV formları aynı panelde iki sekme olarak sunulur.
-- Panel açık gri zeminli, geniş radius'lu ve hafif gölgelidir.
-- İletişim sekmesi lacivert; CV sekmesi bordo aktif durumu kullanır.
-- Form alanları beyaz, açık gri border'lı ve odakta ilgili sekmenin rengiyle vurgulanır.
-- Etiketler görünürdür; placeholder, etiket yerine kullanılmaz.
-- Gönderim butonu formun tema rengini kullanır.
-- Yüklenme sırasında spinner ve açıklayıcı durum metni gösterilir.
+- Formlar Vercel Serverless Functions (`/api/contact`, `/api/cv-request`) üzerinden çalışır.
+- `Resend` veya SMTP e-posta servisi ile mesajları iletir.
 
 ### İşlevsel kurallar
 
@@ -237,7 +160,7 @@ Kaynaklar:
 - Form API'leri yalnızca `POST` kabul eder.
 - Yeni kişisel veri alanı eklenirse onay metni ve e-posta şablonu da güncellenmelidir.
 
-## 10. Footer ve Sosyal Bağlantılar
+## 9. Footer ve Sosyal Bağlantılar
 
 - Footer ana lacivert zemin üzerindedir.
 - İsim ve akademik rol solda; sosyal bağlantılar masaüstünde sağda, mobilde ortalıdır.
@@ -247,7 +170,7 @@ Kaynaklar:
 - ORCID bağlantısı eklenmemelidir.
 - Sosyal bağlantıları hero veya iletişim kartlarında tekrar ederek görsel gürültü oluşturmayın.
 
-## 11. Hareket ve Mikro Etkileşim
+## 10. Hareket ve Mikro Etkileşim
 
 Hareket dili sakin ve fiziksel hissettirmelidir.
 
@@ -257,138 +180,16 @@ Hareket dili sakin ve fiziksel hissettirmelidir.
 - Hamburger → X: `200–300ms`.
 - Buton hover: en fazla `translateY(-2px)`.
 - Kart hover: en fazla `translateY(-4px)`.
-- Renk ve border geçişleri çoğunlukla `200–300ms`.
+- Renk me border geçişleri çoğunlukla `200–300ms`.
 
-`prefers-reduced-motion: reduce` durumunda yumuşak scroll ve gereksiz hareketler azaltılmalıdır. Sürekli dönen, zıplayan veya arka planda yoğun hesaplama yapan efektlerden kaçının.
+`prefers-reduced-motion: reduce` durumunda yumuşak scroll ve gereksiz hareketler azaltılmalıdır.
 
-## 12. Responsive Kuralları
+## 11. Responsive Kuralları
 
-### Mobil (`< md`)
+- **Mobil (< md):** Hamburger menü, tek kolonlu kartlar, sarılabilir footer.
+- **Tablet (md - lg):** Masaüstü dock aktifleşir, çift kolonlu kartlar.
+- **Masaüstü (lg+):** Çift kolonlu hero, tam editoryal genişlik.
 
-- Hamburger/sidebar navigasyonu kullanılır.
-- Hero'da portre önce, metin sonra gelir.
-- CTA'lar gerektiğinde iki satıra sarılır; minimum dokunma yüksekliği korunur.
-- Kartlar tek kolondur.
-- Form alanları tek kolondur.
-- Footer içeriği ortalanır ve sosyal bağlantılar sarılabilir.
-- Yatay overflow kesinlikle oluşmamalıdır.
-- Sabit öğelerde safe-area inset'leri dikkate alınmalıdır.
+## 12. Yerel Çalıştırma ve Önizleme
 
-### Tablet (`md`–`lg`)
-
-- Masaüstü dock görünür.
-- İçerik kartları uygun olduğunda iki kolona geçer.
-- Hero, alan yetmiyorsa mobil sıralamaya yakın davranabilir; portre ve metin sıkıştırılmamalıdır.
-
-### Masaüstü (`lg+`)
-
-- Hero iki kolonlu kompozisyona geçer.
-- Portre sağa, metin sola hizalanır.
-- İletişim paneli form ağırlıklı iki kolon olur.
-- Maksimum içerik genişliği korunur; çok geniş ekranda metin satırları gereksiz uzamaz.
-
-En az `390 × 844` ve `1440 × 900` viewport'larında görsel kontrol yapılmalıdır.
-
-## 13. Erişilebilirlik
-
-- Navigasyon ve aksiyonlar semantik `button`, `a`, `nav`, `section`, `footer` öğeleri olmalıdır.
-- İkon-only düğmeler açıklayıcı `aria-label` taşımalıdır.
-- Aktif navigasyon öğesi `aria-current="location"` kullanmalıdır.
-- Açılır menü düğmesi `aria-expanded` ve `aria-controls` taşımalıdır.
-- Dekoratif grid, glow ve şekiller `aria-hidden="true"` olmalıdır.
-- Tüm görseller anlamlı `alt` metnine sahip olmalıdır.
-- Klavye odağı görünür olmalı, Escape ile açılır yüzeyler kapanmalıdır.
-- Form alanları görünür label ve açıklayıcı hata mesajı taşımalıdır.
-- Renk tek başına durum bilgisi vermemelidir; aktif durumda çizgi, zemin veya metin değişimi de kullanılmalıdır.
-- Dokunma hedefleri mümkünse en az `44 × 44px` olmalıdır.
-
-## 14. İçerik Dili
-
-- Dil Türkçedir; ton profesyonel, açık ve ölçülüdür.
-- Akademik unvanlar ve kurum adları doğru yazılmalıdır.
-- Gösterişli pazarlama söylemi yerine somut görev, yayın ve etki bilgisi kullanılmalıdır.
-- Cümlelerde gereksiz İngilizce arayüz terimlerinden kaçınılmalıdır.
-- “Yapay zekâ”, “iş birliği”, “e-posta” gibi Türkçe yazımlar tutarlı olmalıdır.
-- CTA metinleri fiil odaklı ve kısadır: “Yayınları İncele”, “Mesajı Gönder”, “CV Talep Et”.
-
-## 15. React ve Bileşen Kuralları
-
-- Yeni bağımsız görsel davranış için ayrı bir bileşen dosyası oluşturun.
-- Named export tercih edin.
-- Props tipi bileşenle aynı dosyada tanımlansın.
-- State, kullanıldığı en yakın bileşende tutulmalıdır.
-- Türetilmiş değer için ek state/effect üretmeyin.
-- Effect içinde event listener, timer veya scroll kilidi varsa cleanup zorunludur.
-- Liste anahtarları benzersiz ve kararlı olmalıdır.
-- Mevcut shadcn bileşenleri (`Tabs`, `Input`, `Textarea`, `Checkbox`, `Form`) varken aynı primitive'i yeniden yazmayın.
-- Sınıf birleştirme için `cn()` kullanın.
-- Inline style yalnızca font ailesi veya dinamik CSS değişkeni gibi Tailwind ile anlamlı biçimde ifade edilemeyen durumlarda kullanılmalıdır.
-- Yeni global CSS eklemeden önce Tailwind utility ile çözüm arayın.
-
-## 16. Dosya Haritası
-
-| Dosya | Sorumluluk |
-| --- | --- |
-| `client/src/pages/Home.tsx` | Tek sayfanın içerik kompozisyonu, section'lar ve scroll state |
-| `client/src/index.css` | Tema tokenları, container, global tipografi ve ortak efektler |
-| `client/src/components/nav/SinglePageDock.tsx` | Masaüstü yüzen dock |
-| `client/src/components/nav/MobileSidebar.tsx` | Mobil hamburger ve tam ekran sidebar |
-| `client/src/components/site/ContactForm.tsx` | İletişim formu arayüzü |
-| `client/src/components/site/CvRequestForm.tsx` | CV talep formu arayüzü |
-| `client/src/lib/forms/` | Paylaşılan doğrulama, güvenlik ve gönderim yardımcıları |
-| `api/contact.ts` | İletişim formu serverless API'si |
-| `api/cv-request.ts` | CV talep serverless API'si |
-| `api/_lib/` | HTTP, ortam ve e-posta yardımcıları |
-| `.env.example` | SMTP yapılandırma anahtarları |
-
-## 17. Yeni Bir Özellik Eklerken Karar Sırası
-
-1. Özellik mevcut tek sayfa akışında hangi bölüme aittir?
-2. Yeni route gerçekten gerekli mi, yoksa mevcut section içinde çözülebilir mi?
-3. Mevcut kart, form, tab veya navigasyon desenlerinden biri yeniden kullanılabilir mi?
-4. Ana vurgu rengi lacivert mi olmalı, yoksa özellik CV gibi özel bir bordo aksiyon mu?
-5. Mobilde içerik sırası ve dokunma hedefleri nasıl davranacak?
-6. Klavye, screen reader ve reduced-motion davranışı tanımlandı mı?
-7. Yeni bileşen masaüstü ve mobil viewport'ta görsel olarak doğrulandı mı?
-
-## 18. Kaçınılacak Tasarım Sapmaları
-
-- Jenerik mavi-mor SaaS gradient'i
-- Neon renkler ve sert glow efektleri
-- Her bölümde farklı radius, gölge veya buton biçimi
-- Hero'daki gradient serif stilini her başlıkta tekrar etmek
-- Mobilde masaüstü dock'u sıkıştırarak kullanmak
-- Aşırı cam efekti; okunurluğu düşüren transparan yüzeyler
-- Uzun metinleri dar veya merkez hizalı kolonlara zorlamak
-- İçeriğe katkı sağlamayan sayaç, carousel veya otomatik kayan alanlar
-- Hover'a bağımlı temel etkileşimler
-- Yeni bağımlılık ekleyerek mevcut primitive'i yeniden üretmek
-- Hard-coded gizli anahtar, SMTP şifresi veya kişisel veri
-
-## 19. Doğrulama ve Teslim Kontrol Listesi
-
-Her anlamlı arayüz değişikliğinden sonra:
-
-```bash
-pnpm check
-pnpm build
-git diff --check
-```
-
-Tarayıcı kontrolü:
-
-- `390 × 844`: hamburger görünür, dock gizli, sidebar taşmıyor.
-- `1440 × 900`: dock görünür, hamburger gizli, hero ilk viewport'ta dengeli.
-- Navigasyon doğru section'a kaydırıyor.
-- Mobil sidebar Escape ile kapanıyor.
-- CV butonu iletişim bölümündeki CV sekmesini açıyor.
-- Form label, validation ve disabled durumları çalışıyor.
-- Footer sosyal bağlantıları doğru sırada.
-- Yatay overflow yok.
-- Browser console'da React key, hydration veya runtime hatası yok.
-
-## 20. Son Kural
-
-Yeni geliştirme mevcut arayüzle yan yana konduğunda başka bir şablondan kopyalanmış gibi görünmemelidir. Aynı renklerden daha önemlisi; aynı hiyerarşi, boşluk, tipografi, hareket ölçüsü ve akademik sakinlik korunmalıdır.
-
-Şüphe durumunda daha az efekt, daha net bilgi hiyerarşisi ve daha fazla nefes alanı tercih edin.
+- Kullanıcı değişiklikleri kendi bilgisayarında görmek istediğinde veya herhangi bir geliştirme öncesi/sonrasında `localhost:3000` (veya `pnpm dev` / `npm run dev`) ile yerel sunucu açma teklif edilmelidir.
