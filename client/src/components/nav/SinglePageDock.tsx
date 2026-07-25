@@ -190,17 +190,25 @@ export function SinglePageDock({
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-              <Icon
-                size={16}
-                className={cn(
-                  "relative z-10 shrink-0",
-                  isIto && "text-orange-500"
-                )}
-                aria-hidden="true"
-              />
-              <span className="relative z-10 hidden md:inline">
-                {label[lang]}
-              </span>
+              {isIto ? (
+                <img
+                  src="/images/ito-logo.png"
+                  alt="İTO"
+                  title={lang === "en" ? "This Month at ITO" : "İTO'da Bu Ay"}
+                  className="relative z-10 h-6.5 sm:h-7 w-auto object-contain shrink-0 transition-transform hover:scale-110 px-1"
+                />
+              ) : (
+                <>
+                  <Icon
+                    size={16}
+                    className="relative z-10 shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span className="relative z-10 hidden md:inline">
+                    {label[lang]}
+                  </span>
+                </>
+              )}
             </button>
           );
         })}
