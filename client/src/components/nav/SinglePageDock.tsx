@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
   BookOpen,
   BriefcaseBusiness,
   GraduationCap,
+  Home,
   Mail,
   Settings,
   UserRound,
@@ -56,24 +58,96 @@ type SinglePageDockProps = {
   onLanguageChange: (lang: "tr" | "en") => void;
 };
 
+function useLiveClock(lang: "tr" | "en") {
+  const [time, setTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setTime(new Date());
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!time) return { dateStr: "", timeStr: "" };
+
+  const day = time.getDate();
+  const year = time.getFullYear();
+  const hours = String(time.getHours()).padStart(2, "0");
+  const minutes = String(time.getMinutes()).padStart(2, "0");
+  const seconds = String(time.getSeconds()).padStart(2, "0");
+  const timeStr = `${hours}:${minutes}:${seconds}`;
+
+  const monthsTr = [
+    "Ocak",
+    "Şubat",
+    "Mart",
+    "Nisan",
+    "Mayıs",
+    "Haziran",
+    "Temmuz",
+    "Ağustos",
+    "Eylül",
+    "Ekim",
+    "Kasım",
+    "Aralık",
+  ];
+  const monthsEn = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const monthStr =
+    lang === "en" ? monthsEn[time.getMonth()] : monthsTr[time.getMonth()];
+  const dateStr =
+    lang === "en" ? `${monthStr} ${day}, ${year}` : `${day} ${monthStr} ${year}`;
+
+  return { dateStr, timeStr };
+}
+
 export function SinglePageDock({
   activeSection,
   onNavigate,
   lang,
+  onLanguageChange,
 }: SinglePageDockProps) {
+  const { dateStr, timeStr } = useLiveClock(lang);
+
   return (
     <nav
       aria-label={lang === "en" ? "Page sections" : "Sayfa bölümleri"}
       className="fixed left-1/2 top-4 z-50 hidden max-w-max -translate-x-1/2 md:block"
     >
       <div className="flex items-center justify-center gap-0.5 rounded-full border border-white/60 bg-white/82 p-1.5 shadow-[0_14px_50px_rgba(15,32,55,0.16)] backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/85 dark:shadow-black/30 sm:gap-1 sm:p-2">
+        {timeStr && (
+          <div className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-[#1e3a5f] dark:text-gray-200 border-r border-[#1e3a5f]/10 dark:border-white/10 pr-3 mr-1">
+            <span className="hidden lg:inline opacity-80">{dateStr}</span>
+            <span className="font-mono font-semibold tracking-tight">{timeStr}</span>
+          </div>
+        )}
+
         <button
           type="button"
-          onClick={() => onNavigate("hakkinda")}
-          aria-label={lang === "en" ? "Back to top" : "Sayfanın başına dön"}
-          className="mr-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-[#1e3a5f] text-xs font-bold text-white shadow-sm sm:mr-1"
+          onClick={() => {
+            if (typeof window !== "undefined") {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+          aria-label={lang === "en" ? "Home" : "Ana Sayfa"}
+          title={lang === "en" ? "Home" : "Ana Sayfa"}
+          className="mr-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-[#1e3a5f] text-white shadow-sm transition hover:bg-[#c9a227] sm:mr-1 cursor-pointer"
         >
-          OA
+          <Home size={16} />
         </button>
 
         {DOCK_ITEMS.map(({ id, label, icon: Icon }) => {
@@ -110,6 +184,16 @@ export function SinglePageDock({
             </button>
           );
         })}
+
+        <button
+          type="button"
+          onClick={() => onLanguageChange(lang === "tr" ? "en" : "tr")}
+          aria-label={lang === "tr" ? "Switch to English" : "Türkçe'ye geç"}
+          title={lang === "tr" ? "Switch to English" : "Türkçe'ye geç"}
+          className="ml-1 flex h-9 items-center justify-center gap-1 rounded-full bg-[#1e3a5f]/10 px-3 text-xs font-bold text-[#1e3a5f] hover:bg-[#c9a227] hover:text-white transition-all dark:bg-white/10 dark:text-white dark:hover:bg-[#c9a227] cursor-pointer"
+        >
+          <span>{lang === "tr" ? "EN 🇬🇧" : "TR 🇹🇷"}</span>
+        </button>
 
         <span className="mx-1 h-5 w-px bg-[#1e3a5f]/10 dark:bg-white/10" />
         <Popover>

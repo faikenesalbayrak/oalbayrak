@@ -75,7 +75,7 @@ export const translations = {
       workshops: "Çalıştaylar",
       seminars: "Seminerler",
       conferences: "Kongre Düzenleme",
-      certificates: "Araştırma, Kurs, Sertifika",
+      certificates: "Araştırma, Sertifika",
       memberships: "Üyelik",
     },
     awardSection: {
@@ -163,7 +163,7 @@ export const translations = {
       workshops: "Workshops",
       seminars: "Seminars",
       conferences: "Conference Organization",
-      certificates: "Research, Courses & Certificates",
+      certificates: "Research & Certificates",
       memberships: "Memberships",
     },
     awardSection: {

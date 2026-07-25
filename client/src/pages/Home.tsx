@@ -47,6 +47,7 @@ type EducationItem = {
   school: string;
   years: string;
   thesis: string;
+  logo?: string;
 };
 
 type CourseItem = {
@@ -85,6 +86,8 @@ type RecordItem = {
   /** Dergi künyesi: cilt(sayı), sayfa aralığı. */
   citation?: string;
   language?: string;
+  logo?: string;
+  rightImage?: string;
 };
 
 const aboutParagraphs = [
@@ -102,6 +105,7 @@ const educationCardsTr: EducationItem[] = [
       "ÜAK Temel Alan: Sosyal, Beşeri ve İdari Bilimler / Bilim Alanı: Siyaset Bilimi",
     years: "2023",
     thesis: "Doçentlik Ünvanı",
+    logo: "/images/uak-logo.png",
   },
   {
     degree: "Doktora",
@@ -110,6 +114,7 @@ const educationCardsTr: EducationItem[] = [
     years: "2016–2020",
     thesis:
       'Tez: "Parti üyelerinin siyasi katılım düzeyi: İstanbul Ak Parti ve CHP örneği" (29.09.2020) — Danışman: Prof. Dr. Ömer Çaha',
+    logo: "/images/izu-logo.png",
   },
   {
     degree: "Yüksek Lisans",
@@ -117,6 +122,7 @@ const educationCardsTr: EducationItem[] = [
     school: "Marmara Üniversitesi",
     years: "1999–2000",
     thesis: "Sertifika Programı",
+    logo: "/images/marmara-logo.png",
   },
   {
     degree: "Yüksek Lisans",
@@ -124,6 +130,7 @@ const educationCardsTr: EducationItem[] = [
     school: "İstanbul Teknik Üniversitesi",
     years: "1982–1984",
     thesis: "Kontrol ve Bilgisayar Programı",
+    logo: "/images/itu-logo.png",
   },
   {
     degree: "Lisans",
@@ -131,6 +138,7 @@ const educationCardsTr: EducationItem[] = [
     school: "İstanbul Teknik Üniversitesi",
     years: "1977–1982",
     thesis: "Elektronik ve Haberleşme Fakültesi",
+    logo: "/images/itu-logo.png",
   },
 ];
 
@@ -142,6 +150,7 @@ const educationCardsEn: EducationItem[] = [
       "UAK Field: Social, Human and Administrative Sciences / Subfield: Political Science",
     years: "2023",
     thesis: "Associate Professor Title",
+    logo: "/images/uak-logo.png",
   },
   {
     degree: "Ph.D.",
@@ -150,6 +159,7 @@ const educationCardsEn: EducationItem[] = [
     years: "2016–2020",
     thesis:
       'Dissertation: "Political participation level of party members: The case of Ak Party and CHP in Istanbul" (29.09.2020) — Advisor: Prof. Dr. Ömer Çaha',
+    logo: "/images/izu-logo.png",
   },
   {
     degree: "Master's Degree",
@@ -157,6 +167,7 @@ const educationCardsEn: EducationItem[] = [
     school: "Marmara University",
     years: "1999–2000",
     thesis: "Certificate Program",
+    logo: "/images/marmara-logo.png",
   },
   {
     degree: "Master's Degree",
@@ -164,6 +175,7 @@ const educationCardsEn: EducationItem[] = [
     school: "Istanbul Technical University",
     years: "1982–1984",
     thesis: "Control and Computer Program",
+    logo: "/images/itu-logo.png",
   },
   {
     degree: "Bachelor's Degree",
@@ -171,6 +183,7 @@ const educationCardsEn: EducationItem[] = [
     school: "Istanbul Technical University",
     years: "1977–1982",
     thesis: "Faculty of Electronics and Communication",
+    logo: "/images/itu-logo.png",
   },
 ];
 
@@ -181,6 +194,7 @@ const academicRolesTr: RecordItem[] = [
       "BEZM-İ ÂLEM VAKIF ÜNİVERSİTESİ / SAĞLIK BİLİMLERİ FAKÜLTESİ / SAĞLIK YÖNETİMİ BÖLÜMÜ",
     startDate: "15.10.2024",
     details: "Hâlen devam ediyor.",
+    logo: "/images/bezmialem-logo.png",
   },
   {
     title: "DOKTOR ÖĞRETİM ÜYESİ",
@@ -189,6 +203,7 @@ const academicRolesTr: RecordItem[] = [
     details: "Siyaset Bilimi ve Uluslararası İlişkiler PR. (Tam Burslu)",
     startDate: "01.09.2021",
     endDate: "19.03.2024",
+    logo: "/images/halic-logo.png",
   },
 ];
 
@@ -199,6 +214,7 @@ const academicRolesEn: RecordItem[] = [
       "BEZMIALEM VAKIF UNIVERSITY / FACULTY OF HEALTH SCIENCES / DEPARTMENT OF HEALTH MANAGEMENT",
     startDate: "15.10.2024",
     details: "Ongoing.",
+    logo: "/images/bezmialem-logo.png",
   },
   {
     title: "ASSISTANT PROFESSOR",
@@ -207,6 +223,7 @@ const academicRolesEn: RecordItem[] = [
     details: "Political Science and International Relations Program (Full Scholarship)",
     startDate: "01.09.2021",
     endDate: "19.03.2024",
+    logo: "/images/halic-logo.png",
   },
 ];
 
@@ -218,6 +235,7 @@ const adminRolesTr: RecordItem[] = [
     scope: "Türkiye",
     startDate: "02.12.2022",
     endDate: "01.03.2023",
+    logo: "/images/halic-logo.png",
   },
 ];
 
@@ -229,6 +247,7 @@ const adminRolesEn: RecordItem[] = [
     scope: "Turkey",
     startDate: "02.12.2022",
     endDate: "01.03.2023",
+    logo: "/images/halic-logo.png",
   },
 ];
 
@@ -244,24 +263,28 @@ const externalExperiencesTr: RecordItem[] = [
     role: "Yüksek İstişare Kurulu Üyesi",
     scope: "Türkiye",
     startDate: "20.10.2024",
+    logo: "/images/under-logo.png",
   },
   {
     title: "1773 İstanbul Teknik Üniversitesi Teknopark A.Ş.",
     role: "Yönetim Kurulu Üyesi",
     scope: "Türkiye",
     startDate: "08.12.2022",
+    logo: "/images/itu-logo.png",
   },
   {
     title: "İstanbul Ticaret Odası",
     role: "Meclis Üyesi – Eğitim Meslek Komitesi",
     scope: "Mesleki Dernekler",
     startDate: "15.10.2022",
+    logo: "/images/ito-logo.png",
   },
   {
     title: "Türkiye Dil ve Edebiyat Derneği",
     role: "Yönetim Kurulu Üyesi",
     scope: "Türkiye",
     startDate: "01.06.2022",
+    logo: "/images/tded-logo.png",
   },
   {
     title: "İstanbul Ticaret Üniversitesi",
@@ -269,6 +292,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Türkiye",
     startDate: "01.01.2018",
     endDate: "01.01.2022",
+    logo: "/images/ticaret-uni-logo.png",
   },
   {
     title: "İstanbul Ticaret Odası",
@@ -277,12 +301,7 @@ const externalExperiencesTr: RecordItem[] = [
     startDate: "15.10.2018",
     endDate: "15.10.2022",
     details: "8000 eğitim kurumunu temsilen seçilmiş meclis üyesi.",
-  },
-  {
-    title: "Marmara Üniversitesi Teknopark A.Ş.",
-    role: "Ortak – Teknopark Kurucu Ortağı",
-    scope: "Ticari (Özel)",
-    startDate: "01.01.2016",
+    logo: "/images/ito-logo.png",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -290,6 +309,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Belçika",
     startDate: "01.01.2011",
     endDate: "01.01.2013",
+    logo: "/images/aer-logo.svg",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -297,6 +317,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Belçika",
     startDate: "01.01.2009",
     endDate: "01.01.2011",
+    logo: "/images/aer-logo.svg",
   },
   {
     title: "İstanbul Ticaret Üniversitesi",
@@ -304,6 +325,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Türkiye",
     startDate: "01.01.2009",
     endDate: "01.01.2013",
+    logo: "/images/ticaret-uni-logo.png",
   },
   {
     title: "İstanbul Ticaret Üniversitesi",
@@ -311,6 +333,15 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Türkiye",
     startDate: "01.01.2004",
     endDate: "01.01.2009",
+    logo: "/images/ticaret-uni-logo.png",
+  },
+  {
+    title: "Florida Üniversitesi",
+    role: "Ağ Mühendisi",
+    scope: "Gainesville, Florida, Amerika",
+    startDate: "01.06.1984",
+    endDate: "01.03.1986",
+    logo: "/images/uf-logo.svg",
   },
 ];
 
@@ -326,24 +357,28 @@ const externalExperiencesEn: RecordItem[] = [
     role: "Member of High Advisory Board",
     scope: "Turkey",
     startDate: "20.10.2024",
+    logo: "/images/under-logo.png",
   },
   {
     title: "1773 Istanbul Technical University Technopark Inc.",
     role: "Board Member",
     scope: "Turkey",
     startDate: "08.12.2022",
+    logo: "/images/itu-logo.png",
   },
   {
     title: "Istanbul Chamber of Commerce",
     role: "Assembly Member – Education Professional Committee",
     scope: "Professional Associations",
     startDate: "15.10.2022",
+    logo: "/images/ito-logo.png",
   },
   {
     title: "Turkish Language and Literature Association",
     role: "Board Member",
     scope: "Turkey",
     startDate: "01.06.2022",
+    logo: "/images/tded-logo.png",
   },
   {
     title: "Istanbul Commerce University",
@@ -351,6 +386,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Turkey",
     startDate: "01.01.2018",
     endDate: "01.01.2022",
+    logo: "/images/ticaret-uni-logo.png",
   },
   {
     title: "Istanbul Chamber of Commerce",
@@ -359,12 +395,7 @@ const externalExperiencesEn: RecordItem[] = [
     startDate: "15.10.2018",
     endDate: "15.10.2022",
     details: "Elected assembly member representing 8,000 educational institutions.",
-  },
-  {
-    title: "Marmara University Technopark Inc.",
-    role: "Partner – Technopark Co-Founder",
-    scope: "Commercial (Private)",
-    startDate: "01.01.2016",
+    logo: "/images/ito-logo.png",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -372,6 +403,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Belgium",
     startDate: "01.01.2011",
     endDate: "01.01.2013",
+    logo: "/images/aer-logo.svg",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -379,6 +411,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Belgium",
     startDate: "01.01.2009",
     endDate: "01.01.2011",
+    logo: "/images/aer-logo.svg",
   },
   {
     title: "Istanbul Commerce University",
@@ -386,6 +419,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Turkey",
     startDate: "01.01.2009",
     endDate: "01.01.2013",
+    logo: "/images/ticaret-uni-logo.png",
   },
   {
     title: "Istanbul Commerce University",
@@ -393,6 +427,15 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Turkey",
     startDate: "01.01.2004",
     endDate: "01.01.2009",
+    logo: "/images/ticaret-uni-logo.png",
+  },
+  {
+    title: "University of Florida",
+    role: "Network Engineer",
+    scope: "Gainesville, Florida, USA",
+    startDate: "01.06.1984",
+    endDate: "01.03.1986",
+    logo: "/images/uf-logo.svg",
   },
 ];
 
@@ -979,6 +1022,7 @@ const authoredBooksTr: RecordItem[] = [
     isbn: "978-975-447-711-5",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
+    rightImage: "/images/yapay-zeka-demokrasi-kitap.png",
   },
   {
     title: "Dijital Çağda Siyaset",
@@ -990,6 +1034,7 @@ const authoredBooksTr: RecordItem[] = [
     isbn: "978-625-399-244-6",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
+    rightImage: "/images/dijital-cagda-siyaset-kitap.png",
   },
   {
     title: "Parti Üyelerinin Siyasi Katılımı",
@@ -1001,6 +1046,7 @@ const authoredBooksTr: RecordItem[] = [
     isbn: "978-605-06875-9-0",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
+    rightImage: "/images/parti-uyelerinin-siyasi-katilimi-kitap.png",
   },
 ];
 
@@ -1016,6 +1062,7 @@ const authoredBooksEn: RecordItem[] = [
     isbn: "978-975-447-711-5",
     language: "Turkish",
     scope: "Scholarly Book",
+    rightImage: "/images/yapay-zeka-demokrasi-kitap.png",
   },
   {
     title: "Politics in the Digital Age",
@@ -1027,6 +1074,7 @@ const authoredBooksEn: RecordItem[] = [
     isbn: "978-625-399-244-6",
     language: "Turkish",
     scope: "Scholarly Book",
+    rightImage: "/images/dijital-cagda-siyaset-kitap.png",
   },
   {
     title: "Political Participation of Party Members",
@@ -1038,6 +1086,7 @@ const authoredBooksEn: RecordItem[] = [
     isbn: "978-605-06875-9-0",
     language: "Turkish",
     scope: "Scholarly Book",
+    rightImage: "/images/parti-uyelerinin-siyasi-katilimi-kitap.png",
   },
 ];
 
@@ -1054,6 +1103,7 @@ const bookChaptersTr: RecordItem[] = [
     isbn: "978-625-396-595-2",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
+    rightImage: "/images/demokrasi-ve-etkin-yurttaslik-kitap.png",
   },
   {
     title: "Geleceğin Koridorları",
@@ -1066,6 +1116,7 @@ const bookChaptersTr: RecordItem[] = [
     isbn: "978-625-6482-35-7",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
+    rightImage: "/images/gelecegin-koridorlari-kitap.png",
   },
   {
     title: "Eastern and Western Ethicians: A Critical Comparison",
@@ -1079,6 +1130,7 @@ const bookChaptersTr: RecordItem[] = [
     isbn: "978-2-38236-470-3",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
+    rightImage: "/images/eastern-and-western-ethicians-kitap.png",
   },
   {
     title: "Teoriden Pratiğe Türkiye Siyaseti",
@@ -1092,6 +1144,7 @@ const bookChaptersTr: RecordItem[] = [
     isbn: "978-605-9823-56-2",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
+    rightImage: "/images/teoriden-pratige-turkiye-siyaseti-kitap.png",
   },
 ];
 
@@ -1108,6 +1161,7 @@ const bookChaptersEn: RecordItem[] = [
     isbn: "978-625-396-595-2",
     language: "Turkish",
     scope: "Scholarly Book",
+    rightImage: "/images/demokrasi-ve-etkin-yurttaslik-kitap.png",
   },
   {
     title: "Corridors of the Future",
@@ -1120,6 +1174,7 @@ const bookChaptersEn: RecordItem[] = [
     isbn: "978-625-6482-35-7",
     language: "Turkish",
     scope: "Scholarly Book",
+    rightImage: "/images/gelecegin-koridorlari-kitap.png",
   },
   {
     title: "Eastern and Western Ethicians: A Critical Comparison",
@@ -1133,6 +1188,7 @@ const bookChaptersEn: RecordItem[] = [
     isbn: "978-2-38236-470-3",
     language: "English / Turkish",
     scope: "Scholarly Book",
+    rightImage: "/images/eastern-and-western-ethicians-kitap.png",
   },
   {
     title: "Turkey Politics from Theory to Practice",
@@ -1146,6 +1202,7 @@ const bookChaptersEn: RecordItem[] = [
     isbn: "978-605-9823-56-2",
     language: "Turkish",
     scope: "Scholarly Book",
+    rightImage: "/images/teoriden-pratige-turkiye-siyaseti-kitap.png",
   },
 ];
 
@@ -1519,6 +1576,7 @@ const editorsTr: RecordItem[] = [
     scope: "Uluslararası",
     details:
       "Avustralya National Üniversitesi ve İstanbul Sabahattin Zaim Üniversitesi'nde görev yapan, koronadan vefat eden Prof. Dr. M. Mehdi İlhan Hoca anısına.",
+    rightImage: "/images/goc-ve-kulturel-etkilesim-kitap.png",
   },
 ];
 
@@ -1532,6 +1590,7 @@ const editorsEn: RecordItem[] = [
     scope: "International",
     details:
       "In memory of Prof. Dr. M. Mehdi İlhan, who served at Australian National University and Istanbul Sabahattin Zaim University and passed away due to COVID-19.",
+    rightImage: "/images/goc-ve-kulturel-etkilesim-kitap.png",
   },
 ];
 
@@ -1543,6 +1602,7 @@ const certificatesTr: RecordItem[] = [
     scope: "Ulusal",
     venue: "İstanbul",
     year: "24.06.2000",
+    logo: "/images/marmara-logo.png",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -1550,6 +1610,7 @@ const certificatesTr: RecordItem[] = [
     scope: "Uluslararası",
     venue: "İstanbul",
     year: "03.06.2010",
+    logo: "/images/aer-logo.svg",
   },
 ];
 
@@ -1561,6 +1622,7 @@ const certificatesEn: RecordItem[] = [
     scope: "National",
     venue: "Istanbul",
     year: "24.06.2000",
+    logo: "/images/marmara-logo.png",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -1568,6 +1630,7 @@ const certificatesEn: RecordItem[] = [
     scope: "International",
     venue: "Istanbul",
     year: "03.06.2010",
+    logo: "/images/aer-logo.svg",
   },
 ];
 
@@ -1577,12 +1640,14 @@ const membershipsTr: RecordItem[] = [
     role: "Üye",
     year: "2025",
     details: "Bilimsel Kuruluş",
+    logo: "/images/ipsa-logo.png",
   },
   {
     title: "ÜNDER – Üniversite Öğretim Elemanları Dayanışma Derneği",
     role: "Üye · Yüksek İstişare Kurulu Üyesi (20.10.2024)",
     year: "2023",
     details: "Bilimsel Kuruluş",
+    logo: "/images/under-logo.png",
   },
 ];
 
@@ -1592,12 +1657,14 @@ const membershipsEn: RecordItem[] = [
     role: "Member",
     year: "2025",
     details: "Scientific Organization",
+    logo: "/images/ipsa-logo.png",
   },
   {
     title: "UNDER – Association of University Academic Staff Solidarity",
     role: "Member · High Advisory Board Member (20.10.2024)",
     year: "2023",
     details: "Scientific Organization",
+    logo: "/images/under-logo.png",
   },
 ];
 
@@ -1725,58 +1792,78 @@ function RecordCards({
         return (
           <div
             key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
-            className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm"
+            className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm flex items-start gap-4"
           >
-            <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">
-              {item.title}
-            </p>
-            {item.chapter && (
-              <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
-                {labels.chapter}: {item.chapter}
-              </p>
+            {item.logo && (
+              <div className="w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200 mt-0.5">
+                <img
+                  src={item.logo}
+                  alt={item.organization || item.title}
+                  className="h-full w-full object-contain"
+                />
+              </div>
             )}
-            {item.organization && (
-              <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">
-                {item.organization}
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">
+                {item.title}
               </p>
-            )}
-            <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
-              {item.role && (
-                <p>{showRoleLabel ? `${labels.role}: ${item.role}` : item.role}</p>
-              )}
-              {item.venue && (
-                <p>
-                  {venueLabel}: {item.venue}
+              {item.chapter && (
+                <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
+                  {labels.chapter}: {item.chapter}
                 </p>
               )}
-              {item.citation && <p>{labels.citation}: {item.citation}</p>}
-              {imprint && <p>{imprint}</p>}
-              {item.editor && <p>{labels.editor}: {item.editor}</p>}
-              {item.isbn && <p>ISBN: {item.isbn}</p>}
-              {item.doi && (
-                <p>
-                  DOI:{" "}
-                  <a
-                    href={`https://doi.org/${item.doi}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#1e3a5f] hover:text-[#c9a227] underline underline-offset-2 transition-colors break-all"
-                  >
-                    {item.doi}
-                  </a>
+              {item.organization && (
+                <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">
+                  {item.organization}
                 </p>
               )}
-              {item.language && <p>{labels.language}: {item.language}</p>}
-              {item.scope && <p>{labels.scope}: {item.scope}</p>}
-              {item.year && <p>{labels.dateYear}: {item.year}</p>}
-              {(item.startDate || item.endDate) && (
-                <p>
-                  {labels.duration}: {item.startDate ?? "-"}{" "}
-                  {item.endDate ? `- ${item.endDate}` : ""}
-                </p>
-              )}
-              {item.details && <p>{item.details}</p>}
+              <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
+                {item.role && (
+                  <p>{showRoleLabel ? `${labels.role}: ${item.role}` : item.role}</p>
+                )}
+                {item.venue && (
+                  <p>
+                    {venueLabel}: {item.venue}
+                  </p>
+                )}
+                {item.citation && <p>{labels.citation}: {item.citation}</p>}
+                {imprint && <p>{imprint}</p>}
+                {item.editor && <p>{labels.editor}: {item.editor}</p>}
+                {item.isbn && <p>ISBN: {item.isbn}</p>}
+                {item.doi && (
+                  <p>
+                    DOI:{" "}
+                    <a
+                      href={`https://doi.org/${item.doi}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#1e3a5f] hover:text-[#c9a227] underline underline-offset-2 transition-colors break-all"
+                    >
+                      {item.doi}
+                    </a>
+                  </p>
+                )}
+                {item.language && <p>{labels.language}: {item.language}</p>}
+                {item.scope && <p>{labels.scope}: {item.scope}</p>}
+                {item.year && <p>{labels.dateYear}: {item.year}</p>}
+                {(item.startDate || item.endDate) && (
+                  <p>
+                    {labels.duration}: {item.startDate ?? "-"}{" "}
+                    {item.endDate ? `- ${item.endDate}` : ""}
+                  </p>
+                )}
+                {item.details && <p>{item.details}</p>}
+              </div>
             </div>
+            {item.rightImage && (
+              <div className="w-20 md:w-24 shrink-0 rounded-lg overflow-hidden border border-gray-200/80 shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 mt-0.5">
+                <img
+                  src={item.rightImage}
+                  alt={item.title}
+                  className="w-full h-auto object-contain rounded-md"
+                />
+              </div>
+            )}
           </div>
         );
       })}
@@ -1908,6 +1995,69 @@ export default function Home() {
               >
                 {t.heroTitle}
               </h1>
+
+              <div className="mt-3 flex flex-wrap items-center gap-2.5">
+                <a
+                  href="https://x.com/OrAlbayrak"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="X (Twitter)"
+                  aria-label="X (Twitter)"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-black text-white hover:opacity-90 hover:scale-105 transition-all shadow-sm"
+                >
+                  <svg
+                    className="w-4 h-4 fill-current shrink-0"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+                <a
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="LinkedIn"
+                  aria-label="LinkedIn"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0A66C2] text-white hover:bg-[#004182] hover:scale-105 transition-all shadow-sm"
+                >
+                  <Linkedin size={18} />
+                </a>
+                <a
+                  href={FACEBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Facebook"
+                  aria-label="Facebook"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1877F2] text-white hover:bg-[#0d65d9] hover:scale-105 transition-all shadow-sm"
+                >
+                  <Facebook size={18} />
+                </a>
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Instagram"
+                  aria-label="Instagram"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white hover:opacity-90 hover:scale-105 transition-all shadow-sm"
+                >
+                  <Instagram size={18} />
+                </a>
+                <a
+                  href={NSOSYAL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="N Sosyal"
+                  aria-label="N Sosyal"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-[#1e3a5f] hover:scale-105 transition-all shadow-sm overflow-hidden p-1 border border-gray-200 dark:border-white/10 dark:bg-white"
+                >
+                  <img
+                    src="/images/nsosyal.png"
+                    alt="N Sosyal"
+                    className="h-full w-full object-contain rounded-lg"
+                  />
+                </a>
+              </div>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] dark:text-[#b3c0d0] md:text-xl">
                 {t.heroDesc}
               </p>
@@ -1975,9 +2125,9 @@ export default function Home() {
       <section id="hakkinda" className="py-20 bg-white scroll-mt-24">
         <div className="container">
           <AnimatedSection>
+            <SectionTitle title={t.aboutTitle} />
             <div className="grid md:grid-cols-3 gap-12 items-start">
               <div className="md:col-span-2">
-                <SectionTitle title={t.aboutTitle} />
                 <div className="space-y-4 text-gray-600 leading-relaxed">
                   {t.aboutParagraphs.map(paragraph => (
                     <p key={paragraph}>{paragraph}</p>
@@ -2054,8 +2204,16 @@ export default function Home() {
                   className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#1e3a5f] flex items-center justify-center shrink-0">
-                      <GraduationCap size={22} className="text-white" />
+                    <div className="w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200">
+                      {edu.logo ? (
+                        <img
+                          src={edu.logo}
+                          alt={edu.school}
+                          className="h-full w-full object-contain"
+                        />
+                      ) : (
+                        <GraduationCap size={22} className="text-[#1e3a5f]" />
+                      )}
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
@@ -2476,7 +2634,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   title="X (Twitter)"
                   aria-label="X (Twitter)"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-black text-white hover:opacity-90 hover:scale-105 transition-all shadow-sm"
                 >
                   <svg
                     className="w-4 h-4 fill-current shrink-0"
@@ -2492,7 +2650,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   title="LinkedIn"
                   aria-label="LinkedIn"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0A66C2] text-white hover:bg-[#004182] hover:scale-105 transition-all shadow-sm"
                 >
                   <Linkedin size={18} />
                 </a>
@@ -2502,7 +2660,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   title="Facebook"
                   aria-label="Facebook"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1877F2] text-white hover:bg-[#0d65d9] hover:scale-105 transition-all shadow-sm"
                 >
                   <Facebook size={18} />
                 </a>
@@ -2512,7 +2670,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   title="Instagram"
                   aria-label="Instagram"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white hover:opacity-90 hover:scale-105 transition-all shadow-sm"
                 >
                   <Instagram size={18} />
                 </a>
@@ -2522,9 +2680,13 @@ export default function Home() {
                   rel="noopener noreferrer"
                   title="N Sosyal"
                   aria-label="N Sosyal"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all font-bold text-xs"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-[#1e3a5f] hover:scale-105 transition-all shadow-sm overflow-hidden p-1 border border-gray-200"
                 >
-                  N
+                  <img
+                    src="/images/nsosyal.png"
+                    alt="N Sosyal"
+                    className="h-full w-full object-contain rounded-lg"
+                  />
                 </a>
               </div>
             </div>
