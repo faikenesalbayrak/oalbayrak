@@ -225,6 +225,44 @@
       linear-gradient(to right, rgb(201 162 39 / 0.08) 1px, transparent 1px),
       linear-gradient(to bottom, rgb(201 162 39 / 0.08) 1px, transparent 1px);
   }
+
+  /* Keeps the current content/layout intact while the shared theme control
+     recolors the single-page surface and its existing utility classes. */
+  .dark .site-shell .bg-white {
+    background-color: #151f2d;
+  }
+
+  .dark .site-shell > section.bg-white {
+    background-color: #0b111b;
+  }
+
+  .dark .site-shell .bg-\[\#f8f9fc\] {
+    background-color: #111a27;
+  }
+
+  .dark .site-shell .text-\[\#1e3a5f\],
+  .dark .site-shell .text-gray-700 {
+    color: #dce8f5;
+  }
+
+  .dark .site-shell .text-\[\#42506a\],
+  .dark .site-shell .text-gray-600 {
+    color: #b3c0d0;
+  }
+
+  .dark .site-shell .text-\[\#5c6678\],
+  .dark .site-shell .text-gray-500 {
+    color: #9dacbf;
+  }
+
+  .dark .site-shell .text-gray-400 {
+    color: #8392a7;
+  }
+
+  .dark .site-shell .border-gray-100,
+  .dark .site-shell .border-gray-200 {
+    border-color: rgb(255 255 255 / 0.1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

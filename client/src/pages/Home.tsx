@@ -27,6 +27,7 @@ import {
 import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
 import { CvRequestForm } from "@/components/site/CvRequestForm";
+import { CursorGrid } from "@/components/ui/cursor-grid";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -1860,7 +1861,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen bg-white"
+      className="site-shell min-h-screen bg-white transition-colors duration-300 dark:bg-[#090f18]"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       <SinglePageDock
@@ -1878,9 +1879,23 @@ export default function Home() {
 
       <section
         id="hero"
-        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#f5f2eb] pb-16 pt-28 scroll-mt-24 md:pb-20"
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#f5f2eb] pb-16 pt-28 scroll-mt-24 transition-colors duration-300 dark:bg-[#090f18] md:pb-20"
       >
-        <div className="hero-grid absolute inset-0 opacity-70" />
+        <CursorGrid
+          cellSize={64}
+          color="#7a2948"
+          radius={170}
+          holdTime={240}
+          fadeDuration={720}
+          lineWidth={1.4}
+          maxOpacity={0.92}
+          fillOpacity={0.05}
+          gridOpacity={0.09}
+          cellRadius={7}
+          pulseSpeed={560}
+          ambient
+          className="z-0 opacity-90"
+        />
         <div className="absolute -left-28 top-28 size-80 rounded-full bg-[#c9a227]/15 blur-3xl" />
         <div className="absolute -right-20 bottom-12 size-96 rounded-full bg-[#7a2948]/15 blur-3xl" />
 
@@ -1893,7 +1908,7 @@ export default function Home() {
               >
                 {t.heroTitle}
               </h1>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] md:text-xl">
+              <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#42506a] dark:text-[#b3c0d0] md:text-xl">
                 {t.heroDesc}
               </p>
               <div className="mt-8 grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
@@ -1909,13 +1924,13 @@ export default function Home() {
                     setContactTab("contact");
                     scrollTo("iletisim");
                   }}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white"
+                  className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white dark:border-white/15 dark:bg-white/10 dark:text-white dark:hover:bg-white/15"
                 >
                   <Mail className="shrink-0" size={18} />
                   {t.contactBtn}
                 </button>
               </div>
-              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678]">
+              <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#1e3a5f]/10 pt-5 text-sm text-[#5c6678] dark:border-white/10 dark:text-[#9dacbf]">
                 <span>
                   <strong className="text-[#1e3a5f]">2023</strong>{" "}
                   {t.heroStats?.associateProf ?? (lang === "en" ? "Associate Professorship" : "Doçentlik")}
@@ -1935,7 +1950,7 @@ export default function Home() {
               <div className="relative w-full max-w-[420px]">
                 <div className="absolute inset-x-8 bottom-0 h-[78%] rounded-[5rem_5rem_8rem_2.5rem] bg-gradient-to-br from-[#14243b] via-[#1e3a5f] to-[#7a2948] shadow-[0_40px_80px_rgba(20,36,59,0.28)]" />
                 <div className="absolute inset-x-2 bottom-4 h-[72%] rounded-[5rem_5rem_8rem_2.5rem] border border-white/25" />
-                <div className="relative mx-auto aspect-square w-[88%] overflow-hidden rounded-[3rem] border border-white/30 bg-white p-2 shadow-2xl">
+                <div className="relative mx-auto aspect-square w-[88%] overflow-hidden rounded-[3rem] border border-white/30 bg-white p-2 shadow-2xl dark:bg-[#111a27]">
                   <img
                     src={PROFILE_IMG}
                     alt="Doç. Dr. Orhan Albayrak"
@@ -1943,8 +1958,8 @@ export default function Home() {
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#14243b]/80 to-transparent" />
                 </div>
-                <div className="absolute -bottom-5 -left-2 max-w-[280px] rounded-2xl border border-white/70 bg-white/90 p-4 shadow-xl backdrop-blur-xl sm:-left-8">
-                  <p className="text-sm font-medium italic leading-relaxed text-[#1e3a5f]">
+                <div className="absolute -bottom-5 -left-2 max-w-[280px] rounded-2xl border border-white/70 bg-white/90 p-4 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/90 sm:-left-8">
+                  <p className="text-sm font-medium italic leading-relaxed text-[#1e3a5f] dark:text-white">
                     “{t.profileBadge}”
                   </p>
                 </div>
