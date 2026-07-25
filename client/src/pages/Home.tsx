@@ -7,6 +7,7 @@ import {
   Building,
   Calendar,
   ChevronDown,
+  ChevronUp,
   ExternalLink,
   Facebook,
   FileText,
@@ -27,6 +28,7 @@ import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
 import { CvRequestForm } from "@/components/site/CvRequestForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
@@ -51,7 +53,13 @@ type CourseItem = {
   language: string;
   term: string;
   academicYear: string;
-  level: "Lisans" | "Yüksek Lisans" | "Doktora";
+  level:
+    | "Lisans"
+    | "Yüksek Lisans"
+    | "Doktora"
+    | "Undergraduate"
+    | "Master's"
+    | "Ph.D.";
 };
 
 type RecordItem = {
@@ -85,7 +93,7 @@ const aboutParagraphs = [
   "İngilizce ve Osmanlıca bilen Doç. Dr. Albayrak, evli ve üç çocuk babasıdır.",
 ];
 
-const educationCards: EducationItem[] = [
+const educationCardsTr: EducationItem[] = [
   {
     degree: "Doçentlik",
     field: "Siyaset Sosyolojisi",
@@ -125,7 +133,47 @@ const educationCards: EducationItem[] = [
   },
 ];
 
-const academicRoles: RecordItem[] = [
+const educationCardsEn: EducationItem[] = [
+  {
+    degree: "Associate Professorship",
+    field: "Political Sociology",
+    school:
+      "UAK Field: Social, Human and Administrative Sciences / Subfield: Political Science",
+    years: "2023",
+    thesis: "Associate Professor Title",
+  },
+  {
+    degree: "Ph.D.",
+    field: "Political Science and International Relations",
+    school: "Istanbul Sabahattin Zaim University",
+    years: "2016–2020",
+    thesis:
+      'Dissertation: "Political participation level of party members: The case of Ak Party and CHP in Istanbul" (29.09.2020) — Advisor: Prof. Dr. Ömer Çaha',
+  },
+  {
+    degree: "Master's Degree",
+    field: "Modern Business Management",
+    school: "Marmara University",
+    years: "1999–2000",
+    thesis: "Certificate Program",
+  },
+  {
+    degree: "Master's Degree",
+    field: "Control and Computer Engineering",
+    school: "Istanbul Technical University",
+    years: "1982–1984",
+    thesis: "Control and Computer Program",
+  },
+  {
+    degree: "Bachelor's Degree",
+    field: "Electronics and Communication Engineering",
+    school: "Istanbul Technical University",
+    years: "1977–1982",
+    thesis: "Faculty of Electronics and Communication",
+  },
+];
+
+const academicRolesTr: RecordItem[] = [
   {
     title: "DOÇENT",
     organization:
@@ -143,7 +191,25 @@ const academicRoles: RecordItem[] = [
   },
 ];
 
-const adminRoles: RecordItem[] = [
+const academicRolesEn: RecordItem[] = [
+  {
+    title: "ASSOCIATE PROFESSOR",
+    organization:
+      "BEZMIALEM VAKIF UNIVERSITY / FACULTY OF HEALTH SCIENCES / DEPARTMENT OF HEALTH MANAGEMENT",
+    startDate: "15.10.2024",
+    details: "Ongoing.",
+  },
+  {
+    title: "ASSISTANT PROFESSOR",
+    organization:
+      "HALIC UNIVERSITY / FACULTY OF BUSINESS / DEPARTMENT OF POLITICAL SCIENCE AND INTERNATIONAL RELATIONS",
+    details: "Political Science and International Relations Program (Full Scholarship)",
+    startDate: "01.09.2021",
+    endDate: "19.03.2024",
+  },
+];
+
+const adminRolesTr: RecordItem[] = [
   {
     title: "Bölüm Başkan Yardımcısı",
     organization:
@@ -154,7 +220,18 @@ const adminRoles: RecordItem[] = [
   },
 ];
 
-const externalExperiences: RecordItem[] = [
+const adminRolesEn: RecordItem[] = [
+  {
+    title: "Vice Department Head",
+    organization:
+      "HALIC UNIVERSITY / FACULTY OF BUSINESS / DEPARTMENT OF POLITICAL SCIENCE AND INTERNATIONAL RELATIONS",
+    scope: "Turkey",
+    startDate: "02.12.2022",
+    endDate: "01.03.2023",
+  },
+];
+
+const externalExperiencesTr: RecordItem[] = [
   {
     title: "ADF – İleri Teknoloji Fonu",
     role: "Yönetim Kurulu Üyesi",
@@ -236,7 +313,89 @@ const externalExperiences: RecordItem[] = [
   },
 ];
 
-const courses: CourseItem[] = [
+const externalExperiencesEn: RecordItem[] = [
+  {
+    title: "ADF – Advanced Technology Fund",
+    role: "Board Member",
+    scope: "Commercial (Private)",
+    startDate: "01.03.2026",
+  },
+  {
+    title: "UNDER-Association of University Academic Staff Solidarity",
+    role: "Member of High Advisory Board",
+    scope: "Turkey",
+    startDate: "20.10.2024",
+  },
+  {
+    title: "1773 Istanbul Technical University Technopark Inc.",
+    role: "Board Member",
+    scope: "Turkey",
+    startDate: "08.12.2022",
+  },
+  {
+    title: "Istanbul Chamber of Commerce",
+    role: "Assembly Member – Education Professional Committee",
+    scope: "Professional Associations",
+    startDate: "15.10.2022",
+  },
+  {
+    title: "Turkish Language and Literature Association",
+    role: "Board Member",
+    scope: "Turkey",
+    startDate: "01.06.2022",
+  },
+  {
+    title: "Istanbul Commerce University",
+    role: "Member of the Board of Trustees",
+    scope: "Turkey",
+    startDate: "01.01.2018",
+    endDate: "01.01.2022",
+  },
+  {
+    title: "Istanbul Chamber of Commerce",
+    role: "Assembly Member, Education Committee Member",
+    scope: "Professional Associations",
+    startDate: "15.10.2018",
+    endDate: "15.10.2022",
+    details: "Elected assembly member representing 8,000 educational institutions.",
+  },
+  {
+    title: "Marmara University Technopark Inc.",
+    role: "Partner – Technopark Co-Founder",
+    scope: "Commercial (Private)",
+    startDate: "01.01.2016",
+  },
+  {
+    title: "AER (Assembly of European Regions)",
+    role: "President of Entrepreneurship Working Group",
+    scope: "Belgium",
+    startDate: "01.01.2011",
+    endDate: "01.01.2013",
+  },
+  {
+    title: "AER (Assembly of European Regions)",
+    role: "Istanbul Representative",
+    scope: "Belgium",
+    startDate: "01.01.2009",
+    endDate: "01.01.2011",
+  },
+  {
+    title: "Istanbul Commerce University",
+    role: "Member of the Board of Trustees",
+    scope: "Turkey",
+    startDate: "01.01.2009",
+    endDate: "01.01.2013",
+  },
+  {
+    title: "Istanbul Commerce University",
+    role: "Member of the Board of Trustees",
+    scope: "Turkey",
+    startDate: "01.01.2004",
+    endDate: "01.01.2009",
+  },
+];
+
+const coursesTr: CourseItem[] = [
   {
     title: "Sağlık Yönetiminde İstatistik",
     language: "Türkçe",
@@ -435,7 +594,206 @@ const courses: CourseItem[] = [
   },
 ];
 
-const projectRoles: RecordItem[] = [
+const coursesEn: CourseItem[] = [
+  {
+    title: "Statistics in Health Management",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2024-2025",
+    level: "Undergraduate",
+  },
+  {
+    title: "Society in the Digital Age",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2023-2024",
+    level: "Undergraduate",
+  },
+  {
+    title: "Turkish Political Life",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2023-2024",
+    level: "Undergraduate",
+  },
+  {
+    title: "Mathematics in Social Sciences",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2023-2024",
+    level: "Undergraduate",
+  },
+  {
+    title: "Fundamental Concepts in Sociology",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2023-2024",
+    level: "Undergraduate",
+  },
+  {
+    title: "Graduation Project",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2022-2023",
+    level: "Undergraduate",
+  },
+  {
+    title: "Political Communication",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2022-2023",
+    level: "Undergraduate",
+  },
+  {
+    title: "Introduction to International Relations",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2022-2023",
+    level: "Undergraduate",
+  },
+  {
+    title: "Information Technologies",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2022-2023",
+    level: "Undergraduate",
+  },
+  {
+    title: "Society in the Digital Age",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2022-2023",
+    level: "Undergraduate",
+  },
+  {
+    title: "Statistics in Social Sciences",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2022-2023",
+    level: "Undergraduate",
+  },
+  {
+    title: "Fundamental Concepts in Sociology",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2022-2023",
+    level: "Undergraduate",
+  },
+  {
+    title: "Politics in the Digital Age",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2021-2022",
+    level: "Undergraduate",
+  },
+  {
+    title: "Political Culture and Democracy",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2021-2022",
+    level: "Undergraduate",
+  },
+  {
+    title: "Introduction to International Relations",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2021-2022",
+    level: "Undergraduate",
+  },
+  {
+    title: "Statistics in Social Sciences",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2021-2022",
+    level: "Undergraduate",
+  },
+  {
+    title: "Fundamental Concepts in Sociology",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2021-2022",
+    level: "Undergraduate",
+  },
+  {
+    title: "Political Culture and Democracy",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2020-2021",
+    level: "Undergraduate",
+  },
+  {
+    title: "Introduction to International Relations",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2020-2021",
+    level: "Undergraduate",
+  },
+  {
+    title: "Term Project",
+    language: "English",
+    term: "Spring",
+    academicYear: "2023-2024",
+    level: "Master's",
+  },
+  {
+    title: "Term Project",
+    language: "English",
+    term: "Spring",
+    academicYear: "2021-2022",
+    level: "Master's",
+  },
+  {
+    title: "Business Statistics",
+    language: "English",
+    term: "Spring",
+    academicYear: "2021-2022",
+    level: "Master's",
+  },
+  {
+    title: "Business Statistics",
+    language: "English",
+    term: "Fall",
+    academicYear: "2021-2022",
+    level: "Master's",
+  },
+  {
+    title: "Research and Publication Ethics",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2022-2023",
+    level: "Ph.D.",
+  },
+  {
+    title: "Research and Publication Ethics",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2023-2024",
+    level: "Ph.D.",
+  },
+  {
+    title: "Research and Publication Ethics",
+    language: "Turkish",
+    term: "Spring",
+    academicYear: "2021-2022",
+    level: "Ph.D.",
+  },
+  {
+    title: "Research and Publication Ethics",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2022-2023",
+    level: "Ph.D.",
+  },
+  {
+    title: "Research and Publication Ethics",
+    language: "Turkish",
+    term: "Fall",
+    academicYear: "2023-2024",
+    level: "Ph.D.",
+  },
+];
+
+const projectRolesTr: RecordItem[] = [
   {
     title:
       "Sanayi Politikaları ve Teknoloji Yönetimi Gençlik Çalışanları Hareketliliği",
@@ -448,7 +806,20 @@ const projectRoles: RecordItem[] = [
   },
 ];
 
-const internationalArticles: RecordItem[] = [
+const projectRolesEn: RecordItem[] = [
+  {
+    title:
+      "Industrial Policies and Technology Management Youth Workers Mobility",
+    role: "Project Coordinator",
+    scope: "European Union · International",
+    startDate: "03.03.2023",
+    endDate: "10.04.2025",
+    details:
+      "Project Coordinators: Cengiz Akyıldız, Eyüp Vural Aydın, Hamide Arslan, Orhan Albayrak. Researchers: Egehan Özkan Alakaş, Yusuf Ceylan, Mehmet Saim Aşçı, Pınar Başar, Tuncel Öz, Yahya Fidan, Merve Arslan, Sabri Öz.",
+  },
+];
+
+const internationalArticlesTr: RecordItem[] = [
   {
     title: "Türkiye'de Okul Özerkliği ve Özgürlükçü Eğitim Anlayışı",
     year: "2021",
@@ -468,9 +839,30 @@ const internationalArticles: RecordItem[] = [
   },
 ];
 
-const nationalArticles: RecordItem[] = [
+const internationalArticlesEn: RecordItem[] = [
   {
-    title: "Dijital Diplomasi: Diplomasi 3.0",
+    title: "School Autonomy and Libertarian Educational Perspective in Turkey",
+    year: "2021",
+    venue: "Alanyazın Dergisi",
+    citation: "2(2), 83-90",
+    doi: "10.22596/cresjournal",
+    scope: "International peer-reviewed journal",
+  },
+  {
+    title:
+      "Comparing Political Participation Levels of Party Members Within the Two Main Parties of Turkey Based on Their Media Usage and Expectations",
+    year: "2021",
+    venue: "Journal of Political Science and International Relations",
+    citation: "4(1), 8-17",
+    doi: "10.11648/j.jpsir.20210401.12",
+    scope: "International peer-reviewed journal",
+  },
+];
+
+const nationalArticlesTr: RecordItem[] = [
+  {
+    title:
+      "Siyasi Parti Üyelerinin Katılım Düzeyi ve Etkileyen Faktörler: İstanbul AK Parti ve CHP Örneği",
     year: "2023",
     venue: "İstanbul Ticaret Üniversitesi Sosyal Bilimler Dergisi",
     citation: "22(46), 493-508",
@@ -495,7 +887,34 @@ const nationalArticles: RecordItem[] = [
   },
 ];
 
-const otherPublications: RecordItem[] = [
+const nationalArticlesEn: RecordItem[] = [
+  {
+    title:
+      "Participation Level of Political Party Members and Influencing Factors: The Case of Istanbul AK Party and CHP",
+    year: "2023",
+    venue: "Istanbul Commerce University Journal of Social Sciences",
+    citation: "22(46), 493-508",
+    doi: "10.46928/iticusbe.1288805",
+    scope: "TR DİZİN (National Index)",
+  },
+  {
+    title: "Financing of Politics",
+    year: "2023",
+    venue: "Süleyman Demirel University Journal of Social Sciences",
+    citation: "(59), 209-221",
+    scope: "TR DİZİN (National Index)",
+  },
+  {
+    title:
+      "Why is Environmentalism Related to Conservative Thought? And an Example of Cognitive Emotional (CAM) Mapping Related to Green Conservatism",
+    year: "2023",
+    venue: "Eurasia Academy of Sciences Social Sciences Journal",
+    citation: "(49), 69-85",
+    scope: "National Peer-Reviewed Journal",
+  },
+];
+
+const otherPublicationsTr: RecordItem[] = [
   {
     title: "Pandemi Sürecinde Eğitim",
     year: "2021",
@@ -521,7 +940,33 @@ const otherPublications: RecordItem[] = [
   },
 ];
 
-const authoredBooks: RecordItem[] = [
+const otherPublicationsEn: RecordItem[] = [
+  {
+    title: "Education During the Pandemic Process",
+    year: "2021",
+    venue: "Journal of Architects and Engineers Group",
+    citation: "(118), 46-51",
+    scope: "National · Non-Peer-Reviewed",
+  },
+  {
+    title:
+      "Education and Vocational Education, Problems and Solution Proposals: A Proposal to Make Vocational Education Attractive",
+    year: "2020",
+    venue: "Journal of Architects and Engineers Group",
+    citation: "(116), 80-96",
+    scope: "National · Non-Peer-Reviewed",
+  },
+  {
+    title:
+      "Education System in Japan and a Different Perspective on Vocational Education: The Case of Japan",
+    year: "2020",
+    venue: "Journal of Architects and Engineers Group",
+    citation: "(116), 52-64",
+    scope: "National · Non-Peer-Reviewed",
+  },
+];
+
+const authoredBooksTr: RecordItem[] = [
   {
     title:
       "Yapay Zekâyla Demokrasi Üzerine Söyleşi: Sesli Sorular, Dijital Cevaplar",
@@ -558,7 +1003,44 @@ const authoredBooks: RecordItem[] = [
   },
 ];
 
-const bookChapters: RecordItem[] = [
+const authoredBooksEn: RecordItem[] = [
+  {
+    title:
+      "Interview on Democracy with Artificial Intelligence: Voice Questions, Digital Answers",
+    year: "2023",
+    publisher: "Özgür Publishing",
+    editor: "Dr. Eyüp Öz",
+    edition: "1",
+    pages: "148",
+    isbn: "978-975-447-711-5",
+    language: "Turkish",
+    scope: "Scholarly Book",
+  },
+  {
+    title: "Politics in the Digital Age",
+    year: "2023",
+    publisher: "Akademisyen Publishing",
+    editor: "Prof. Dr. Ali Rafet Özkan",
+    edition: "1",
+    pages: "407",
+    isbn: "978-625-399-244-6",
+    language: "Turkish",
+    scope: "Scholarly Book",
+  },
+  {
+    title: "Political Participation of Party Members",
+    year: "2021",
+    publisher: "Orion Academy",
+    editor: "Prof. Dr. Ali Rafet Özkan",
+    edition: "1",
+    pages: "280",
+    isbn: "978-605-06875-9-0",
+    language: "Turkish",
+    scope: "Scholarly Book",
+  },
+];
+
+const bookChaptersTr: RecordItem[] = [
   {
     title: "Demokrasi ve Etkin Yurttaşlık",
     chapter:
@@ -612,7 +1094,61 @@ const bookChapters: RecordItem[] = [
   },
 ];
 
-const internationalPapers: RecordItem[] = [
+const bookChaptersEn: RecordItem[] = [
+  {
+    title: "Democracy and Active Citizenship",
+    chapter:
+      "Digital Democracy and the Transformation of Political Participation Through New Media",
+    year: "2025",
+    publisher: "Çizgi Bookstore, Istanbul",
+    editor: "M. M. Yavuz, D. Geylani, M. Köse",
+    edition: "1",
+    pages: "355",
+    isbn: "978-625-396-595-2",
+    language: "Turkish",
+    scope: "Scholarly Book",
+  },
+  {
+    title: "Corridors of the Future",
+    chapter: "Challenges of Being a Politician in the Global South",
+    year: "2023",
+    publisher: "Hiperlink Publishing, Istanbul",
+    editor: "Prof. Dr. Figen Yıldırım, Assoc. Prof. Dr. Sabri Öz",
+    edition: "1",
+    pages: "384",
+    isbn: "978-625-6482-35-7",
+    language: "Turkish",
+    scope: "Scholarly Book",
+  },
+  {
+    title: "Eastern and Western Ethicians: A Critical Comparison",
+    chapter: "Meta-Politics and Ethics",
+    year: "2022",
+    publisher: "Livre De Lyon",
+    editor:
+      "Prof. Dr. Ali Rafet Özkan, Prof. Dr. Emine Öztürk, Assoc. Prof. Dr. Sadagat Abbasova",
+    edition: "1",
+    pages: "432",
+    isbn: "978-2-38236-470-3",
+    language: "English / Turkish",
+    scope: "Scholarly Book",
+  },
+  {
+    title: "Turkey Politics from Theory to Practice",
+    chapter:
+      "Effects of Fieldwork and Ethical Principles on AK Party's Election Results",
+    year: "2021",
+    publisher: "Liberte Publications, Istanbul",
+    editor: "Prof. Dr. Alim Yılmaz, Dr. İkram Bağcı",
+    edition: "1",
+    pages: "280",
+    isbn: "978-605-9823-56-2",
+    language: "Turkish",
+    scope: "Scholarly Book",
+  },
+];
+
+const internationalPapersTr: RecordItem[] = [
   {
     title:
       "Political participation levels of party members: The Case of Ak Party and CHP in Istanbul",
@@ -668,7 +1204,63 @@ const internationalPapers: RecordItem[] = [
   },
 ];
 
-const nationalPapers: RecordItem[] = [
+const internationalPapersEn: RecordItem[] = [
+  {
+    title:
+      "Political participation levels of party members: The Case of Ak Party and CHP in Istanbul",
+    role: "Full Paper · Oral Presentation",
+    year: "12-16.07.2025",
+    venue: "28th IPSA World Congress of Political Science, Seoul, South Korea",
+    scope: "International",
+  },
+  {
+    title: "Technology: Threat or Opportunity for the Future of Democracy?",
+    role: "Abstract · Oral Presentation",
+    year: "12.10.2023",
+    venue: "Digital Diplomacy: Trends & Features",
+    scope: "International",
+  },
+  {
+    title: "Digital Political Polarization and Ways to Prevent It",
+    role: "Abstract · Oral Presentation",
+    year: "12.08.2023",
+    venue:
+      "10th International Congress on Humanities and Social Sciences in a Changing World",
+    citation: "1-526",
+    scope: "International",
+  },
+  {
+    title: "Metaverse-Politics and Ethics",
+    role: "Abstract · Oral Presentation",
+    year: "11-12.11.2022",
+    venue:
+      "International Social Sciences Congress in the Age of Digital Transformation, Istanbul",
+    citation: "1-663",
+    scope: "International",
+  },
+  {
+    title:
+      "Party members' attitudes toward their own leaders: The Cases of Istanbul Ak Party and CHP",
+    role: "Abstract · Oral Presentation",
+    year: "20.11.2021",
+    venue:
+      "I. International Artuklu Congress on Economic Administrative and Political Sciences",
+    citation: "1-444",
+    scope: "International",
+  },
+  {
+    title: "School Autonomy and Libertarian Educational Perspective in Turkey",
+    role: "Abstract · Oral Presentation",
+    year: "23.06.2021",
+    venue:
+      "School Autonomy in the Context of 2023 Vision, Pandemic Crisis and Digitalization",
+    citation: "1-133",
+    doi: "10.22596/cresjournal",
+    scope: "International",
+  },
+];
+
+const nationalPapersTr: RecordItem[] = [
   {
     title: "Dijital Demokrasi ve Siyasi Katılım",
     role: "Özet Bildiri · Sözlü Sunum",
@@ -685,7 +1277,24 @@ const nationalPapers: RecordItem[] = [
   },
 ];
 
-const workshops: RecordItem[] = [
+const nationalPapersEn: RecordItem[] = [
+  {
+    title: "Digital Democracy and Political Participation",
+    role: "Abstract · Oral Presentation",
+    year: "24.10.2024",
+    venue: "II. Political Psychology Symposium - Democracy and Active Citizenship",
+    scope: "National",
+  },
+  {
+    title: "Creating a Metaverse Respectful of Ethical Values",
+    role: "Full Paper · Oral Presentation",
+    year: "2024",
+    venue: "Social Sciences and Artificial Intelligence Congress",
+    scope: "National",
+  },
+];
+
+const workshopsTr: RecordItem[] = [
   {
     title: "Türkiye'de Yabancı Dille Öğretim",
     role: "Oturum Başkanı",
@@ -710,7 +1319,32 @@ const workshops: RecordItem[] = [
   },
 ];
 
-const seminars: RecordItem[] = [
+const workshopsEn: RecordItem[] = [
+  {
+    title: "Foreign Language Education in Turkey",
+    role: "Session Chair",
+    venue: "Istanbul Sabahattin Zaim University",
+    year: "04.05.2026",
+    scope: "National",
+  },
+  {
+    title: "Perception of Death in Children in Conflict Environments",
+    venue:
+      "IX. International Symposium on Psychology of Spirituality — University of Health Sciences, Society for the Dissemination of Knowledge",
+    year: "11-12.11.2025",
+    scope: "International",
+  },
+  {
+    title: "Compulsory Education Workshop in Secondary Education",
+    venue: "BYOTELL Kozyatağı, Istanbul",
+    year: "31.05.2025",
+    scope: "National",
+    details:
+      'In the 21st century, the duration and structure of high school education and policies in this field were discussed to develop scientifically-based solutions. It aimed to contribute to the "intellectual pivot" planned under the Century of Turkey Education Model and create a perspective to guide policymakers within the framework of Turkey\'s socio-economic and cultural realities.',
+  },
+];
+
+const seminarsTr: RecordItem[] = [
   {
     title: "Algı Yönetimi ve Manipülasyon",
     venue: "TDED Genel Merkezi, Eyüp",
@@ -735,7 +1369,32 @@ const seminars: RecordItem[] = [
   },
 ];
 
-const speeches: RecordItem[] = [
+const seminarsEn: RecordItem[] = [
+  {
+    title: "Perception Management and Manipulation",
+    venue: "TDED Headquarters, Eyüp",
+    year: "12.04.2025",
+    scope: "National",
+    details:
+      'Presentation of Mücahit Gültekin\'s book "Psychology of Deceiving and Being Deceived" published by Pınar Publishing.',
+  },
+  {
+    title: "Artificial Intelligence and Diplomacy",
+    venue: "Online",
+    year: "03.10.2023",
+    scope: "International",
+    details: "Digital diplomacy and inclusive peace studies for youth.",
+  },
+  {
+    title: "InCites Benchmarking and Analytics",
+    venue: "Haliç University, Istanbul",
+    year: "22.09.2021",
+    scope: "International",
+    details: "Webinar on Web of Science.",
+  },
+];
+
+const speechesTr: RecordItem[] = [
   {
     title: "Yapay Zeka ve Eğitim",
     venue: "İstanbul Medeniyet Üniversitesi Eğitim Fakültesi",
@@ -780,7 +1439,52 @@ const speeches: RecordItem[] = [
   },
 ];
 
-const conferenceOrganizations: RecordItem[] = [
+const speechesEn: RecordItem[] = [
+  {
+    title: "Artificial Intelligence and Education",
+    venue: "Istanbul Medeniyet University Faculty of Education",
+    year: "15.04.2026",
+    scope: "National",
+    details: "Relationship between artificial intelligence and education.",
+  },
+  {
+    title:
+      "In the Shadow of Reality: Looking at Artificial Intelligence with Mind, Heart, Soul, and Wisdom",
+    venue: "Ensar Foundation Headquarters",
+    year: "22.11.2025",
+    scope: "National",
+    details: "Relationship between artificial intelligence and spirituality.",
+  },
+  {
+    title: "Artificial Intelligence and Daily Life",
+    organization: "Republic of Turkey Ministry of Culture and Tourism",
+    venue: "Rami Library, Istanbul",
+    year: "04.04.2025",
+    scope: "National",
+  },
+  {
+    title: "Politics in the Digital Age",
+    venue: "Konya Selçuk University",
+    year: "07.11.2023",
+    scope: "National",
+    details: "Relationship between digitalization and politics.",
+  },
+  {
+    title: "Digital Diplomacy and Inclusive Peace Studies for Youth",
+    venue: "Artificial Intelligence and Diplomacy, Istanbul",
+    year: "03.10.2023",
+    scope: "International",
+  },
+  {
+    title: "Educational Journey",
+    venue: "TVNet Television",
+    year: "05.11.2020",
+    scope: "National",
+    details: "Place and importance of vocational high schools in our education system.",
+  },
+];
+
+const conferenceOrganizationsTr: RecordItem[] = [
   {
     title: "Geçmişten Günümüze Türkçenin İmlası Uluslararası Sempozyumu",
     role: "Oturum Başkanı",
@@ -792,7 +1496,19 @@ const conferenceOrganizations: RecordItem[] = [
   },
 ];
 
-const editors: RecordItem[] = [
+const conferenceOrganizationsEn: RecordItem[] = [
+  {
+    title: "International Symposium on Turkish Spelling from Past to Present",
+    role: "Session Chair",
+    venue: "Istanbul University Faculty of Letters",
+    year: "24-26.09.2025",
+    scope: "International",
+    details:
+      'Session: "We asked ChatGPT: A Critical Look at Turkish Punctuation Marks".',
+  },
+];
+
+const editorsTr: RecordItem[] = [
   {
     title: "GÖÇ VE KÜLTÜREL ETKİLEŞİM (Migration and Cultural Interaction)",
     role: "Editör · Kitap",
@@ -805,7 +1521,20 @@ const editors: RecordItem[] = [
   },
 ];
 
-const certificates: RecordItem[] = [
+const editorsEn: RecordItem[] = [
+  {
+    title: "MIGRATION AND CULTURAL INTERACTION",
+    role: "Editor · Book",
+    organization: "Istanbul Sabahattin Zaim University",
+    startDate: "01.04.2019",
+    endDate: "02.04.2019",
+    scope: "International",
+    details:
+      "In memory of Prof. Dr. M. Mehdi İlhan, who served at Australian National University and Istanbul Sabahattin Zaim University and passed away due to COVID-19.",
+  },
+];
+
+const certificatesTr: RecordItem[] = [
   {
     title:
       "Marmara Üniversitesi – İşletme Bilimleri Uygulama ve Araştırma Merkezi",
@@ -823,7 +1552,25 @@ const certificates: RecordItem[] = [
   },
 ];
 
-const memberships: RecordItem[] = [
+const certificatesEn: RecordItem[] = [
+  {
+    title:
+      "Marmara University – Center for Business Sciences Application and Research",
+    role: "Certificate",
+    scope: "National",
+    venue: "Istanbul",
+    year: "24.06.2000",
+  },
+  {
+    title: "AER (Assembly of European Regions)",
+    role: "Certificate",
+    scope: "International",
+    venue: "Istanbul",
+    year: "03.06.2010",
+  },
+];
+
+const membershipsTr: RecordItem[] = [
   {
     title: "International Political Science Association (IPSA)",
     role: "Üye",
@@ -835,6 +1582,21 @@ const memberships: RecordItem[] = [
     role: "Üye · Yüksek İstişare Kurulu Üyesi (20.10.2024)",
     year: "2023",
     details: "Bilimsel Kuruluş",
+  },
+];
+
+const membershipsEn: RecordItem[] = [
+  {
+    title: "International Political Science Association (IPSA)",
+    role: "Member",
+    year: "2025",
+    details: "Scientific Organization",
+  },
+  {
+    title: "UNDER – Association of University Academic Staff Solidarity",
+    role: "Member · High Advisory Board Member (20.10.2024)",
+    year: "2023",
+    details: "Scientific Organization",
   },
 ];
 
@@ -1022,11 +1784,37 @@ function RecordCards({
 }
 
 export default function Home() {
-  const [lang, setLang] = useState<Language>("tr");
+  const { language: lang, setLanguage: setLang } = useLanguage();
   const [activeSection, setActiveSection] = useState<SectionId>("hakkinda");
   const [contactTab, setContactTab] = useState<"contact" | "cv">("contact");
 
   const t = translations[lang];
+
+  const educationCards = lang === "en" ? educationCardsEn : educationCardsTr;
+  const academicRoles = lang === "en" ? academicRolesEn : academicRolesTr;
+  const adminRoles = lang === "en" ? adminRolesEn : adminRolesTr;
+  const externalExperiences =
+    lang === "en" ? externalExperiencesEn : externalExperiencesTr;
+  const projectRoles = lang === "en" ? projectRolesEn : projectRolesTr;
+  const internationalArticles =
+    lang === "en" ? internationalArticlesEn : internationalArticlesTr;
+  const nationalArticles =
+    lang === "en" ? nationalArticlesEn : nationalArticlesTr;
+  const otherPublications =
+    lang === "en" ? otherPublicationsEn : otherPublicationsTr;
+  const authoredBooks = lang === "en" ? authoredBooksEn : authoredBooksTr;
+  const bookChapters = lang === "en" ? bookChaptersEn : bookChaptersTr;
+  const internationalPapers =
+    lang === "en" ? internationalPapersEn : internationalPapersTr;
+  const nationalPapers = lang === "en" ? nationalPapersEn : nationalPapersTr;
+  const workshops = lang === "en" ? workshopsEn : workshopsTr;
+  const seminars = lang === "en" ? seminarsEn : seminarsTr;
+  const speeches = lang === "en" ? speechesEn : speechesTr;
+  const conferenceOrganizations =
+    lang === "en" ? conferenceOrganizationsEn : conferenceOrganizationsTr;
+  const editors = lang === "en" ? editorsEn : editorsTr;
+  const certificates = lang === "en" ? certificatesEn : certificatesTr;
+  const memberships = lang === "en" ? membershipsEn : membershipsTr;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1059,11 +1847,16 @@ export default function Home() {
     scrollTo("iletisim");
   };
 
-  const lisansCourses = courses.filter(course => course.level === "Lisans");
-  const yuksekLisansCourses = courses.filter(
-    course => course.level === "Yüksek Lisans"
+  const courses = lang === "en" ? coursesEn : coursesTr;
+  const lisansCourses = courses.filter(
+    course => course.level === "Lisans" || course.level === "Undergraduate"
   );
-  const doktoraCourses = courses.filter(course => course.level === "Doktora");
+  const yuksekLisansCourses = courses.filter(
+    course => course.level === "Yüksek Lisans" || course.level === "Master's"
+  );
+  const doktoraCourses = courses.filter(
+    course => course.level === "Doktora" || course.level === "Ph.D."
+  );
 
   return (
     <div
@@ -1084,7 +1877,7 @@ export default function Home() {
       />
 
       <section
-        id="hakkinda"
+        id="hero"
         className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#f5f2eb] pb-16 pt-28 scroll-mt-24 md:pb-20"
       >
         <div className="hero-grid absolute inset-0 opacity-70" />
@@ -1559,33 +2352,62 @@ export default function Home() {
                     {t.membershipsTitle}
                   </h3>
                   <div className="space-y-3">
-                    {[
-                      {
-                        name: "Bezmialem Vakıf Üniversitesi",
-                        role: "Doçent Doktor",
-                        url: "https://bezmialem.edu.tr",
-                      },
-                      {
-                        name: "TDED – Türkiye Dil ve Edebiyat Derneği",
-                        role: "Genel Başkan Yardımcısı ve YK Üyesi",
-                        url: "https://www.tded.org.tr",
-                      },
-                      {
-                        name: "İstanbul Ticaret Odası",
-                        role: "Meclis Üyesi",
-                        url: "https://www.ito.org.tr",
-                      },
-                      {
-                        name: "İTÜ 1773 Teknopark A.Ş.",
-                        role: "Yönetim Kurulu Üyesi",
-                        url: "#",
-                      },
-                      {
-                        name: "FGA Vakfı",
-                        role: "Mütevelli Heyet Başkanı",
-                        url: "#",
-                      },
-                    ].map(aff => (
+                    {(lang === "en"
+                      ? [
+                          {
+                            name: "Bezmialem Vakif University",
+                            role: "Associate Professor",
+                            url: "https://bezmialem.edu.tr",
+                          },
+                          {
+                            name: "TDED – Turkish Language and Literature Association",
+                            role: "Vice President & Board Member",
+                            url: "https://www.tded.org.tr",
+                          },
+                          {
+                            name: "Istanbul Chamber of Commerce",
+                            role: "Assembly Member",
+                            url: "https://www.ito.org.tr",
+                          },
+                          {
+                            name: "ITU 1773 Technopark Inc.",
+                            role: "Board Member",
+                            url: "#",
+                          },
+                          {
+                            name: "FGA Foundation",
+                            role: "Chairman of the Board of Trustees",
+                            url: "#",
+                          },
+                        ]
+                      : [
+                          {
+                            name: "Bezmialem Vakıf Üniversitesi",
+                            role: "Doçent Doktor",
+                            url: "https://bezmialem.edu.tr",
+                          },
+                          {
+                            name: "TDED – Türkiye Dil ve Edebiyat Derneği",
+                            role: "Genel Başkan Yardımcısı ve YK Üyesi",
+                            url: "https://www.tded.org.tr",
+                          },
+                          {
+                            name: "İstanbul Ticaret Odası",
+                            role: "Meclis Üyesi",
+                            url: "https://www.ito.org.tr",
+                          },
+                          {
+                            name: "İTÜ 1773 Teknopark A.Ş.",
+                            role: "Yönetim Kurulu Üyesi",
+                            url: "#",
+                          },
+                          {
+                            name: "FGA Vakfı",
+                            role: "Mütevelli Heyet Başkanı",
+                            url: "#",
+                          },
+                        ]
+                    ).map(aff => (
                       <div
                         key={aff.name}
                         className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
@@ -1616,78 +2438,181 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-[#1e3a5f] text-white py-10">
-        <div className="container">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <p
-                className="font-semibold text-lg"
+      <footer className="bg-[#1e3a5f] text-white pt-12 pb-8 border-t border-white/10">
+        <div className="container max-w-6xl mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+            {/* Col 1: Brand & Profile Info */}
+            <div className="md:col-span-2 space-y-3">
+              <h3
+                className="text-2xl font-semibold tracking-tight text-white"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
-                Doç. Dr. Orhan Albayrak
+                {lang === "en" ? "Assoc. Prof. Orhan Albayrak" : "Doç. Dr. Orhan Albayrak"}
+              </h3>
+              <p className="text-sm text-gray-300 max-w-md leading-relaxed">
+                {lang === "en"
+                  ? "Bezmialem Vakif University – Department of Health Management. Academic research, publications, and public policy studies in Political Science and Digitalization."
+                  : "Bezmialem Vakıf Üniversitesi Sağlık Yönetimi Bölümü Öğretim Üyesi. Siyaset bilimi, dijitalleşme, kamu politikası ve eğitim alanlarında akademik çalışmalar."}
               </p>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 md:justify-end">
-              <a
-                href="https://x.com/OrAlbayrak"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="X (Twitter)"
-                aria-label="X (Twitter)"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
-              >
-                <svg
-                  className="w-4 h-4 fill-current shrink-0"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <a
+                  href="https://x.com/OrAlbayrak"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="X (Twitter)"
+                  aria-label="X (Twitter)"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
                 >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              <a
-                href={LINKEDIN_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LinkedIn"
-                aria-label="LinkedIn"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
-              >
-                <Linkedin size={18} />
-              </a>
-              <a
-                href={FACEBOOK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Facebook"
-                aria-label="Facebook"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
-              >
-                <Facebook size={18} />
-              </a>
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Instagram"
-                aria-label="Instagram"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all"
-              >
-                <Instagram size={18} />
-              </a>
-              <a
-                href={NSOSYAL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="N Sosyal"
-                aria-label="N Sosyal"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-[#c9a227] hover:text-white transition-all font-bold text-xs"
-              >
-                N
-              </a>
+                  <svg
+                    className="w-4 h-4 fill-current shrink-0"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+                <a
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="LinkedIn"
+                  aria-label="LinkedIn"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
+                >
+                  <Linkedin size={18} />
+                </a>
+                <a
+                  href={FACEBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Facebook"
+                  aria-label="Facebook"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
+                >
+                  <Facebook size={18} />
+                </a>
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Instagram"
+                  aria-label="Instagram"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all"
+                >
+                  <Instagram size={18} />
+                </a>
+                <a
+                  href={NSOSYAL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="N Sosyal"
+                  aria-label="N Sosyal"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-[#c9a227] hover:text-white transition-all font-bold text-xs"
+                >
+                  N
+                </a>
+              </div>
+            </div>
+
+            {/* Col 2: Hızlı Bağlantılar / Quick Links */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-[#c9a227]">
+                {lang === "en" ? "Quick Links" : "Hızlı Bağlantılar"}
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li>
+                  <button
+                    onClick={() => scrollTo("hakkinda")}
+                    className="hover:text-white hover:underline transition-colors cursor-pointer text-left"
+                  >
+                    {lang === "en" ? "About Me" : "Hakkımda"}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollTo("egitim")}
+                    className="hover:text-white hover:underline transition-colors cursor-pointer text-left"
+                  >
+                    {lang === "en" ? "Education & Titles" : "Eğitim & Unvanlar"}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollTo("kariyer")}
+                    className="hover:text-white hover:underline transition-colors cursor-pointer text-left"
+                  >
+                    {lang === "en" ? "Career & Experience" : "Kariyer & Deneyim"}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollTo("yayinlar")}
+                    className="hover:text-white hover:underline transition-colors cursor-pointer text-left"
+                  >
+                    {lang === "en" ? "Publications & Activities" : "Yayınlar & Etkinlikler"}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollTo("iletisim")}
+                    className="hover:text-white hover:underline transition-colors cursor-pointer text-left"
+                  >
+                    {lang === "en" ? "Contact & CV Request" : "İletişim & CV Talebi"}
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 3: İletişim & Kurum / Contact Info */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-[#c9a227]">
+                {lang === "en" ? "Contact Info" : "İletişim Bilgileri"}
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li className="flex items-start gap-2">
+                  <MapPin size={16} className="mt-0.5 shrink-0 text-[#c9a227]" />
+                  <span>
+                    {lang === "en"
+                      ? "Bezmialem Vakif University, Eyupsultan, Istanbul"
+                      : "Bezmialem Vakıf Üniversitesi, Eyüpsultan, İstanbul"}
+                  </span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Mail size={16} className="shrink-0 text-[#c9a227]" />
+                  <a
+                    href="mailto:orhan.albayrak@bezmialem.edu.tr"
+                    className="hover:text-white hover:underline transition-colors break-all"
+                  >
+                    orhan.albayrak@bezmialem.edu.tr
+                  </a>
+                </li>
+                <li className="pt-1">
+                  <a
+                    href="https://bezmialem.edu.tr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-gray-300 hover:text-[#c9a227] transition-colors"
+                  >
+                    <span>{lang === "en" ? "Bezmialem Vakif University" : "Bezmialem Vakıf Üniversitesi"}</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
-          <div className="mt-6 pt-6 border-t border-white/10 text-center text-white/40 text-xs">
-            © 2026 Doç. Dr. Orhan Albayrak. Tüm hakları saklıdır.
+
+          {/* Bottom Bar: Copyright & Scroll to Top */}
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+            <p>
+              © 2026 {lang === "en" ? "Assoc. Prof. Orhan Albayrak. All rights reserved." : "Doç. Dr. Orhan Albayrak. Tüm hakları saklıdır."}
+            </p>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-xs text-gray-300 hover:bg-[#c9a227] hover:text-white transition-all cursor-pointer"
+            >
+              <span>{lang === "en" ? "Back to Top" : "Yukarı Çık"}</span>
+              <ChevronUp size={14} />
+            </button>
           </div>
         </div>
       </footer>
