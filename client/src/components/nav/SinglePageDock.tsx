@@ -137,9 +137,8 @@ export function SinglePageDock({
     >
       <div className="flex items-center justify-center gap-0.5 rounded-full border border-white/60 bg-white/82 p-1.5 shadow-[0_14px_50px_rgba(15,32,55,0.16)] backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/85 dark:shadow-black/30 sm:gap-1 sm:p-2">
         {timeStr && (
-          <div className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-[#1e3a5f] dark:text-gray-200 border-r border-[#1e3a5f]/10 dark:border-white/10 pr-3 mr-1">
-            <span className="hidden lg:inline opacity-80">{dateStr}</span>
-            <span className="font-mono font-semibold tracking-tight">{timeStr}</span>
+          <div className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-[#1e3a5f] dark:text-gray-200 border-r border-[#1e3a5f]/10 dark:border-white/10 pr-2.5 mr-1">
+            <span className="font-mono tracking-tight">{timeStr}</span>
           </div>
         )}
 
