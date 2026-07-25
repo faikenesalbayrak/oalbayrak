@@ -290,8 +290,8 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
             </h2>
             <p className="text-gray-500 mt-1 text-base">
               {lang === "en"
-                ? "Select a month and year to copy ready-to-share social media text and images for Assembly and Committee meetings."
-                : "Seçtiğiniz ay ve yıla ait sosyal medyada doğrudan paylaşıma hazır metin ve resimleri kopyalayabilirsiniz."}
+                ? "Select a month and year to view the reports and evaluations for assembly and committee meetings."
+                : "Seçtiğiniz ay ve yıla ait meclis ve komite toplantısına ait değerlendirmeleri okuyabilirsiniz."}
             </p>
           </div>
 
