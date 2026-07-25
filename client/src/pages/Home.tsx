@@ -1501,7 +1501,7 @@ const conferenceOrganizationsEn: RecordItem[] = [
   {
     title: "International Symposium on Turkish Spelling from Past to Present",
     role: "Session Chair",
-    venue: "Istanbul University Faculty of Letters",
+    venue: "Istanbul University Faculty of Literature",
     year: "24-26.09.2025",
     scope: "International",
     details:
