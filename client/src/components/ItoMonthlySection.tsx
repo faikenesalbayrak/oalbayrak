@@ -3,7 +3,10 @@ import { Calendar, Building2, Image as ImageIcon, Copy, Check, Share2 } from "lu
 
 export type MeetingContent = {
   images?: string[];
-  paragraphs: string[];
+  paragraphs: {
+    tr: string[];
+    en: string[];
+  };
 };
 
 export type ItoMonthlyReport = {
@@ -45,26 +48,40 @@ const MONTHS_EN = [
 
 const YEARS = [2026, 2025, 2024, 2023, 2022];
 
-// Örnek Başlangıç Paylaşım Metinleri (Sosyal Medya Gönderisi Üslubunda)
+// Türkçe & İngilizce Sosyal Medya Paylaşım Metinleri
 const INITIAL_REPORTS: ItoMonthlyReport[] = [
   {
     year: 2026,
     month: 7, // Temmuz 2026
     councilMeeting: {
       images: ["/images/ito-logo.png", "/images/ito-logo.png"],
-      paragraphs: [
-        "🏛️ Bugün İstanbul Ticaret Odamızın Temmuz 2026 Meclis Oturumu'nu meclis üyesi dostlarımız ve yönetim kurulumuzun katılımıyla gerçekleştirdik. İTO çatısı altında tüccarımızın, sanayicimizin ve eğitim dünyamızın güncel konularını detaylarıyla ele aldık.",
-        "📊 Meclis gündemimizde temsilcisi olduğum 80. Eğitim Meslek Komitesi bünyesinde yürüttüğümüz mesleki eğitim projelerini, nitelikli istihdam adımlarını ve sanayi-okul iş birliği çalışmalarını değerli meclis üyelerimizle paylaştık.",
-        "🤝 Alınan kararların İstanbul'umuza ve iş dünyamıza hayırlı olmasını diliyorum. Üretmeye, eğitimin gücüyle yarınlarımızı inşa etmeye kararlılıkla devam ediyoruz. #İTO #İstanbulTicaretOdası #MeclisToplantısı #Eğitim",
-      ],
+      paragraphs: {
+        tr: [
+          "🏛️ Bugün İstanbul Ticaret Odamızın Temmuz 2026 Meclis Oturumu'nu meclis üyesi dostlarımız ve yönetim kurulumuzun katılımıyla gerçekleştirdik. İTO çatısı altında tüccarımızın, sanayicimizin ve eğitim dünyamızın güncel konularını detaylarıyla ele aldık.",
+          "📊 Meclis gündemimizde temsilcisi olduğum 80. Eğitim Meslek Komitesi bünyesinde yürüttüğümüz mesleki eğitim projelerini, nitelikli istihdam adımlarını ve sanayi-okul iş birliği çalışmalarını değerli meclis üyelerimizle paylaştık.",
+          "🤝 Alınan kararların İstanbul'umuza ve iş dünyamıza hayırlı olmasını diliyorum. Üretmeye, eğitimin gücüyle yarınlarımızı inşa etmeye kararlılıkla devam ediyoruz. #İTO #İstanbulTicaretOdası #MeclisToplantısı #Eğitim",
+        ],
+        en: [
+          "🏛️ Today, we held the July 2026 Assembly Session of the Istanbul Chamber of Commerce with the participation of our assembly members and board of directors. Under the ITO umbrella, we discussed key issues regarding our business community, economy, and education sector.",
+          "📊 On our assembly agenda, we presented our ongoing vocational education projects, skilled workforce initiatives, and industry-school cooperation efforts carried out under the 80th Education Professional Committee.",
+          "🤝 I hope the decisions taken will be beneficial to Istanbul and our business community. We continue to build our future through the power of education. #ITO #IstanbulChamberOfCommerce #AssemblyMeeting #Education",
+        ],
+      },
     },
     committeeMeeting: {
       images: ["/images/ito-logo.png", "/images/ito-logo.png", "/images/ito-logo.png"],
-      paragraphs: [
-        "🎓 İstanbul Ticaret Odası 80. Eğitim Meslek Komitesi olarak Temmuz 2026 olağan toplantımızı komite üyelerimiz ve sektör temsilcilerimizin katılımıyla tamamladık.",
-        "💡 Toplantımızda özel ve kamusal eğitim kurumlarımızın ihtiyaçlarını, müfredattaki dijital dönüşüm adımlarını ve genç nüfusumuzun geleceğin yetkinlikleriyle donatılmasına yönelik projelerimizi istişare ettik.",
-        "🚀 Sektörümüzün sesini gür bir şekilde duyurmaya, nitelikli eğitimi ve üretken girişimciliği desteklemeye ara vermeden devam edeceğiz. Katkı sağlayan tüm komite üyelerimize teşekkür ediyorum. #İTO #EğitimKomitesi #MeslekiEğitim #İstanbul",
-      ],
+      paragraphs: {
+        tr: [
+          "🎓 İstanbul Ticaret Odası 80. Eğitim Meslek Komitesi olarak Temmuz 2026 olağan toplantımızı komite üyelerimiz ve sektör temsilcilerimizin katılımıyla tamamladık.",
+          "💡 Toplantımızda özel ve kamusal eğitim kurumlarımızın ihtiyaçlarını, müfredattaki dijital dönüşüm adımlarını ve genç nüfusumuzun geleceğin yetkinlikleriyle donatılmasına yönelik projelerimizi istişare ettik.",
+          "🚀 Sektörümüzün sesini gür bir şekilde duyurmaya, nitelikli eğitimi ve üretken girişimciliği desteklemeye ara vermeden devam edeceğiz. Katkı sağlayan tüm komite üyelerimize teşekkür ediyorum. #İTO #EğitimKomitesi #MeslekiEğitim #İstanbul",
+        ],
+        en: [
+          "🎓 As the 80th Education Professional Committee of the Istanbul Chamber of Commerce, we completed our July 2026 regular meeting with our committee members and sector representatives.",
+          "💡 During our meeting, we evaluated the needs of our private and public educational institutions, digital transformation steps in curriculum, and projects aimed at equipping our youth with future competencies.",
+          "🚀 We will continue to give a strong voice to our sector and support quality education and productive entrepreneurship. I thank all committee members for their contributions. #ITO #EducationCommittee #VocationalEducation #Istanbul",
+        ],
+      },
     },
   },
   {
@@ -72,17 +89,29 @@ const INITIAL_REPORTS: ItoMonthlyReport[] = [
     month: 6, // Haziran 2026
     councilMeeting: {
       images: ["/images/ito-logo.png", "/images/ito-logo.png"],
-      paragraphs: [
-        "🏛️ İstanbul Ticaret Odası Haziran 2026 Meclis Toplantımızda küresel ticaret dinamiklerini ve kentimiz ekonomisine etkilerini değerlendirdik.",
-        "📚 Eğitim ve istihdam alanında geliştirdiğimiz yeni stratejilerimizi meclis üyelerimizin takdirine sunduk. Hayırlara vesile olsun. #İTO #MeclisToplantısı",
-      ],
+      paragraphs: {
+        tr: [
+          "🏛️ İstanbul Ticaret Odası Haziran 2026 Meclis Toplantımızda küresel ticaret dinamiklerini ve kentimiz ekonomisine etkilerini değerlendirdik.",
+          "📚 Eğitim ve istihdam alanında geliştirdiğimiz yeni stratejilerimizi meclis üyelerimizin takdirine sunduk. Hayırlara vesile olsun. #İTO #MeclisToplantısı",
+        ],
+        en: [
+          "🏛️ At our Istanbul Chamber of Commerce June 2026 Assembly Meeting, we evaluated global trade dynamics and their impact on our city's economy.",
+          "📚 We presented our new strategies in education and employment to the appreciation of our assembly members. #ITO #AssemblyMeeting",
+        ],
+      },
     },
     committeeMeeting: {
       images: ["/images/ito-logo.png", "/images/ito-logo.png"],
-      paragraphs: [
-        "🎓 80. Eğitim Meslek Komitemizin Haziran 2026 toplantısında eğitim sektöründeki dijitalleşme ve yenilikçi müfredat çalışmalarını ele aldık.",
-        "🤝 Sektör paydaşlarımızla el ele vererek eğitimde niteliği artırmak adına kararlılıkla çalışıyoruz. #İTO #EğitimKomitesi",
-      ],
+      paragraphs: {
+        tr: [
+          "🎓 80. Eğitim Meslek Komitemizin Haziran 2026 toplantısında eğitim sektöründeki dijitalleşme ve yenilikçi müfredat çalışmalarını ele aldık.",
+          "🤝 Sektör paydaşlarımızla el ele vererek eğitimde niteliği artırmak adına kararlılıkla çalışıyoruz. #İTO #EğitimKomitesi",
+        ],
+        en: [
+          "🎓 At the June 2026 meeting of our 80th Education Professional Committee, we addressed digitalization in the education sector and innovative curriculum studies.",
+          "🤝 We are working resolutely with our sector stakeholders to enhance quality in education. #ITO #EducationCommittee",
+        ],
+      },
     },
   },
 ];
@@ -147,7 +176,6 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
     if (!images || images.length === 0) return;
 
     try {
-      // 1. Resmi panoya kopyalamayı dene
       const imgUrl = images[0];
       const response = await fetch(imgUrl);
       const blob = await response.blob();
@@ -158,7 +186,6 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
         ]);
       }
     } catch {
-      // Fallback: Görsel bağlantılarını kopyala
       const links = images.map(img => window.location.origin + img).join("\n");
       await navigator.clipboard.writeText(links);
     }
@@ -182,7 +209,7 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
             >
               <img
                 src={imgUrl}
-                alt={`Görsel ${idx + 1}`}
+                alt={`${lang === "en" ? "Image" : "Görsel"} ${idx + 1}`}
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform"
               />
               <span className="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded font-mono">
@@ -203,31 +230,47 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
             className="aspect-4/3 rounded-xl bg-[#f8f9fc] border border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 p-2 text-center"
           >
             <ImageIcon size={22} className="mb-1 text-gray-300" />
-            <span className="text-[11px] font-medium">Resim {num}</span>
+            <span className="text-[11px] font-medium">
+              {lang === "en" ? `Image ${num}` : `Resim ${num}`}
+            </span>
           </div>
         ))}
       </div>
     );
   };
 
-  // Meclis toplantısı paragrafları
-  const defaultCouncilParas = [
-    `🏛️ Bugün İstanbul Ticaret Odamızın ${monthName} ${selectedYear} Meclis Toplantısı'nı gerçekleştirdik. Kentimiz ekonomisine, iş dünyamıza ve eğitim sektörümüze dair kritik başlıkları meclis gündemimizde müzakere ettik.`,
-    `📊 80. Eğitim Meslek Komitesi bünyesinde yürüttüğümüz çalışmalarımızı ve mesleki eğitim projelerimizi meclis üyelerimizin bilgisine sunduk.`,
-    `🤝 Üretmeye, nitelikli eğitimi desteklemeye ve İstanbul'umuz için çalışmaya kararlılıkla devam ediyoruz. #İTO #İstanbulTicaretOdası #MeclisToplantısı #${monthName}${selectedYear}`,
-  ];
+  // Meclis toplantısı varsayılan paragrafları (TR / EN)
+  const defaultCouncilParas =
+    lang === "en"
+      ? [
+          `🏛️ Today, we conducted the ${monthName} ${selectedYear} Assembly Meeting of the Istanbul Chamber of Commerce. We deliberated critical topics regarding our city's economy and education sector.`,
+          `📊 We shared our vocational training projects and committee initiatives under the 80th Education Professional Committee with our assembly members.`,
+          `🤝 We remain committed to supporting quality education and serving Istanbul. #ITO #IstanbulChamberOfCommerce #${monthName}${selectedYear}`,
+        ]
+      : [
+          `🏛️ Bugün İstanbul Ticaret Odamızın ${monthName} ${selectedYear} Meclis Toplantısı'nı gerçekleştirdik. Kentimiz ekonomisine, iş dünyamıza ve eğitim sektörümüze dair kritik başlıkları meclis gündemimizde müzakere ettik.`,
+          `📊 80. Eğitim Meslek Komitesi bünyesinde yürüttüğümüz çalışmalarımızı ve mesleki eğitim projelerimizi meclis üyelerimizin bilgisine sunduk.`,
+          `🤝 Üretmeye, nitelikli eğitimi desteklemeye ve İstanbul'umuz için çalışmaya kararlılıkla devam ediyoruz. #İTO #İstanbulTicaretOdası #MeclisToplantısı #${monthName}${selectedYear}`,
+        ];
 
-  // Komite toplantısı paragrafları
-  const defaultCommitteeParas = [
-    `🎓 İstanbul Ticaret Odası 80. Eğitim Meslek Komitesi olarak ${monthName} ${selectedYear} olağan toplantımızı değerli komite üyelerimizle birlikte tamamladık.`,
-    `💡 Sektörümüzün talep ve beklentilerini, eğitimde dijital dönüşüm adımlarını ve geleceğin mesleki becerilerini detaylarıyla değerlendirdik.`,
-    `🚀 Eğitimin gücüyle geleceği inşa etmeye ve sektörümüze değer katmaya devam edeceğiz. Katkı sunan tüm dostlarımıza teşekkür ediyorum. #İTO #EğitimKomitesi #MeslekiEğitim #${monthName}${selectedYear}`,
-  ];
+  // Komite toplantısı varsayılan paragrafları (TR / EN)
+  const defaultCommitteeParas =
+    lang === "en"
+      ? [
+          `🎓 As the 80th Education Professional Committee of the Istanbul Chamber of Commerce, we completed our ${monthName} ${selectedYear} regular meeting.`,
+          `💡 We evaluated our sector's demands, digital transformation steps in education, and future skill requirements.`,
+          `🚀 We will continue to build the future through education and add value to our sector. #ITO #EducationCommittee #${monthName}${selectedYear}`,
+        ]
+      : [
+          `🎓 İstanbul Ticaret Odası 80. Eğitim Meslek Komitesi olarak ${monthName} ${selectedYear} olağan toplantımızı değerli komite üyelerimizle birlikte tamamladık.`,
+          `💡 Sektörümüzün talep ve beklentilerini, eğitimde dijital dönüşüm adımlarını ve geleceğin mesleki becerilerini detaylarıyla değerlendirdik.`,
+          `🚀 Eğitimin gücüyle geleceği inşa etmeye ve sektörümüze değer katmaya devam edeceğiz. Katkı sunan tüm dostlarımıza teşekkür ediyorum. #İTO #EğitimKomitesi #MeslekiEğitim #${monthName}${selectedYear}`,
+        ];
 
   const councilParagraphs =
-    currentReport?.councilMeeting.paragraphs || defaultCouncilParas;
+    currentReport?.councilMeeting.paragraphs[lang] || defaultCouncilParas;
   const committeeParagraphs =
-    currentReport?.committeeMeeting.paragraphs || defaultCommitteeParas;
+    currentReport?.committeeMeeting.paragraphs[lang] || defaultCommitteeParas;
 
   return (
     <section id="ito-bu-ay" className="py-20 bg-[#f8f9fc] scroll-mt-24">
@@ -237,7 +280,7 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
           <div>
             <div className="flex items-center gap-2 text-[#c9a227] text-sm font-semibold tracking-wider uppercase mb-2">
               <Building2 size={18} />
-              <span>{lang === "en" ? "Monthly Reports" : "Aylık Faaliyetler"}</span>
+              <span>{lang === "en" ? "Monthly Activities" : "Aylık Faaliyetler"}</span>
             </div>
             <h2
               className="text-3xl md:text-4xl font-bold text-[#1e3a5f]"
@@ -247,7 +290,7 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
             </h2>
             <p className="text-gray-500 mt-1 text-base">
               {lang === "en"
-                ? "Select a month and year to view ready-to-share social media text and images."
+                ? "Select a month and year to copy ready-to-share social media text and images for Assembly and Committee meetings."
                 : "Seçtiğiniz ay ve yıla ait sosyal medyada doğrudan paylaşıma hazır metin ve resimleri kopyalayabilirsiniz."}
             </p>
           </div>
@@ -378,7 +421,9 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
                     {copiedCouncilImages ? (
                       <>
                         <Check size={14} className="text-green-600" />
-                        <span className="text-green-600 font-bold">{lang === "en" ? "Copied!" : "Resim Kopyalandı!"}</span>
+                        <span className="text-green-600 font-bold">
+                          {lang === "en" ? "Copied!" : "Resim Kopyalandı!"}
+                        </span>
                       </>
                     ) : (
                       <>
@@ -455,7 +500,9 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
                     {copiedCommitteeImages ? (
                       <>
                         <Check size={14} className="text-green-600" />
-                        <span className="text-green-600 font-bold">{lang === "en" ? "Copied!" : "Resim Kopyalandı!"}</span>
+                        <span className="text-green-600 font-bold">
+                          {lang === "en" ? "Copied!" : "Resim Kopyalandı!"}
+                        </span>
                       </>
                     ) : (
                       <>
