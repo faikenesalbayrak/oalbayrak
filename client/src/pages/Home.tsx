@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Award,
+  BarChart3,
   BookOpen,
   Building,
   Calendar,
@@ -26,15 +27,13 @@ import {
 } from "@/components/nav/SinglePageDock";
 import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
-import { CvRequestForm } from "@/components/site/CvRequestForm";
 import { ItoMonthlySection } from "@/components/ItoMonthlySection";
 import { CursorGrid } from "@/components/ui/cursor-grid";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
-const PROFILE_IMG = "/images/oalbayrakprofil_yeni.png";
+const PROFILE_IMG = "/images/oalbayrak_ito_hero.jpg";
 
 const TWITTER_URL = "https://twitter.com/OrAlbayrak";
 const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak/?locale=en";
@@ -906,8 +905,7 @@ const internationalArticlesEn: RecordItem[] = [
 
 const nationalArticlesTr: RecordItem[] = [
   {
-    title:
-      "Siyasi Parti Üyelerinin Katılım Düzeyi ve Etkileyen Faktörler: İstanbul AK Parti ve CHP Örneği",
+    title: "Dijital Diplomasi 3.0",
     year: "2023",
     venue: "İstanbul Ticaret Üniversitesi Sosyal Bilimler Dergisi",
     citation: "22(46), 493-508",
@@ -934,8 +932,7 @@ const nationalArticlesTr: RecordItem[] = [
 
 const nationalArticlesEn: RecordItem[] = [
   {
-    title:
-      "Participation Level of Political Party Members and Influencing Factors: The Case of Istanbul AK Party and CHP",
+    title: "Digital Diplomacy 3.0",
     year: "2023",
     venue: "Istanbul Commerce University Journal of Social Sciences",
     citation: "22(46), 493-508",
@@ -1093,6 +1090,18 @@ const authoredBooksEn: RecordItem[] = [
 
 const bookChaptersTr: RecordItem[] = [
   {
+    title: "İletişim ve İlişki Sorunları",
+    chapter: "İletişimde Yapay Zeka ve Dijital Olgunlukta Uyumun Rolü",
+    year: "2025",
+    publisher: "Çizgi Kitabevi",
+    edition: "1",
+    pages: "335",
+    editor: "A. Muhsin Yılmazçoban",
+    language: "Türkçe",
+    scope: "Bilimsel Kitap",
+    rightImage: "/images/iletisim-ve-iliski-sorunlari-kitap.png",
+  },
+  {
     title: "Demokrasi ve Etkin Yurttaşlık",
     chapter:
       "Yeni Medya Aracılığıyla Dijital Demokrasi ve Siyasi Katılımın Dönüşümü",
@@ -1150,6 +1159,19 @@ const bookChaptersTr: RecordItem[] = [
 ];
 
 const bookChaptersEn: RecordItem[] = [
+  {
+    title: "Communication and Relationship Issues",
+    chapter:
+      "The Role of Artificial Intelligence in Communication and Alignment in Digital Maturity",
+    year: "2025",
+    publisher: "Çizgi Bookstore",
+    edition: "1",
+    pages: "335",
+    editor: "A. Muhsin Yılmazçoban",
+    language: "Turkish",
+    scope: "Scholarly Book",
+    rightImage: "/images/iletisim-ve-iliski-sorunlari-kitap.png",
+  },
   {
     title: "Democracy and Active Citizenship",
     chapter:
@@ -1875,7 +1897,6 @@ function RecordCards({
 export default function Home() {
   const { language: lang, setLanguage: setLang } = useLanguage();
   const [activeSection, setActiveSection] = useState<SectionId>("hakkinda");
-  const [contactTab, setContactTab] = useState<"contact" | "cv">("contact");
 
   const t = translations[lang];
 
@@ -1931,10 +1952,7 @@ export default function Home() {
     }
   };
 
-  const openCvRequest = () => {
-    setContactTab("cv");
-    scrollTo("iletisim");
-  };
+
 
   const courses = lang === "en" ? coursesEn : coursesTr;
   const lisansCourses = courses.filter(
@@ -2072,7 +2090,6 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => {
-                    setContactTab("contact");
                     scrollTo("iletisim");
                   }}
                   className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#1e3a5f]/20 bg-white/65 px-4 py-3 font-semibold text-[#1e3a5f] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#1e3a5f]/40 hover:bg-white dark:border-white/15 dark:bg-white/10 dark:text-white dark:hover:bg-white/15"
@@ -2087,7 +2104,7 @@ export default function Home() {
                   {t.heroStats?.associateProf ?? (lang === "en" ? "Associate Professorship" : "Doçentlik")}
                 </span>
                 <span>
-                  <strong className="text-[#1e3a5f]">20K+</strong>{" "}
+                  <strong className="text-[#1e3a5f]">16K+</strong>{" "}
                   {t.heroStats?.employmentImpact ?? (lang === "en" ? "Employment impact" : "İstihdam etkisi")}
                 </span>
                 <span>
@@ -2098,18 +2115,18 @@ export default function Home() {
             </div>
 
             <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
-              <div className="relative w-full max-w-[420px]">
-                <div className="absolute inset-x-8 bottom-0 h-[78%] rounded-[5rem_5rem_8rem_2.5rem] bg-gradient-to-br from-[#14243b] via-[#1e3a5f] to-[#7a2948] shadow-[0_40px_80px_rgba(20,36,59,0.28)]" />
-                <div className="absolute inset-x-2 bottom-4 h-[72%] rounded-[5rem_5rem_8rem_2.5rem] border border-white/25" />
-                <div className="relative mx-auto aspect-square w-[88%] overflow-hidden rounded-[3rem] border border-white/30 bg-white p-2 shadow-2xl dark:bg-[#111a27]">
+              <div className="relative w-full max-w-[560px]">
+                <div className="absolute inset-x-4 bottom-0 h-[78%] rounded-[3rem_3rem_5rem_2.5rem] bg-gradient-to-br from-[#14243b] via-[#1e3a5f] to-[#7a2948] shadow-[0_40px_80px_rgba(20,36,59,0.28)]" />
+                <div className="absolute inset-x-1 bottom-3 h-[72%] rounded-[3rem_3rem_5rem_2.5rem] border border-white/25" />
+                <div className="relative mx-auto aspect-[16/10] w-[95%] overflow-hidden rounded-[2.5rem] border border-white/30 bg-white p-2 shadow-2xl dark:bg-[#111a27]">
                   <img
                     src={PROFILE_IMG}
                     alt="Doç. Dr. Orhan Albayrak"
-                    className="h-full w-full rounded-[2.5rem] object-cover object-center"
+                    className="h-full w-full rounded-[2rem] object-cover object-center"
                   />
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#14243b]/80 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#14243b]/60 to-transparent pointer-events-none" />
                 </div>
-                <div className="absolute -bottom-5 -left-2 max-w-[280px] rounded-2xl border border-white/70 bg-white/90 p-4 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/90 sm:-left-8">
+                <div className="absolute -bottom-6 left-4 sm:left-0 max-w-[300px] rounded-2xl border border-white/70 bg-white/90 p-4 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/90 z-20">
                   <p className="text-sm font-medium italic leading-relaxed text-[#1e3a5f] dark:text-white">
                     “{t.profileBadge}”
                   </p>
@@ -2427,6 +2444,7 @@ export default function Home() {
                 venueLabel={t.cardLabels.place}
                 labels={t.cardLabels}
               />
+
             </div>
 
             <div className="space-y-4">
@@ -2470,33 +2488,7 @@ export default function Home() {
             <SectionTitle title={t.contactBtn} />
             <div className="grid gap-8 lg:grid-cols-[1.55fr_.75fr] lg:items-start">
               <div className="rounded-3xl border border-gray-100 bg-[#f8f9fc] p-5 shadow-sm md:p-8">
-                <Tabs
-                  value={contactTab}
-                  onValueChange={value =>
-                    setContactTab(value as "contact" | "cv")
-                  }
-                >
-                  <TabsList className="mb-7 grid h-auto w-full grid-cols-2 rounded-full bg-white p-1.5 shadow-sm">
-                    <TabsTrigger
-                      value="contact"
-                      className="rounded-full py-2.5 data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white"
-                    >
-                      {t.contactFormTab}
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="cv"
-                      className="rounded-full py-2.5 data-[state=active]:bg-[#7a2948] data-[state=active]:text-white"
-                    >
-                      {t.cvFormTab}
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="contact">
-                    <ContactForm />
-                  </TabsContent>
-                  <TabsContent value="cv">
-                    <CvRequestForm />
-                  </TabsContent>
-                </Tabs>
+                <ContactForm />
               </div>
 
               <div className="space-y-5">
@@ -2623,7 +2615,7 @@ export default function Home() {
                 className="text-2xl font-semibold tracking-tight text-white"
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
-                {lang === "en" ? "Assoc. Prof. Orhan Albayrak" : "Doç. Dr. Orhan Albayrak"}
+                {lang === "en" ? "Assoc. Prof. Dr. Orhan Albayrak" : "Doç. Dr. Orhan Albayrak"}
               </h3>
               <p className="text-sm text-gray-300 max-w-md leading-relaxed">
                 {lang === "en"
@@ -2737,7 +2729,7 @@ export default function Home() {
                     onClick={() => scrollTo("iletisim")}
                     className="hover:text-white hover:underline transition-colors cursor-pointer text-left"
                   >
-                    {lang === "en" ? "Contact & CV Request" : "İletişim & CV Talebi"}
+                    {lang === "en" ? "Contact" : "İletişim"}
                   </button>
                 </li>
               </ul>
@@ -2826,7 +2818,7 @@ export default function Home() {
           {/* Bottom Bar: Copyright & Scroll to Top */}
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
             <p>
-              © 2026 {lang === "en" ? "Assoc. Prof. Orhan Albayrak. All rights reserved." : "Doç. Dr. Orhan Albayrak. Tüm hakları saklıdır."}
+              © 2026 {lang === "en" ? "Assoc. Prof. Dr. Orhan Albayrak. All rights reserved." : "Doç. Dr. Orhan Albayrak. Tüm hakları saklıdır."}
             </p>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

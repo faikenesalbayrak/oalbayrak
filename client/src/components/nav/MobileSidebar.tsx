@@ -8,7 +8,6 @@ import { SettingsPanel } from "./SettingsPanel";
 type MobileSidebarProps = {
   activeSection: SectionId;
   onNavigate: (id: SectionId) => void;
-  onOpenCvRequest?: () => void;
   lang: "tr" | "en";
   onLanguageChange: (lang: "tr" | "en") => void;
 };
