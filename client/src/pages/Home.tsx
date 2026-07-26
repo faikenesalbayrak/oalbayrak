@@ -2540,7 +2540,7 @@ export default function Home() {
                           {
                             name: "ITU 1773 Technopark Inc.",
                             role: "Board Member",
-                            url: "#",
+                            url: "https://1773ituteknopark.com",
                           },
                           {
                             name: "FGA Foundation",
@@ -2567,7 +2567,7 @@ export default function Home() {
                           {
                             name: "İTÜ 1773 Teknopark A.Ş.",
                             role: "Yönetim Kurulu Üyesi",
-                            url: "#",
+                            url: "https://1773ituteknopark.com",
                           },
                           {
                             name: "FGA Vakfı",
