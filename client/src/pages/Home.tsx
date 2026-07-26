@@ -2127,8 +2127,8 @@ export default function Home() {
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#14243b]/60 to-transparent pointer-events-none" />
                 </div>
-                <div className="absolute -bottom-6 left-4 sm:left-0 max-w-[300px] rounded-2xl border border-white/70 bg-white/90 p-4 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/90 z-20">
-                  <p className="text-sm font-medium italic leading-relaxed text-[#1e3a5f] dark:text-white">
+                <div className="absolute -bottom-6 -left-4 sm:-left-8 max-w-[240px] sm:max-w-[270px] rounded-2xl border border-white/70 bg-white/90 p-3.5 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-[#111a27]/90 z-20">
+                  <p className="text-xs sm:text-sm font-medium italic leading-relaxed text-[#1e3a5f] dark:text-white">
                     “{t.profileBadge}”
                   </p>
                 </div>
