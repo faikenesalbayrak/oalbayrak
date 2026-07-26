@@ -5,6 +5,7 @@ import {
   BookOpen,
   BriefcaseBusiness,
   Building2,
+  Globe2,
   GraduationCap,
   Home,
   Mail,
@@ -25,6 +26,7 @@ export type SectionId =
   | "kariyer"
   | "yayinlar"
   | "ito-bu-ay"
+  | "isbirlikleri"
   | "iletisim";
 
 type DockItem = {
@@ -54,6 +56,11 @@ export const DOCK_ITEMS: DockItem[] = [
     id: "ito-bu-ay",
     label: { tr: "İTO", en: "ITO" },
     icon: Building2,
+  },
+  {
+    id: "isbirlikleri",
+    label: { tr: "İşbirlikleri", en: "Collaborations" },
+    icon: Globe2,
   },
   { id: "iletisim", label: { tr: "İletişim", en: "Contact" }, icon: Mail },
 ];

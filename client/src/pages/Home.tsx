@@ -28,6 +28,7 @@ import {
 import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
 import { ItoMonthlySection } from "@/components/ItoMonthlySection";
+import { CollaborationsSection } from "@/components/CollaborationsSection";
 import { CursorGrid } from "@/components/ui/cursor-grid";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -2481,6 +2482,8 @@ export default function Home() {
       </section>
 
       <ItoMonthlySection lang={lang} />
+
+      <CollaborationsSection lang={lang} />
 
       <section id="iletisim" className="py-20 bg-white scroll-mt-24">
         <div className="container">
