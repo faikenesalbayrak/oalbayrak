@@ -70,7 +70,16 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
       { nameTr: "Washington", nameEn: "Washington", lat: 38.9072, lng: -77.0369 },
     ],
   },
-  { id: "JP", nameTr: "Japonya", nameEn: "Japan", lat: 36.2048, lng: 138.2529, flag: "🇯🇵", region: "asya" },
+  {
+    id: "JP",
+    nameTr: "Japonya",
+    nameEn: "Japan",
+    lat: 36.2048,
+    lng: 138.2529,
+    flag: "🇯🇵",
+    region: "asya",
+    cities: [{ nameTr: "Tokyo", nameEn: "Tokyo", lat: 35.6762, lng: 139.6503 }],
+  },
   {
     id: "MY",
     nameTr: "Malezya",
