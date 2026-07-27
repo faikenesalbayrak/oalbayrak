@@ -81,6 +81,16 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
     cities: [{ nameTr: "Tokyo", nameEn: "Tokyo", lat: 35.6762, lng: 139.6503 }],
   },
   {
+    id: "KR",
+    nameTr: "Güney Kore",
+    nameEn: "South Korea",
+    lat: 35.9078,
+    lng: 127.7669,
+    flag: "🇰🇷",
+    region: "asya",
+    cities: [{ nameTr: "Seul", nameEn: "Seoul", lat: 37.5665, lng: 126.978 }],
+  },
+  {
     id: "MY",
     nameTr: "Malezya",
     nameEn: "Malaysia",
@@ -804,6 +814,8 @@ const COUNTRY_INFO_MAP: Record<string, { tr: string; flag: string }> = {
   "Montenegro": { tr: "Karadağ", flag: "🇲🇪" },
   "Bulgaria": { tr: "Bulgaristan", flag: "🇧🇬" },
   "Kosovo": { tr: "Kosova", flag: "🇽🇰" },
+  "Dem. Rep. Korea": { tr: "Kuzey Kore", flag: "🇰🇵" },
+  "Korea, Dem. People's Rep. of": { tr: "Kuzey Kore", flag: "🇰🇵" },
   "Cyprus": { tr: "Kıbrıs", flag: "🇨🇾" },
   "Iceland": { tr: "İzlanda", flag: "🇮🇸" },
 };
@@ -1207,7 +1219,7 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                 );
               })()}
 
-              {/* Ana Coğrafi Ülke Poligonları (Kalınlaştırılmış 3D Kabartmalı Stilde) */}
+              {/* Ana Coğrafi Ülke Poligonları (Kalınlaştırılmış 3D Kabartmalı Stilde ve Yükselme Efektli) */}
               <g className="countries" filter="url(#land-3d-shadow)">
                 {geographies.map((geo, index) => {
                   const d = pathGenerator(geo);
@@ -1232,32 +1244,56 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                       (c.id === "PT" && (gName.includes("portugal") || geo.id === "PRT")) ||
                       (c.id === "SM" && (gName.includes("marino") || geo.id === "SMR")) ||
                       (c.id === "XK" && (gName.includes("kosovo") || geo.id === "KOS" || geo.id === "XKX")) ||
+                      (c.id === "KR" && (gName.includes("south korea") || gName === "korea, republic of" || geo.id === "KOR")) ||
                       (c.id && (c.id === geo.id || c.id === geo.properties?.iso_a2))
                     );
                   });
 
+                  const isHovered = hoverCountry
+                    ? (matchedActivePin?.id === hoverCountry.id)
+                    : (hoverFeatureName && hoverFeatureName.toLowerCase() === geoName.toLowerCase());
+
+                  const isSelected = selectedCountry && matchedActivePin?.id === selectedCountry.id;
+
+                  // Seçilen veya hover edilen ülkeyi belirginleştirmesi
+                  const isElevated = isHovered || isSelected;
+
                   return (
-                    <path
-                      key={geo.id || index}
-                      d={d}
-                      fill={matchedActivePin ? "#2b4c7e" : "#1a2a44"}
-                      stroke={matchedActivePin ? "#c9a227" : "#3b4f71"}
-                      strokeWidth={(matchedActivePin ? 0.8 : 0.4) / Math.sqrt(manualZoom)}
-                      onMouseEnter={() => {
-                        if (!matchedActivePin) {
-                          setHoverFeatureName(geoName);
-                        }
-                      }}
-                      onMouseLeave={() => {
-                        setHoverFeatureName(null);
-                      }}
-                      className="transition-all duration-200 hover:fill-amber-500/50 hover:stroke-amber-400 cursor-pointer"
-                    />
+                    <g key={geo.id || index} className="country-polygon-group">
+                      {/* Ülke Yüzeyi (Fiziki Konumu Kaymadan Titremesiz Şık Parlayan Yüzey) */}
+                      <path
+                        d={d}
+                        fill={isElevated ? "#3b82f6" : matchedActivePin ? "#2b4c7e" : "#1a2a44"}
+                        stroke={isElevated ? "#93c5fd" : matchedActivePin ? "#c9a227" : "#3b4f71"}
+                        strokeWidth={(isElevated ? 2.2 : matchedActivePin ? 0.9 : 0.4) / Math.sqrt(manualZoom)}
+                        onMouseEnter={() => {
+                          if (matchedActivePin) {
+                            setHoverCountry(matchedActivePin);
+                            setHoverFeatureName(null);
+                          } else {
+                            setHoverCountry(null);
+                            setHoverFeatureName(geoName);
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          setHoverCountry(null);
+                          setHoverFeatureName(null);
+                        }}
+                        onClick={() => {
+                          if (matchedActivePin) {
+                            setSelectedCountry(matchedActivePin);
+                          }
+                        }}
+                        className={`transition-colors duration-150 cursor-pointer ${
+                          isElevated ? "drop-shadow-[0_0_12px_rgba(59,130,246,0.9)]" : ""
+                        }`}
+                      />
+                    </g>
                   );
                 })}
               </g>
 
-              {/* Ziyaret Edilen Ülke İğneleri (Pins) - Sade İç Daire Noktaları */}
+              {/* Ziyaret Edilen Ülke İğneleri (Pins) - Sade, Temiz ve Şık Görünüm */}
               <g className="pins">
                 {filteredCountries.map((country) => {
                   const coords = projection([country.lng, country.lat]);
@@ -1265,8 +1301,11 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                   const [x, y] = coords;
 
                   const isSelected = selectedCountry?.id === country.id;
+                  const isHovered = hoverCountry?.id === country.id;
                   const isTurkey = country.id === "TR";
                   const isAzores = country.id === "AZORES";
+
+                  const baseRadius = (isSelected ? 6 : isTurkey ? 5 : isAzores ? 2.5 : 3.5) / Math.sqrt(manualZoom);
 
                   return (
                     <g
@@ -1276,25 +1315,26 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                       onMouseLeave={() => setHoverCountry(null)}
                       className="cursor-pointer group/pin"
                     >
-                      {/* Ana Tek İğne Noktası (Sabit, Orantılı Çözünürlük) */}
+                      {/* Ana Tek İğne Noktası (Sabit, Titremesiz) */}
                       <circle
                         cx={x}
                         cy={y}
-                        r={(isSelected ? 6 : isTurkey ? 5 : isAzores ? 2.5 : 3.5) / Math.sqrt(manualZoom)}
-                        className={`transition-colors duration-200 ${
+                        r={isHovered || isSelected ? baseRadius * 1.4 : baseRadius}
+                        className={`transition-all duration-150 ease-out ${
                           isSelected
-                            ? "fill-[#c9a227] stroke-white"
+                            ? "fill-[#c9a227] stroke-white drop-shadow-lg"
                             : isTurkey
-                            ? "fill-red-500 stroke-white drop-shadow-[0_0_8px_rgba(239,68,68,0.9)]"
+                            ? "fill-red-500 stroke-white drop-shadow-lg"
                             : "fill-amber-400 stroke-slate-950 group-hover/pin:fill-[#c9a227]"
                         }`}
-                        strokeWidth={1 / Math.sqrt(manualZoom)}
+                        strokeWidth={(isHovered || isSelected ? 1.4 : 1) / Math.sqrt(manualZoom)}
                       />
                     </g>
                   );
                 })}
               </g>
-              {/* Şehirler Katmanı: Seçili veya Hover Edilen Ülkenin Ziyaret Edilen Şehirleri Kırmızı Noktalar İle Harita Üzerinde Gösterilir */}
+
+              {/* Şehirler Katmanı: Seçili veya Hover Edilen Ülkenin Ziyaret Edilen Şehirleri Kırmızı Noktalar İle Harita Üzerinde Belirir */}
               <g className="cities-layer pointer-events-none">
                 {(() => {
                   const targetCountry =
@@ -1318,7 +1358,7 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
 
                     return (
                       <g key={cIdx}>
-                        {/* Şehir Kırmızı Nokta (Dinamik Ölçekli - Yüksek Çözünürlük Dengesi) */}
+                        {/* Ana Şehir Kırmızı Noktası (Yükseltilmiş 3D Ülke Yüzeyi Üzerine Yerleşir) */}
                         <circle
                           cx={cx}
                           cy={cy}
@@ -1334,90 +1374,107 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
               </g>
             </svg>
 
-            {/* Haritanın Sağ Tarafında O Ülkenin Ziyaret Edilen Şehirleri Listesi Paneli (Sadece Şehirler) */}
-            {(() => {
-              const activeCountry =
-                hoverCountry ||
-                selectedCountry ||
-                (hoverFeatureName
-                  ? VISITED_COUNTRIES.find(
-                      (c) =>
-                        c.nameEn.toLowerCase() === hoverFeatureName.toLowerCase() ||
-                        c.nameTr.toLowerCase() === hoverFeatureName.toLowerCase() ||
-                        (c.id === "US" && hoverFeatureName.toLowerCase().includes("united states"))
-                    )
-                  : null);
+            {/* Haritanın Sağ Tarafında O Ülkenin Ziyaret Edilen Şehirleri Listesi Paneli (Soldan Sağa Akıcı Kayma Animasyonlu) */}
+            <AnimatePresence>
+              {(() => {
+                const activeCountry =
+                  hoverCountry ||
+                  selectedCountry ||
+                  (hoverFeatureName
+                    ? VISITED_COUNTRIES.find(
+                        (c) =>
+                          c.nameEn.toLowerCase() === hoverFeatureName.toLowerCase() ||
+                          c.nameTr.toLowerCase() === hoverFeatureName.toLowerCase() ||
+                          (c.id === "US" && hoverFeatureName.toLowerCase().includes("united states"))
+                      )
+                    : null);
 
-              if (!activeCountry || !activeCountry.cities || activeCountry.cities.length === 0) return null;
+                if (!activeCountry || !activeCountry.cities || activeCountry.cities.length === 0) return null;
 
-              const isMultiCol = activeCountry.cities.length > 10;
+                const isMultiCol = activeCountry.cities.length > 10;
 
-              return (
-                <div
-                  className={`absolute top-20 right-4 z-30 bg-slate-900/95 border border-red-500/40 rounded-2xl p-3 shadow-2xl backdrop-blur-md text-left animate-in fade-in duration-200 ${
-                    isMultiCol ? "w-72 md:w-80" : "w-44 md:w-48"
-                  }`}
-                >
-                  <div
-                    className={`gap-1.5 max-h-64 overflow-y-auto pr-1 custom-scrollbar ${
-                      isMultiCol ? "grid grid-cols-2" : "flex flex-col"
+                return (
+                  <motion.div
+                    key={`cities-${activeCountry.id}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 15 }}
+                    transition={{ duration: 0.15 }}
+                    className={`absolute top-20 right-4 z-30 bg-slate-900/95 border border-red-500/40 rounded-2xl p-3 shadow-2xl backdrop-blur-md text-left ${
+                      isMultiCol ? "w-72 md:w-80" : "w-44 md:w-48"
                     }`}
                   >
-                    {activeCountry.cities.map((city, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200 bg-slate-800/90 px-2.5 py-1 rounded-lg border border-slate-700/80 shadow-sm w-full truncate"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
-                        <span className="truncate">{lang === "en" ? city.nameEn : city.nameTr}</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })()}
+                    <div
+                      className={`gap-1.5 max-h-64 overflow-y-auto pr-1 custom-scrollbar ${
+                        isMultiCol ? "grid grid-cols-2" : "flex flex-col"
+                      }`}
+                    >
+                      {activeCountry.cities.map((city, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200 bg-slate-800/90 px-2.5 py-1 rounded-lg border border-slate-700/80 shadow-sm w-full truncate"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
+                          <span className="truncate">{lang === "en" ? city.nameEn : city.nameTr}</span>
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                );
+              })()}
+            </AnimatePresence>
 
-            {/* Haritanın Sağ Üst Köşesinde Sabit Rozet - Türkiye İçin Parlayan Yıldız Gibi Açılış Efekti */}
-            {(hoverCountry || hoverFeatureName) && (() => {
-              let name = "";
-              let flag = "🌐";
-              let isTurkeyBadge = false;
+            {/* Haritanın Sağ Üst Köşesinde Sabit Rozet - Soldan Sağa Süzülerek Gelen Şık Akıcı Animasyonlu */}
+            <AnimatePresence>
+              {(hoverCountry || hoverFeatureName) && (() => {
+                let name = "";
+                let flag = "🌐";
+                let isTurkeyBadge = false;
+                let countryKey = "badge";
 
-              if (hoverCountry) {
-                name = hoverCountry.id === "TR" ? "TÜRKİYE" : (lang === "en" ? hoverCountry.nameEn : hoverCountry.nameTr);
-                flag = hoverCountry.flag;
-                isTurkeyBadge = hoverCountry.id === "TR";
-              } else if (hoverFeatureName) {
-                const countryInfo = COUNTRY_INFO_MAP[hoverFeatureName] || {
-                  tr: hoverFeatureName,
-                  flag: "🌐",
-                };
-                isTurkeyBadge = hoverFeatureName.toLowerCase().includes("turkey") || hoverFeatureName.toLowerCase().includes("türkiye");
-                name = isTurkeyBadge ? "TÜRKİYE" : (lang === "en" ? hoverFeatureName : countryInfo.tr);
-                flag = countryInfo.flag;
-              }
+                if (hoverCountry) {
+                  name = hoverCountry.id === "TR" ? "TÜRKİYE" : (lang === "en" ? hoverCountry.nameEn : hoverCountry.nameTr);
+                  flag = hoverCountry.flag;
+                  isTurkeyBadge = hoverCountry.id === "TR";
+                  countryKey = hoverCountry.id;
+                } else if (hoverFeatureName) {
+                  const countryInfo = COUNTRY_INFO_MAP[hoverFeatureName] || {
+                    tr: hoverFeatureName,
+                    flag: "🌐",
+                  };
+                  isTurkeyBadge = hoverFeatureName.toLowerCase().includes("turkey") || hoverFeatureName.toLowerCase().includes("türkiye");
+                  name = isTurkeyBadge ? "TÜRKİYE" : (lang === "en" ? hoverFeatureName : countryInfo.tr);
+                  flag = countryInfo.flag;
+                  countryKey = hoverFeatureName;
+                }
 
-              return (
-                <div
-                  className={`absolute top-4 right-4 z-40 px-4.5 py-2.5 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-3 pointer-events-none transition-all duration-300 ${
-                    isTurkeyBadge
-                      ? "bg-red-950/90 border-2 border-red-500 shadow-[0_0_35px_rgba(239,68,68,0.95)] animate-pulse scale-105"
-                      : "bg-slate-900/95 border-2 border-slate-700 text-white"
-                  }`}
-                >
-                  <span className="text-2xl">{flag}</span>
-                  <span
-                    className={`font-black text-sm md:text-base tracking-wide ${
+                return (
+                  <motion.div
+                    key={`badge-${countryKey}`}
+                    initial={{ opacity: 0, x: -25 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.15 }}
+                    className={`absolute top-4 right-4 z-40 px-4.5 py-2.5 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-3 pointer-events-none ${
                       isTurkeyBadge
-                        ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,1)]"
-                        : "text-white"
+                        ? "bg-red-950/90 border-2 border-red-500 shadow-[0_0_35px_rgba(239,68,68,0.95)]"
+                        : "bg-slate-900/95 border-2 border-slate-700 text-white"
                     }`}
                   >
-                    {name} {isTurkeyBadge && "🇹🇷"}
-                  </span>
-                </div>
-              );
-            })()}
+                    <span className="text-2xl">{flag}</span>
+                    <span
+                      className={`font-black text-sm md:text-base tracking-wide ${
+                        isTurkeyBadge
+                          ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,1)]"
+                          : "text-white"
+                      }`}
+                    >
+                      {name} {isTurkeyBadge && "🇹🇷"}
+                    </span>
+                  </motion.div>
+                );
+              })()}
+            </AnimatePresence>
 
             {/* Seçili Ülke Detay Kartı Overlay */}
             <AnimatePresence>
