@@ -1289,19 +1289,6 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                       onMouseLeave={() => setHoverCountry(null)}
                       className="cursor-pointer group/pin"
                     >
-                      {/* SADECE Türkiye üzerine gelindiğinde olduğu yerde Yanıp Sönen Efekt */}
-                      {isTurkey && (hoverCountry?.id === "TR" || hoverFeatureName === "Turkey" || hoverFeatureName === "Türkiye") && (
-                        <circle
-                          cx={x}
-                          cy={y}
-                          r="10"
-                          fill="rgba(239, 68, 68, 0.5)"
-                          stroke="#ef4444"
-                          strokeWidth="1.5"
-                          className="animate-ping pointer-events-none"
-                        />
-                      )}
-
                       {/* Ana Tek İğne Noktası (Sabit, Orantılı Çözünürlük) */}
                       <circle
                         cx={x}
@@ -1410,7 +1397,7 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
               let isTurkeyBadge = false;
 
               if (hoverCountry) {
-                name = lang === "en" ? hoverCountry.nameEn : hoverCountry.nameTr;
+                name = hoverCountry.id === "TR" ? "TÜRKİYE" : (lang === "en" ? hoverCountry.nameEn : hoverCountry.nameTr);
                 flag = hoverCountry.flag;
                 isTurkeyBadge = hoverCountry.id === "TR";
               } else if (hoverFeatureName) {
@@ -1418,9 +1405,9 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                   tr: hoverFeatureName,
                   flag: "🌐",
                 };
-                name = lang === "en" ? hoverFeatureName : countryInfo.tr;
-                flag = countryInfo.flag;
                 isTurkeyBadge = hoverFeatureName.toLowerCase().includes("turkey") || hoverFeatureName.toLowerCase().includes("türkiye");
+                name = isTurkeyBadge ? "TÜRKİYE" : (lang === "en" ? hoverFeatureName : countryInfo.tr);
+                flag = countryInfo.flag;
               }
 
               return (
