@@ -271,19 +271,6 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
     ],
   },
   {
-    id: "IR",
-    nameTr: "İran",
-    nameEn: "Iran",
-    lat: 32.4279,
-    lng: 53.688,
-    flag: "🇮🇷",
-    region: "ortadogu",
-    cities: [
-      { nameTr: "Tahran", nameEn: "Tehran", lat: 35.6892, lng: 51.389 },
-      { nameTr: "Tebriz", nameEn: "Tabriz", lat: 38.0962, lng: 46.269 },
-    ],
-  },
-  {
     id: "IQ",
     nameTr: "Irak",
     nameEn: "Iraq",
