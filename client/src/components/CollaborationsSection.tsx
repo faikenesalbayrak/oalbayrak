@@ -376,8 +376,8 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
               <Sparkles className="text-[#c9a227]" size={20} />
               <span className="text-sm font-semibold text-slate-200">
                 {lang === "en"
-                  ? "Interactive World Map (Click markers or list to highlight)"
-                  : "İnteraktif Gerçek Dünya Haritası (İğnelere veya listedeki ülkelere tıklayabilirsiniz)"}
+                  ? "Interactive World Map (You can click on the small yellow circles or one of the countries in the list)"
+                  : "Etkileşimli Dünya Haritası (Küçük sarı yuvarlaklara ya da listedeki ülkelerden birine tıklayabilirsiniz)"}
               </span>
             </div>
 
