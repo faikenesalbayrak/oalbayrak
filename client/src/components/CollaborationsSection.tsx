@@ -673,6 +673,18 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
   { id: "PT", nameTr: "Portekiz", nameEn: "Portugal", lat: 39.3999, lng: -8.2245, flag: "🇵🇹", region: "avrupa" },
   { id: "SM", nameTr: "San Marino", nameEn: "San Marino", lat: 43.9424, lng: 12.4578, flag: "🇸🇲", region: "avrupa" },
   {
+    id: "RU",
+    nameTr: "Rusya",
+    nameEn: "Russia",
+    lat: 61.524,
+    lng: 105.3188,
+    flag: "🇷🇺",
+    region: "avrupa",
+    cities: [
+      { nameTr: "Tataristan (Kazan)", nameEn: "Tatarstan (Kazan)", lat: 55.8304, lng: 49.0661 },
+    ],
+  },
+  {
     id: "TATARSTAN",
     nameTr: "Tataristan (Kazan)",
     nameEn: "Tatarstan (Kazan)",
@@ -1233,6 +1245,7 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                     return (
                       gName === nameEn ||
                       gName === nameTr ||
+                      (c.id === "RU" && (gName.includes("russia") || geo.id === "RUS")) ||
                       (c.id === "CZ" && (gName.includes("czech") || geo.id === "CZE")) ||
                       (c.id === "IR" && (gName.includes("iran") || geo.id === "IRN")) ||
                       (c.id === "US" && (gName.includes("united states") || gName.includes("america") || geo.id === "USA")) ||

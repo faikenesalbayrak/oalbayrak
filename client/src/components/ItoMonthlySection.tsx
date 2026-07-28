@@ -70,21 +70,21 @@ const INITIAL_REPORTS: ItoMonthlyReport[] = [
     },
     committeeMeeting: {
       images: [
+        "/images/ito-temmuz-2026-komite-toplanti.jpg",
+        "/images/ito-temmuz-2026-komite-zoom.jpg",
         "/images/ito-temmuz-2026-komite.jpg",
-        "/images/ito-komite-kursu-140yil.jpg",
-        "/images/ito-komite-duvar-logo.jpg",
         "/images/ito-komite-masasi-toplanti.jpg",
       ],
       paragraphs: {
         tr: [
-          "🎓 İstanbul Ticaret Odası Eğitim Komitesi olarak Temmuz 2026 olağan toplantımızı komite üyelerimiz ve sektör temsilcilerimizin katılımıyla tamamladık.",
-          "💡 Toplantımızda özel ve kamusal eğitim kurumlarımızın ihtiyaçlarını, müfredattaki dijital dönüşüm adımlarını ve genç nüfusumuzun geleceğin yetkinlikleriyle donatılmasına yönelik projelerimizi istişare ettik.",
-          "🚀 Sektörümüzün sesini gür bir şekilde duyurmaya, nitelikli eğitimi ve üretken girişimciliği desteklemeye ara vermeden devam edeceğiz. Katkı sağlayan tüm komite üyelerimize teşekkür ediyorum. #İTO #EğitimKomitesi #MeslekiEğitim #İstanbul",
+          "🎓 İstanbul Ticaret Odası Eğitim Komitesi olarak Temmuz 2026 olağan toplantımızı komite üyelerimizin katılımıyla gerçekleştirdik.",
+          "💡 Toplantımızda mahkemelerden gelen yazıların görüşülmesinin yanı sıra, BTM (Bilgiyi Ticarileştirme Merkezi) tarafından Yapay Zeka ile çocuklara uygun metinler ve hikayeler üretilmesi ile ilgili kapsamlı bir sunum dinledik.",
+          "📚 Ayrıca gündemimizde Üniversite seçme sınavları ve tercih süreçleri detaylarıyla ele alındı. Kararlarımızın eğitim dünyamıza hayırlı olmasını diliyorum. #İTO #EğitimKomitesi #BTM #YapayZeka #YKS",
         ],
         en: [
-          "🎓 As the Education Committee of the Istanbul Chamber of Commerce, we completed our July 2026 regular meeting with our committee members and sector representatives.",
-          "💡 During our meeting, we evaluated the needs of our private and public educational institutions, digital transformation steps in curriculum, and projects aimed at equipping our youth with future competencies.",
-          "🚀 We will continue to give a strong voice to our sector and support quality education and productive entrepreneurship. I thank all committee members for their contributions. #ITO #EducationCommittee #VocationalEducation #Istanbul",
+          "🎓 As the Education Committee of the Istanbul Chamber of Commerce, we completed our July 2026 meeting with our committee members.",
+          "💡 In addition to discussing official correspondence from courts, a presentation was delivered by BTM (Commercialization Center of Istanbul) on generating child-friendly texts and stories using Artificial Intelligence.",
+          "📚 We also focused on university entrance examinations and preference processes. #ITO #EducationCommittee #BTM #ArtificialIntelligence #UniversityExams",
         ],
       },
     },
@@ -234,8 +234,18 @@ type ItoMonthlySectionProps = {
 };
 
 export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
-  const [selectedYear, setSelectedYear] = useState<number>(2026);
-  const [selectedMonth, setSelectedMonth] = useState<number>(6);
+  // Mevcut takvim yılı ve ayı (Otomatik güncel aydan başlatmak için)
+  const currentDate = new Date();
+  const currentRealYear = currentDate.getFullYear();
+  const currentRealMonth = currentDate.getMonth() + 1; // 1 to 12
+
+  // Meclis (Council) bağımsız Ay / Yıl seçimi
+  const [councilYear, setCouncilYear] = useState<number>(currentRealYear);
+  const [councilMonth, setCouncilMonth] = useState<number>(currentRealMonth);
+
+  // Komite (Committee) bağımsız Ay / Yıl seçimi
+  const [committeeYear, setCommitteeYear] = useState<number>(currentRealYear);
+  const [committeeMonth, setCommitteeMonth] = useState<number>(currentRealMonth);
 
   // Kopyalama bildirim durumları (Metin ve Resim)
   const [copiedCouncilText, setCopiedCouncilText] = useState(false);
@@ -245,23 +255,29 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
   const [copiedCommitteeImages, setCopiedCommitteeImages] = useState(false);
 
   const months = lang === "en" ? MONTHS_EN : MONTHS_TR;
-  const monthName = months[selectedMonth - 1];
 
-  const currentReport = INITIAL_REPORTS.find(
-    r => r.year === selectedYear && r.month === selectedMonth
+  const councilMonthName = months[councilMonth - 1];
+  const committeeMonthName = months[committeeMonth - 1];
+
+  const councilReport = INITIAL_REPORTS.find(
+    r => r.year === councilYear && r.month === councilMonth
   );
 
-  // Sol Kolon Başlığı: İTO Temmuz 2026 Meclis Toplantısı
+  const committeeReport = INITIAL_REPORTS.find(
+    r => r.year === committeeYear && r.month === committeeMonth
+  );
+
+  // Sol Kolon Başlığı: İTO [Ay Yıl] Meclis Toplantısı
   const councilTitle =
     lang === "en"
-      ? `ITO ${monthName} ${selectedYear} Assembly Meeting`
-      : `İTO ${monthName} ${selectedYear} Meclis Toplantısı`;
+      ? `ITO ${councilMonthName} ${councilYear} Assembly Meeting`
+      : `İTO ${councilMonthName} ${councilYear} Meclis Toplantısı`;
 
-  // Sağ Kolon Başlığı: İTO Temmuz 2026 Eğitim Komite Toplantısı
+  // Sağ Kolon Başlığı: İTO [Ay Yıl] Eğitim Komite Toplantısı
   const committeeTitle =
     lang === "en"
-      ? `ITO ${monthName} ${selectedYear} Education Committee Meeting`
-      : `İTO ${monthName} ${selectedYear} Eğitim Komite Toplantısı`;
+      ? `ITO ${committeeMonthName} ${committeeYear} Education Committee Meeting`
+      : `İTO ${committeeMonthName} ${committeeYear} Eğitim Komite Toplantısı`;
 
   // Sosyal medya metnini kopyalama fonksiyonu
   const handleCopyText = (paragraphs: string[], isCouncil: boolean) => {
@@ -276,7 +292,7 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
     }
   };
 
-  // Sosyal medya resimlerini kopyalama / panoya veya indirmeye alma fonksiyonu
+  // Sosyal medya resimlerini kopyalama fonksiyonu
   const handleCopyImages = async (images?: string[], isCouncil: boolean = true) => {
     if (isCouncil) {
       setCopiedCouncilImages(true);
@@ -334,7 +350,6 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
       );
     }
 
-    // Görsel yoksa esnek 2-4 yer tutucu kutu göster
     return (
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6">
         {[1, 2, 3, 4].map(num => (
@@ -356,40 +371,40 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
   const defaultCouncilParas =
     lang === "en"
       ? [
-          `🏛️ Today, we conducted the ${monthName} ${selectedYear} Assembly Meeting of the Istanbul Chamber of Commerce. We deliberated critical topics regarding our city's economy and education sector.`,
+          `🏛️ Today, we conducted the ${councilMonthName} ${councilYear} Assembly Meeting of the Istanbul Chamber of Commerce. We deliberated critical topics regarding our city's economy and education sector.`,
           `📊 On our assembly agenda, we presented our ongoing vocational education projects carried out under the Education Committee with our assembly members.`,
-          `🤝 We remain committed to supporting quality education and serving Istanbul. #ITO #IstanbulChamberOfCommerce #${monthName}${selectedYear}`,
+          `🤝 We remain committed to supporting quality education and serving Istanbul. #ITO #IstanbulChamberOfCommerce #${councilMonthName}${councilYear}`,
         ]
       : [
-          `🏛️ Bugün İstanbul Ticaret Odamızın ${monthName} ${selectedYear} Meclis Toplantısı'nı gerçekleştirdik. Kentimiz ekonomisine, iş dünyamıza ve eğitim sektörümüze dair kritik başlıkları meclis gündemimizde müzakere ettik.`,
+          `🏛️ Bugün İstanbul Ticaret Odamızın ${councilMonthName} ${councilYear} Meclis Toplantısı'nı gerçekleştirdik. Kentimiz ekonomisine, iş dünyamıza ve eğitim sektörümüze dair kritik başlıkları meclis gündemimizde müzakere ettik.`,
           `📊 Eğitim Komitesi bünyesinde yürüttüğümüz çalışmalarımızı ve mesleki eğitim projelerimizi meclis üyelerimizin bilgisine sunduk.`,
-          `🤝 Üretmeye, nitelikli eğitimi desteklemeye ve İstanbul'umuz için çalışmaya kararlılıkla devam ediyoruz. #İTO #İstanbulTicaretOdası #MeclisToplantısı #${monthName}${selectedYear}`,
+          `🤝 Üretmeye, nitelikli eğitimi desteklemeye ve İstanbul'umuz için çalışmaya kararlılıkla devam ediyoruz. #İTO #İstanbulTicaretOdası #MeclisToplantısı #${councilMonthName}${councilYear}`,
         ];
 
   // Komite toplantısı varsayılan paragrafları (TR / EN)
   const defaultCommitteeParas =
     lang === "en"
       ? [
-          `🎓 As the Education Committee of the Istanbul Chamber of Commerce, we completed our ${monthName} ${selectedYear} regular meeting.`,
+          `🎓 As the Education Committee of the Istanbul Chamber of Commerce, we completed our ${committeeMonthName} ${committeeYear} regular meeting.`,
           `💡 We evaluated our sector's demands, digital transformation steps in education, and future skill requirements.`,
-          `🚀 We will continue to build the future through education and add value to our sector. #ITO #EducationCommittee #${monthName}${selectedYear}`,
+          `🚀 We will continue to build the future through education and add value to our sector. #ITO #EducationCommittee #${committeeMonthName}${committeeYear}`,
         ]
       : [
-          `🎓 İstanbul Ticaret Odası Eğitim Komitesi olarak ${monthName} ${selectedYear} olağan toplantımızı değerli komite üyelerimizle birlikte tamamladık.`,
+          `🎓 İstanbul Ticaret Odası Eğitim Komitesi olarak ${committeeMonthName} ${committeeYear} olağan toplantımızı değerli komite üyelerimizle birlikte tamamladık.`,
           `💡 Sektörümüzün talep ve beklentilerini, eğitimde dijital dönüşüm adımlarını ve geleceğin mesleki becerilerini detaylarıyla değerlendirdik.`,
-          `🚀 Eğitimin gücüyle geleceği inşa etmeye ve sektörümüze değer katmaya devam edeceğiz. Katkı sunan tüm dostlarımıza teşekkür ediyorum. #İTO #EğitimKomitesi #MeslekiEğitim #${monthName}${selectedYear}`,
+          `🚀 Eğitimin gücüyle geleceği inşa etmeye ve sektörümüze değer katmaya devam edeceğiz. Katkı sunan tüm dostlarımıza teşekkür ediyorum. #İTO #EğitimKomitesi #MeslekiEğitim #${committeeMonthName}${committeeYear}`,
         ];
 
   const councilParagraphs =
-    currentReport?.councilMeeting.paragraphs[lang] || defaultCouncilParas;
+    councilReport?.councilMeeting.paragraphs[lang] || defaultCouncilParas;
   const committeeParagraphs =
-    currentReport?.committeeMeeting.paragraphs[lang] || defaultCommitteeParas;
+    committeeReport?.committeeMeeting.paragraphs[lang] || defaultCommitteeParas;
 
   return (
     <section id="ito-bu-ay" className="py-20 bg-[#f8f9fc] scroll-mt-24">
       <div className="container">
-        {/* Başlık ve Ay/Yıl Seçici */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-gray-200/80">
+        {/* Başlık */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 pb-6 border-b border-gray-200/80">
           <div>
             <div className="flex items-center gap-2 text-[#c9a227] text-sm font-semibold tracking-wider uppercase mb-2">
               <Building2 size={18} />
@@ -400,267 +415,268 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
               style={{ fontFamily: "'DM Serif Display', serif" }}
             >
               {lang === "en"
-                ? "This Month in ITO Assembly & Education Committee"
-                : "İTO Meclis ve Eğitim Komitesinde Bu Ay"}
+                ? "ITO Assembly & Education Committee Meetings"
+                : "İTO Meclis ve Eğitim Komitesi Toplantıları"}
             </h2>
             <p className="text-gray-500 mt-1 text-base">
               {lang === "en"
-                ? "Select a month and year to view the reports and evaluations for assembly and committee meetings."
-                : "Seçtiğiniz ay ve yıla ait meclis ve komite toplantısına ait değerlendirmeleri okuyabilirsiniz."}
+                ? "Select a month and year independently for assembly and committee meetings to view reports."
+                : "Meclis ve Eğitim Komitesi toplantıları için ayrı ayrı ay ve yıl seçerek ilgili raporları inceleyebilirsiniz."}
             </p>
           </div>
 
-          {/* Ay & Yıl Dönem Seçim Alanı */}
-          <div className="flex flex-wrap items-center gap-3 bg-white p-2.5 rounded-2xl border border-gray-200/80 shadow-sm">
-            {/* Ay Seçimi Dropdown */}
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#f8f9fc] rounded-xl text-sm font-medium text-[#1e3a5f]">
-              <Calendar size={16} className="text-[#c9a227]" />
-              <span>{lang === "en" ? "Month:" : "Ay:"}</span>
-            </div>
-            <select
-              value={selectedMonth}
-              onChange={e => setSelectedMonth(Number(e.target.value))}
-              aria-label={lang === "en" ? "Select Month" : "Ay Seçiniz"}
-              className="px-3.5 py-2 bg-[#f8f9fc] hover:bg-gray-100 text-[#1e3a5f] font-semibold text-sm rounded-xl border border-gray-200/80 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 cursor-pointer transition-all"
-            >
-              {months.map((m, idx) => (
-                <option key={m} value={idx + 1}>
-                  {m}
-                </option>
-              ))}
-            </select>
-
-            {/* Yıl Seçimi Dropdown */}
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#f8f9fc] rounded-xl text-sm font-medium text-[#1e3a5f]">
-              <span>{lang === "en" ? "Year:" : "Yıl:"}</span>
-            </div>
-            <select
-              value={selectedYear}
-              onChange={e => setSelectedYear(Number(e.target.value))}
-              aria-label={lang === "en" ? "Select Year" : "Yıl Seçiniz"}
-              className="px-3.5 py-2 bg-[#f8f9fc] hover:bg-gray-100 text-[#1e3a5f] font-semibold text-sm rounded-xl border border-gray-200/80 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 cursor-pointer transition-all"
-            >
-              {YEARS.map(y => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
-
-            {/* Seçili Dönem Rozeti */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-2 bg-[#1e3a5f] text-white text-xs font-bold rounded-xl shadow-xs">
-              <span>{monthName} {selectedYear}</span>
-            </div>
+          {/* Hızlı İki Dönem Eşleme Butonları */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            <span className="text-xs text-gray-400 font-medium shrink-0 flex items-center gap-1">
+              <Calendar size={13} className="text-[#c9a227]" />
+              {lang === "en" ? "Quick Select:" : "Hızlı Seç:"}
+            </span>
+            {INITIAL_REPORTS.map(rep => {
+              const isSelBoth =
+                councilMonth === rep.month &&
+                councilYear === rep.year &&
+                committeeMonth === rep.month &&
+                committeeYear === rep.year;
+              const mLabel = months[rep.month - 1];
+              return (
+                <button
+                  key={`${rep.month}-${rep.year}`}
+                  type="button"
+                  onClick={() => {
+                    setCouncilMonth(rep.month);
+                    setCouncilYear(rep.year);
+                    setCommitteeMonth(rep.month);
+                    setCommitteeYear(rep.year);
+                  }}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-xl border transition-all cursor-pointer shrink-0 ${
+                    isSelBoth
+                      ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-xs"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-[#1e3a5f]/40 hover:text-[#1e3a5f]"
+                  }`}
+                >
+                  {mLabel} {rep.year}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Hızlı Dönem Butonları (Aktif İçeriği Olan Aylar) */}
-        <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-none">
-          {INITIAL_REPORTS.map(rep => {
-            const isSel = selectedMonth === rep.month && selectedYear === rep.year;
-            const mLabel = months[rep.month - 1];
-            return (
-              <button
-                key={`${rep.month}-${rep.year}`}
-                type="button"
-                onClick={() => {
-                  setSelectedMonth(rep.month);
-                  setSelectedYear(rep.year);
-                }}
-                className={`px-4 py-2 text-xs font-semibold rounded-xl border transition-all cursor-pointer shrink-0 ${
-                  isSel
-                    ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-md"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-[#1e3a5f]/40 hover:text-[#1e3a5f]"
-                }`}
-              >
-                {mLabel} {rep.year}
-              </button>
-            );
-          })}
+        {/* 2 KOLONLU BAĞIMSIZ MECLİS VEYA KOMİTE İÇERİK ALANI */}
+        <div className="grid md:grid-cols-2 gap-8 items-stretch">
+          {/* SOL KOLON: MECLİS TOPLANTISI (Bağımsız Dönem Seçimi) */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div>
+              {/* Kart Üst Bilgi ve Seçici */}
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-gray-100">
+                <span className="px-3 py-1 bg-[#1e3a5f]/10 text-[#1e3a5f] text-xs font-bold rounded-lg uppercase tracking-wider flex items-center gap-1.5">
+                  <Share2 size={13} />
+                  <span>{lang === "en" ? "Assembly Post" : "Meclis Paylaşımı"}</span>
+                </span>
+
+                {/* Meclis Ay & Yıl Dropdown Seçimi */}
+                <div className="flex items-center gap-1.5 bg-[#f8f9fc] p-1 rounded-xl border border-gray-200/80">
+                  <span className="text-[11px] font-semibold text-gray-500 pl-1.5 flex items-center gap-1">
+                    <Calendar size={12} className="text-[#c9a227]" />
+                    {lang === "en" ? "Assembly:" : "Meclis:"}
+                  </span>
+                  <select
+                    value={councilMonth}
+                    onChange={e => setCouncilMonth(Number(e.target.value))}
+                    aria-label={lang === "en" ? "Select Assembly Month" : "Meclis Ay Seçiniz"}
+                    className="px-2 py-1 bg-white hover:bg-gray-100 text-[#1e3a5f] font-semibold text-xs rounded-lg border border-gray-200 focus:outline-none cursor-pointer"
+                  >
+                    {months.map((m, idx) => (
+                      <option key={m} value={idx + 1}>
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={councilYear}
+                    onChange={e => setCouncilYear(Number(e.target.value))}
+                    aria-label={lang === "en" ? "Select Assembly Year" : "Meclis Yıl Seçiniz"}
+                    className="px-2 py-1 bg-white hover:bg-gray-100 text-[#1e3a5f] font-semibold text-xs rounded-lg border border-gray-200 focus:outline-none cursor-pointer"
+                  >
+                    {YEARS.map(y => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Meclis Kart Başlığı ve Kopyalama Butonları */}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-5">
+                <h3
+                  className="text-xl md:text-2xl font-bold text-[#1e3a5f] leading-snug"
+                  style={{ fontFamily: "'DM Serif Display', serif" }}
+                >
+                  {councilTitle}
+                </h3>
+
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => handleCopyText(councilParagraphs, true)}
+                    title={lang === "en" ? "Copy text" : "Metni kopyala"}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white transition-all cursor-pointer"
+                  >
+                    {copiedCouncilText ? (
+                      <>
+                        <Check size={14} className="text-green-600" />
+                        <span className="text-green-600 font-bold">{lang === "en" ? "Copied!" : "Kopyalandı!"}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>{lang === "en" ? "Copy Text" : "Metni Kopyala"}</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCopyImages(councilReport?.councilMeeting.images, true)}
+                    title={lang === "en" ? "Copy images" : "Resimleri kopyala"}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#c9a227]/15 text-[#8c6f14] hover:bg-[#c9a227] hover:text-white transition-all cursor-pointer"
+                  >
+                    {copiedCouncilImages ? (
+                      <>
+                        <Check size={14} className="text-green-600" />
+                        <span className="text-green-600 font-bold">
+                          {lang === "en" ? "Copied!" : "Resim Kopyalandı!"}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <ImageIcon size={14} />
+                        <span>{lang === "en" ? "Copy Images" : "Resimleri Kopyala"}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Meclis Görselleri */}
+              {renderImageGrid(councilReport?.councilMeeting.images)}
+
+              {/* Meclis Metni */}
+              <div className="space-y-3.5 bg-[#f8f9fc] p-4 rounded-xl border border-gray-100 text-gray-700 text-sm md:text-base leading-relaxed">
+                {councilParagraphs.map((para, idx) => (
+                  <p key={idx}>{para}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* SAĞ KOLON: KOMİTE TOPLANTISI (Bağımsız Dönem Seçimi) */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div>
+              {/* Kart Üst Bilgi ve Seçici */}
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-gray-100">
+                <span className="px-3 py-1 bg-[#c9a227]/15 text-[#8c6f14] text-xs font-bold rounded-lg uppercase tracking-wider flex items-center gap-1.5">
+                  <Share2 size={13} />
+                  <span>{lang === "en" ? "Committee Post" : "Komite Paylaşımı"}</span>
+                </span>
+
+                {/* Komite Ay & Yıl Dropdown Seçimi */}
+                <div className="flex items-center gap-1.5 bg-[#f8f9fc] p-1 rounded-xl border border-gray-200/80">
+                  <span className="text-[11px] font-semibold text-gray-500 pl-1.5 flex items-center gap-1">
+                    <Calendar size={12} className="text-[#c9a227]" />
+                    {lang === "en" ? "Committee:" : "Komite:"}
+                  </span>
+                  <select
+                    value={committeeMonth}
+                    onChange={e => setCommitteeMonth(Number(e.target.value))}
+                    aria-label={lang === "en" ? "Select Committee Month" : "Komite Ay Seçiniz"}
+                    className="px-2 py-1 bg-white hover:bg-gray-100 text-[#1e3a5f] font-semibold text-xs rounded-lg border border-gray-200 focus:outline-none cursor-pointer"
+                  >
+                    {months.map((m, idx) => (
+                      <option key={m} value={idx + 1}>
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={committeeYear}
+                    onChange={e => setCommitteeYear(Number(e.target.value))}
+                    aria-label={lang === "en" ? "Select Committee Year" : "Komite Yıl Seçiniz"}
+                    className="px-2 py-1 bg-white hover:bg-gray-100 text-[#1e3a5f] font-semibold text-xs rounded-lg border border-gray-200 focus:outline-none cursor-pointer"
+                  >
+                    {YEARS.map(y => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Komite Kart Başlığı ve Kopyalama Butonları */}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-5">
+                <h3
+                  className="text-xl md:text-2xl font-bold text-[#1e3a5f] leading-snug"
+                  style={{ fontFamily: "'DM Serif Display', serif" }}
+                >
+                  {committeeTitle}
+                </h3>
+
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => handleCopyText(committeeParagraphs, false)}
+                    title={lang === "en" ? "Copy text" : "Metni kopyala"}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white transition-all cursor-pointer"
+                  >
+                    {copiedCommitteeText ? (
+                      <>
+                        <Check size={14} className="text-green-600" />
+                        <span className="text-green-600 font-bold">{lang === "en" ? "Copied!" : "Kopyalandı!"}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>{lang === "en" ? "Copy Text" : "Metni Kopyala"}</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCopyImages(committeeReport?.committeeMeeting.images, false)}
+                    title={lang === "en" ? "Copy images" : "Resimleri kopyala"}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#c9a227]/15 text-[#8c6f14] hover:bg-[#c9a227] hover:text-white transition-all cursor-pointer"
+                  >
+                    {copiedCommitteeImages ? (
+                      <>
+                        <Check size={14} className="text-green-600" />
+                        <span className="text-green-600 font-bold">
+                          {lang === "en" ? "Copied!" : "Resim Kopyalandı!"}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <ImageIcon size={14} />
+                        <span>{lang === "en" ? "Copy Images" : "Resimleri Kopyala"}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Komite Görselleri */}
+              {renderImageGrid(committeeReport?.committeeMeeting.images)}
+
+              {/* Komite Metni */}
+              <div className="space-y-3.5 bg-[#f8f9fc] p-4 rounded-xl border border-gray-100 text-gray-700 text-sm md:text-base leading-relaxed">
+                {committeeParagraphs.map((para, idx) => (
+                  <p key={idx}>{para}</p>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-
-        {/* İÇERİK ALANI: Dolu veya Boş Görünüm */}
-        {currentReport ? (
-          <div className="grid md:grid-cols-2 gap-8 items-stretch">
-            {/* SOL KOLON: İTO [Ay [Yıl]] Meclis Toplantısı */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-              <div>
-                <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-gray-100">
-                  <span className="px-3 py-1 bg-[#1e3a5f]/10 text-[#1e3a5f] text-xs font-bold rounded-lg uppercase tracking-wider flex items-center gap-1.5">
-                    <Share2 size={13} />
-                    <span>{lang === "en" ? "Assembly Post" : "Meclis Paylaşımı"}</span>
-                  </span>
-                  <span className="text-xs text-gray-400 font-medium">
-                    {monthName} {selectedYear}
-                  </span>
-                </div>
-
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-5">
-                  <h3
-                    className="text-xl md:text-2xl font-bold text-[#1e3a5f] leading-snug"
-                    style={{ fontFamily: "'DM Serif Display', serif" }}
-                  >
-                    {councilTitle}
-                  </h3>
-
-                  {/* ÇİFT KOPYALAMA BUTONU: Metni Kopyala & Resimleri Kopyala */}
-                  <div className="flex flex-wrap items-center gap-2 shrink-0">
-                    {/* Metni Kopyala */}
-                    <button
-                      type="button"
-                      onClick={() => handleCopyText(councilParagraphs, true)}
-                      title={lang === "en" ? "Copy text" : "Metni kopyala"}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white transition-all cursor-pointer"
-                    >
-                      {copiedCouncilText ? (
-                        <>
-                          <Check size={14} className="text-green-600" />
-                          <span className="text-green-600 font-bold">{lang === "en" ? "Copied!" : "Kopyalandı!"}</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy size={14} />
-                          <span>{lang === "en" ? "Copy Text" : "Metni Kopyala"}</span>
-                        </>
-                      )}
-                    </button>
-
-                    {/* Resimleri Kopyala */}
-                    <button
-                      type="button"
-                      onClick={() => handleCopyImages(currentReport?.councilMeeting.images, true)}
-                      title={lang === "en" ? "Copy images" : "Resimleri kopyala"}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#c9a227]/15 text-[#8c6f14] hover:bg-[#c9a227] hover:text-white transition-all cursor-pointer"
-                    >
-                      {copiedCouncilImages ? (
-                        <>
-                          <Check size={14} className="text-green-600" />
-                          <span className="text-green-600 font-bold">
-                            {lang === "en" ? "Copied!" : "Resim Kopyalandı!"}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <ImageIcon size={14} />
-                          <span>{lang === "en" ? "Copy Images" : "Resimleri Kopyala"}</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Görseller (2-4 Resim Alanı) */}
-                {renderImageGrid(currentReport?.councilMeeting.images)}
-
-                {/* Paragraflar (Sosyal Medya Mesaj Formatında) */}
-                <div className="space-y-3.5 bg-[#f8f9fc] p-4 rounded-xl border border-gray-100 text-gray-700 text-sm md:text-base leading-relaxed">
-                  {councilParagraphs.map((para, idx) => (
-                    <p key={idx}>{para}</p>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* SAĞ KOLON: İTO [Ay [Yıl]] Eğitim Komite Toplantısı */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-              <div>
-                <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-gray-100">
-                  <span className="px-3 py-1 bg-[#c9a227]/15 text-[#8c6f14] text-xs font-bold rounded-lg uppercase tracking-wider flex items-center gap-1.5">
-                    <Share2 size={13} />
-                    <span>{lang === "en" ? "Committee Post" : "Komite Paylaşımı"}</span>
-                  </span>
-                  <span className="text-xs text-gray-400 font-medium">
-                    {monthName} {selectedYear}
-                  </span>
-                </div>
-
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-5">
-                  <h3
-                    className="text-xl md:text-2xl font-bold text-[#1e3a5f] leading-snug"
-                    style={{ fontFamily: "'DM Serif Display', serif" }}
-                  >
-                    {committeeTitle}
-                  </h3>
-
-                  {/* ÇİFT KOPYALAMA BUTONU: Metni Kopyala & Resimleri Kopyala */}
-                  <div className="flex flex-wrap items-center gap-2 shrink-0">
-                    {/* Metni Kopyala */}
-                    <button
-                      type="button"
-                      onClick={() => handleCopyText(committeeParagraphs, false)}
-                      title={lang === "en" ? "Copy text" : "Metni kopyala"}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#1e3a5f]/10 text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white transition-all cursor-pointer"
-                    >
-                      {copiedCommitteeText ? (
-                        <>
-                          <Check size={14} className="text-green-600" />
-                          <span className="text-green-600 font-bold">{lang === "en" ? "Copied!" : "Kopyalandı!"}</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy size={14} />
-                          <span>{lang === "en" ? "Copy Text" : "Metni Kopyala"}</span>
-                        </>
-                      )}
-                    </button>
-
-                    {/* Resimleri Kopyala */}
-                    <button
-                      type="button"
-                      onClick={() => handleCopyImages(currentReport?.committeeMeeting.images, false)}
-                      title={lang === "en" ? "Copy images" : "Resimleri kopyala"}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-[#c9a227]/15 text-[#8c6f14] hover:bg-[#c9a227] hover:text-white transition-all cursor-pointer"
-                    >
-                      {copiedCommitteeImages ? (
-                        <>
-                          <Check size={14} className="text-green-600" />
-                          <span className="text-green-600 font-bold">
-                            {lang === "en" ? "Copied!" : "Resim Kopyalandı!"}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <ImageIcon size={14} />
-                          <span>{lang === "en" ? "Copy Images" : "Resimleri Kopyala"}</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Görseller (2-4 Resim Alanı) */}
-                {renderImageGrid(currentReport?.committeeMeeting.images)}
-
-                {/* Paragraflar (Sosyal Medya Mesaj Formatında) */}
-                <div className="space-y-3.5 bg-[#f8f9fc] p-4 rounded-xl border border-gray-100 text-gray-700 text-sm md:text-base leading-relaxed">
-                  {committeeParagraphs.map((para, idx) => (
-                    <p key={idx}>{para}</p>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* BOŞ GÖRÜNÜM (Ağustos 2026 vb. henüz içerik olmayan aylar için) */
-          <div className="bg-white rounded-2xl p-10 md:p-14 border border-dashed border-gray-300 text-center flex flex-col items-center justify-center my-4 shadow-sm">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#1e3a5f]/10 text-[#1e3a5f] mb-4">
-              <CalendarX size={32} className="text-[#c9a227]" />
-            </div>
-            <h3
-              className="text-xl md:text-2xl font-bold text-[#1e3a5f] mb-2"
-              style={{ fontFamily: "'DM Serif Display', serif" }}
-            >
-              {lang === "en"
-                ? `${monthName} ${selectedYear} Evaluation Not Available Yet`
-                : `${monthName} ${selectedYear} Toplantı Değerlendirmesi Bulunmamaktadır`}
-            </h3>
-            <p className="text-gray-500 max-w-md text-sm md:text-base leading-relaxed">
-              {lang === "en"
-                ? "No assembly or committee meeting evaluations have been uploaded for this period yet. New meeting reports will appear here as they take place."
-                : "Seçtiğiniz dönem için henüz meclis veya komite toplantı değerlendirmesi eklenmemiştir. Yeni toplantı raporları gerçekleştiğinde bu alanda yayınlanacaktır."}
-            </p>
-          </div>
-        )}
       </div>
     </section>
   );
