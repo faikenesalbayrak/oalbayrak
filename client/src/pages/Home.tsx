@@ -1091,16 +1091,18 @@ const authoredBooksEn: RecordItem[] = [
 
 const bookChaptersTr: RecordItem[] = [
   {
-    title: "İletişim ve İlişki Sorunları",
-    chapter: "İletişimde Yapay Zeka ve Dijital Olgunlukta Uyumun Rolü",
-    year: "2025",
-    publisher: "Çizgi Kitabevi",
+    title: "Teoriden Pratiğe Türkiye Siyaseti",
+    chapter:
+      "Saha Çalışmaları ve Etik İlkelerin AK Parti'nin Seçim Sonuçları Üzerindeki Etkileri",
+    year: "2021",
+    publisher: "Liberte Yayınları, İstanbul",
+    editor: "Prof. Dr. Alim Yılmaz, Dr. İkram Bağcı",
     edition: "1",
-    pages: "335",
-    editor: "A. Muhsin Yılmazçoban",
+    pages: "280",
+    isbn: "978-605-9823-56-2",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
-    rightImage: "/images/iletisim-ve-iliski-sorunlari-kitap.png",
+    rightImage: "/images/teoriden-pratige-turkiye-siyaseti-kitap.png",
   },
   {
     title: "Demokrasi ve Etkin Yurttaşlık",
@@ -1144,34 +1146,33 @@ const bookChaptersTr: RecordItem[] = [
     rightImage: "/images/eastern-and-western-ethicians-kitap.png",
   },
   {
-    title: "Teoriden Pratiğe Türkiye Siyaseti",
-    chapter:
-      "Saha Çalışmaları ve Etik İlkelerin AK Parti'nin Seçim Sonuçları Üzerindeki Etkileri",
-    year: "2021",
-    publisher: "Liberte Yayınları, İstanbul",
-    editor: "Prof. Dr. Alim Yılmaz, Dr. İkram Bağcı",
+    title: "İletişim ve İlişki Sorunları",
+    chapter: "İletişimde Yapay Zeka ve Dijital Olgunlukta Uyumun Rolü",
+    year: "2025",
+    publisher: "Çizgi Kitabevi",
     edition: "1",
-    pages: "280",
-    isbn: "978-605-9823-56-2",
+    pages: "335",
+    editor: "A. Muhsin Yılmazçoban",
     language: "Türkçe",
     scope: "Bilimsel Kitap",
-    rightImage: "/images/teoriden-pratige-turkiye-siyaseti-kitap.png",
+    rightImage: "/images/iletisim-ve-iliski-sorunlari-kitap.png",
   },
 ];
 
 const bookChaptersEn: RecordItem[] = [
   {
-    title: "Communication and Relationship Issues",
+    title: "Turkey Politics from Theory to Practice",
     chapter:
-      "The Role of Artificial Intelligence in Communication and Alignment in Digital Maturity",
-    year: "2025",
-    publisher: "Çizgi Bookstore",
+      "Effects of Fieldwork and Ethical Principles on AK Party's Election Results",
+    year: "2021",
+    publisher: "Liberte Publications, Istanbul",
+    editor: "Prof. Dr. Alim Yılmaz, Dr. İkram Bağcı",
     edition: "1",
-    pages: "335",
-    editor: "A. Muhsin Yılmazçoban",
+    pages: "280",
+    isbn: "978-605-9823-56-2",
     language: "Turkish",
     scope: "Scholarly Book",
-    rightImage: "/images/iletisim-ve-iliski-sorunlari-kitap.png",
+    rightImage: "/images/teoriden-pratige-turkiye-siyaseti-kitap.png",
   },
   {
     title: "Democracy and Active Citizenship",
@@ -1215,18 +1216,17 @@ const bookChaptersEn: RecordItem[] = [
     rightImage: "/images/eastern-and-western-ethicians-kitap.png",
   },
   {
-    title: "Turkey Politics from Theory to Practice",
+    title: "Communication and Relationship Issues",
     chapter:
-      "Effects of Fieldwork and Ethical Principles on AK Party's Election Results",
-    year: "2021",
-    publisher: "Liberte Publications, Istanbul",
-    editor: "Prof. Dr. Alim Yılmaz, Dr. İkram Bağcı",
+      "The Role of Artificial Intelligence in Communication and Alignment in Digital Maturity",
+    year: "2025",
+    publisher: "Çizgi Bookstore",
     edition: "1",
-    pages: "280",
-    isbn: "978-605-9823-56-2",
+    pages: "335",
+    editor: "A. Muhsin Yılmazçoban",
     language: "Turkish",
     scope: "Scholarly Book",
-    rightImage: "/images/teoriden-pratige-turkiye-siyaseti-kitap.png",
+    rightImage: "/images/iletisim-ve-iliski-sorunlari-kitap.png",
   },
 ];
 
