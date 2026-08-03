@@ -278,6 +278,7 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
       { nameTr: "Cidde", nameEn: "Jeddah", lat: 21.5433, lng: 39.1728 },
       { nameTr: "Riyad", nameEn: "Riyadh", lat: 24.7136, lng: 46.6753 },
       { nameTr: "Mekke", nameEn: "Mecca", lat: 21.3891, lng: 39.8579 },
+      { nameTr: "Medine", nameEn: "Medina", lat: 24.5247, lng: 39.5692 },
     ],
   },
   {

@@ -367,9 +367,48 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
     );
   };
 
+  // Seçili ayın ikinci perşembesini hesaplama fonksiyonu
+  const getSecondThursday = (year: number, month: number) => {
+    let thursdayCount = 0;
+    const date = new Date(year, month - 1, 1);
+    while (date.getMonth() === month - 1) {
+      if (date.getDay() === 4) { // 4: Perşembe
+        thursdayCount++;
+        if (thursdayCount === 2) {
+          return date;
+        }
+      }
+      date.setDate(date.getDate() + 1);
+    }
+    return new Date(year, month - 1, 14); // Varsayılan yedek
+  };
+
+  // Seçili ayın ikinci perşembesi henüz gelmedi mi kontrolü
+  const isBeforeSecondThursday = (year: number, month: number) => {
+    if (year > currentRealYear) return true;
+    if (year < currentRealYear) return false;
+    if (month > currentRealMonth) return true;
+    if (month < currentRealMonth) return false;
+    
+    // Aynı yıl ve aynı ay içindeyiz
+    const secondThursday = getSecondThursday(year, month);
+    // Saat/dakika farkından etkilenmemek için gün başlangıcını kıyasla
+    const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    return today < secondThursday;
+  };
+
   // Meclis toplantısı varsayılan paragrafları (TR / EN)
-  const defaultCouncilParas =
-    lang === "en"
+  const defaultCouncilParas = isBeforeSecondThursday(councilYear, councilMonth)
+    ? lang === "en"
+      ? [
+          `📅 The Assembly Meeting for ${councilMonthName} ${councilYear} has not been held yet as the second Thursday of the month has not arrived.`,
+          `ℹ️ Assembly meetings are held on the second Thursday of every month. News and details will be shared here after the meeting.`
+        ]
+      : [
+          `📅 ${councilMonthName} ${councilYear} ayının henüz ikinci perşembesi gelmediği için meclis toplantısı henüz yapılmamıştır.`,
+          `ℹ️ Her ayın ikinci perşembesi gerçekleştirilen meclis toplantısının ardından detaylar ve kararlar burada yayınlanacaktır.`
+        ]
+    : lang === "en"
       ? [
           `🏛️ Today, we conducted the ${councilMonthName} ${councilYear} Assembly Meeting of the Istanbul Chamber of Commerce. We deliberated critical topics regarding our city's economy and education sector.`,
           `📊 On our assembly agenda, we presented our ongoing vocational education projects carried out under the Education Committee with our assembly members.`,
@@ -382,8 +421,17 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
         ];
 
   // Komite toplantısı varsayılan paragrafları (TR / EN)
-  const defaultCommitteeParas =
-    lang === "en"
+  const defaultCommitteeParas = isBeforeSecondThursday(committeeYear, committeeMonth)
+    ? lang === "en"
+      ? [
+          `📅 The Education Committee Meeting for ${committeeMonthName} ${committeeYear} has not been held yet as the second Thursday of the month has not arrived.`,
+          `ℹ️ Committee meetings are held on the second Thursday of every month. Agenda items and decisions will be updated after the meeting.`
+        ]
+      : [
+          `📅 ${committeeMonthName} ${committeeYear} ayının henüz ikinci perşembesi gelmediği için komite toplantısı henüz yapılmamıştır.`,
+          `ℹ️ Her ayın ikinci perşembesi gerçekleştirilen Eğitim Komitesi toplantısının ardından alınan kararlar ve gelişmeler burada yer alacaktır.`
+        ]
+    : lang === "en"
       ? [
           `🎓 As the Education Committee of the Istanbul Chamber of Commerce, we completed our ${committeeMonthName} ${committeeYear} regular meeting.`,
           `💡 We evaluated our sector's demands, digital transformation steps in education, and future skill requirements.`,
