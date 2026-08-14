@@ -441,7 +441,7 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    copySingleImageToClipboard(imgUrl).then((ok) => {
+                    copyAllImagesToClipboard([imgUrl]).then((ok: boolean) => {
                       if (!ok) handleDownloadImage(imgUrl);
                     });
                   }}

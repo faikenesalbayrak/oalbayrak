@@ -36,7 +36,7 @@ const BOOKS_BG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663411377049/a6eGbShWTkuDAbFHmsAocG/books_bg-mJy7EiwSBa2fHWSKnAz6t2.webp";
 const PROFILE_IMG = "/images/oalbayrak_ito_hero.jpg";
 
-const TWITTER_URL = "https://twitter.com/OrAlbayrak";
+const TWITTER_URL = "https://x.com/OrAlbayrak";
 const LINKEDIN_URL = "https://www.linkedin.com/in/orhan-albayrak/?locale=en";
 const FACEBOOK_URL = "https://www.facebook.com/doc.dr.orhanalbayrak";
 const INSTAGRAM_URL = "https://www.instagram.com/doc.dr.orhanalbayrak/";
@@ -589,14 +589,14 @@ const coursesTr: CourseItem[] = [
     level: "Yüksek Lisans",
   },
   {
-    title: "Business Statistics",
+    title: "Business Statistics (İngilizce)",
     language: "İngilizce",
     term: "Bahar",
     academicYear: "2021-2022",
     level: "Yüksek Lisans",
   },
   {
-    title: "Business Statistics",
+    title: "Business Statistics (İngilizce)",
     language: "İngilizce",
     term: "Güz",
     academicYear: "2021-2022",
@@ -788,14 +788,14 @@ const coursesEn: CourseItem[] = [
     level: "Master's",
   },
   {
-    title: "Business Statistics",
+    title: "Business Statistics (English)",
     language: "English",
     term: "Spring",
     academicYear: "2021-2022",
     level: "Master's",
   },
   {
-    title: "Business Statistics",
+    title: "Business Statistics (English)",
     language: "English",
     term: "Fall",
     academicYear: "2021-2022",
@@ -2018,7 +2018,7 @@ export default function Home() {
 
               <div className="mt-3 flex flex-wrap items-center gap-2.5">
                 <a
-                  href="https://x.com/OrAlbayrak"
+                  href={TWITTER_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   title="X (Twitter)"
@@ -2627,7 +2627,7 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 <a
-                  href="https://x.com/OrAlbayrak"
+                  href={TWITTER_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   title="X (Twitter)"
