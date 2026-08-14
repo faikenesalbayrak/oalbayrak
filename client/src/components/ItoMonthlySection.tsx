@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar, CalendarX, Building2, Image as ImageIcon, Copy, Check, Share2 } from "lucide-react";
+import { Calendar, CalendarX, Building2, Image as ImageIcon, Copy, Check, Share2, Download } from "lucide-react";
 
 export type MeetingContent = {
   images?: string[];
@@ -50,6 +50,41 @@ const YEARS = [2030, 2029, 2028, 2027, 2026, 2025, 2024, 2023, 2022];
 
 // Türkçe & İngilizce Sosyal Medya Paylaşım Metinleri
 const INITIAL_REPORTS: ItoMonthlyReport[] = [
+  {
+    year: 2026,
+    month: 8, // Ağustos 2026
+    councilMeeting: {
+      images: [
+        "/images/ito-agustos-2026-sekip-avdagic.jpg",
+        "/images/ito-agustos-2026-meclis-salonu.jpg",
+      ],
+      paragraphs: {
+        tr: [
+          "🏛️ İstanbul Ticaret Odamızın Ağustos 2026 Meclis Oturumu'nu İTO Başkanımız Şekip Avdagiç'in hitapları ve meclis üyelerimizin katılımıyla gerçekleştirdik. Oturumumuzda Türkiye'nin ekonomik vizyonu, dezenflasyon süreci ve güncel stratejik meselelerimizi kapsayıcı bir şekilde değerlendirdik.",
+          "🇹🇷 Malazgirt Zaferi ve Büyük Taarruz gibi tarihi dönüm noktalarımızı yad ederek milli birlik ile ekonomik bağımsızlık arasındaki güçlü bağı vurguladık. Enflasyonla mücadelede üretim kapasitesini korumanın önemine dikkat çekilerek ihracatçılarımızın finansmana erişimi ve artan maliyetler karşısında desteklenmesi çağrısında bulunuldu.",
+          "📊 Küresel finansal riskler, enerji piyasaları ve dijitalleşen üretim modellerinin yanı sıra eğitim ve sanayi alanındaki yapısal reformların önemi üzerinde duruldu. Ülkemizin küresel tedarik zincirindeki avantajlı konumunu korumak için kararlılıkla çalışmaya devam ediyoruz. #İTO #İstanbulTicaretOdası #MeclisToplantısı #ŞekipAvdagiç #Ekonomi",
+        ],
+        en: [
+          "🏛️ We conducted the August 2026 Assembly Session of the Istanbul Chamber of Commerce with the opening address of ITO President Şekip Avdagiç and the participation of our assembly members. We comprehensively evaluated Türkiye's economic vision and strategic affairs.",
+          "🇹🇷 Commemorating historic milestones such as the Victory of Manzikert and the Great Offensive, the strong link between national unity and economic independence was emphasized. Supporting exporters' access to finance and protecting production capacity were highlighted.",
+          "📊 Global financial dynamics, structural reforms in education and industry, and Türkiye's advantageous position in global supply chains were addressed. #ITO #IstanbulChamberOfCommerce #AssemblyMeeting #Economy",
+        ],
+      },
+    },
+    committeeMeeting: {
+      images: [
+        "/images/ito-komite-masasi-toplanti.jpg",
+      ],
+      paragraphs: {
+        tr: [
+          "🎓 İstanbul Ticaret Odası Eğitim Komitesi Ağustos 2026 olağan toplantısı 26 Ağustos 2026 tarihinde gerçekleştirilecektir. Toplantı henüz yapılmamıştır. #İTO #EğitimKomitesi",
+        ],
+        en: [
+          "🎓 The August 2026 meeting of the Istanbul Chamber of Commerce Education Committee will be held on August 26, 2026. The meeting has not taken place yet. #ITO #EducationCommittee",
+        ],
+      },
+    },
+  },
   {
     year: 2026,
     month: 7, // Temmuz 2026
@@ -292,7 +327,69 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
     }
   };
 
-  // Sosyal medya resimlerini kopyalama fonksiyonu
+  // Resmi bilgisayara doğrudan indirme fonksiyonu
+  const handleDownloadImage = (imgUrl: string) => {
+    const a = document.createElement("a");
+    a.href = imgUrl;
+    a.download = imgUrl.split("/").pop() || "ito-gorsel.jpg";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  // Tüm görselleri Canvas ile PNG'ye çevirip hepsini tek seferde Panoya Kopyalama
+  const copyAllImagesToClipboard = async (images: string[]): Promise<boolean> => {
+    if (!images || images.length === 0) return false;
+
+    try {
+      const clipboardItems: ClipboardItem[] = [];
+
+      for (const imgUrl of images) {
+        try {
+          const response = await fetch(imgUrl);
+          const blob = await response.blob();
+
+          const img = document.createElement("img");
+          const url = URL.createObjectURL(blob);
+
+          await new Promise((res, rej) => {
+            img.onload = res;
+            img.onerror = rej;
+            img.src = url;
+          });
+
+          const canvas = document.createElement("canvas");
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) continue;
+
+          ctx.drawImage(img, 0, 0);
+          URL.revokeObjectURL(url);
+
+          const pngBlob = await new Promise<Blob | null>((res) =>
+            canvas.toBlob(res, "image/png")
+          );
+
+          if (pngBlob) {
+            clipboardItems.push(new ClipboardItem({ "image/png": pngBlob }));
+          }
+        } catch (e) {
+          console.warn("Görsel dönüştürülürken hata:", imgUrl, e);
+        }
+      }
+
+      if (clipboardItems.length > 0 && navigator.clipboard && window.ClipboardItem) {
+        await navigator.clipboard.write(clipboardItems);
+        return true;
+      }
+    } catch (err) {
+      console.warn("Tüm görseller panoya yazılırken hata:", err);
+    }
+    return false;
+  };
+
+  // Sosyal medya resimlerinin HEPSİNİ kopyalama veya indirme fonksiyonu
   const handleCopyImages = async (images?: string[], isCouncil: boolean = true) => {
     if (isCouncil) {
       setCopiedCouncilImages(true);
@@ -304,23 +401,16 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
 
     if (!images || images.length === 0) return;
 
-    try {
-      const imgUrl = images[0];
-      const response = await fetch(imgUrl);
-      const blob = await response.blob();
-
-      if (navigator.clipboard && window.ClipboardItem) {
-        await navigator.clipboard.write([
-          new ClipboardItem({ [blob.type || "image/png"]: blob }),
-        ]);
-      }
-    } catch {
-      const links = images.map(img => window.location.origin + img).join("\n");
-      await navigator.clipboard.writeText(links);
+    // Tüm görselleri panoya kopyalamayı dene; kopyalama desteklenmezse hepsini sırayla indir
+    const success = await copyAllImagesToClipboard(images);
+    if (!success) {
+      images.forEach((imgUrl, i) => {
+        setTimeout(() => handleDownloadImage(imgUrl), i * 300);
+      });
     }
   };
 
-  // Dinamik Resim Izgara Düzeni (2, 3 veya 4 Resim)
+  // Dinamik Resim Izgara Düzeni (2, 3 veya 4 Resim) + Her Resim Üzerinde Hızlı Kopyalama/İndirme
   const renderImageGrid = (images?: string[]) => {
     const count = images ? images.length : 0;
 
@@ -341,9 +431,39 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
                 alt={`${lang === "en" ? "Image" : "Görsel"} ${idx + 1}`}
                 className="w-full h-full object-contain group-hover:scale-105 transition-transform"
               />
-              <span className="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded font-mono">
+              <span className="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded font-mono z-10">
                 #{idx + 1}
               </span>
+
+              {/* Hover Eylemleri: Kopyala & İndir Butonları */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-2">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    copySingleImageToClipboard(imgUrl).then((ok) => {
+                      if (!ok) handleDownloadImage(imgUrl);
+                    });
+                  }}
+                  title={lang === "en" ? "Copy Image" : "Resmi Kopyala"}
+                  className="p-1.5 bg-white text-[#1e3a5f] rounded-lg shadow-sm hover:bg-[#1e3a5f] hover:text-white transition-all cursor-pointer text-xs flex items-center gap-1 font-semibold"
+                >
+                  <Copy size={12} />
+                  <span>{lang === "en" ? "Copy" : "Kopyala"}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDownloadImage(imgUrl);
+                  }}
+                  title={lang === "en" ? "Download" : "İndir"}
+                  className="p-1.5 bg-[#c9a227] text-white rounded-lg shadow-sm hover:bg-[#8c6f14] transition-all cursor-pointer text-xs flex items-center gap-1 font-semibold"
+                >
+                  <Download size={12} />
+                  <span>{lang === "en" ? "Download" : "İndir"}</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>
