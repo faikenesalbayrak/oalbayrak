@@ -27,6 +27,8 @@ function Router() {
 //   to keep consistent foreground/background color across components
 // - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
+import { Analytics } from "@vercel/analytics/react";
+
 function App() {
   return (
     <ErrorBoundary>
@@ -35,6 +37,7 @@ function App() {
           <TooltipProvider>
             <Toaster />
             <Router />
+            <Analytics />
           </TooltipProvider>
         </LanguageProvider>
       </ThemeProvider>
