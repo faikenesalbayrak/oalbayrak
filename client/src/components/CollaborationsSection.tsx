@@ -1013,7 +1013,19 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
               </span>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Mavi Renk - İşbirliği Yapılan Ülkeler */}
+              <div className="flex items-center gap-1.5 bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-200 shadow-sm backdrop-blur-md">
+                <span className="w-3.5 h-3.5 rounded bg-[#2b4c7e] border border-[#3b82f6] shadow-sm inline-block shrink-0" />
+                <span>{lang === "en" ? "Collaborating Countries" : "İşbirliği Yapılan Ülkeler"}</span>
+              </div>
+
+              {/* Sarı Nokta - Gidilen Şehirler */}
+              <div className="flex items-center gap-1.5 bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-200 shadow-sm backdrop-blur-md">
+                <span className="w-3 h-3 rounded-full bg-amber-400 border border-slate-950 shadow-sm inline-block shrink-0" />
+                <span>{lang === "en" ? "Visited Cities" : "Gidilen Şehirler"}</span>
+              </div>
+
               {selectedCountry && (
                 <div className="flex items-center gap-2 bg-[#c9a227]/20 border border-[#c9a227]/40 text-[#c9a227] px-3.5 py-1.5 rounded-full text-xs font-semibold">
                   <span>{selectedCountry.flag} {lang === "en" ? selectedCountry.nameEn : selectedCountry.nameTr}</span>
@@ -1104,6 +1116,8 @@ export function CollaborationsSection({ lang }: { lang: "tr" | "en" }) {
                 {Math.round(manualZoom * 100)}%
               </span>
             </div>
+
+
 
             {isLoadingMap && (
               <div className="absolute inset-0 flex items-center justify-center bg-slate-950/80 z-30">
