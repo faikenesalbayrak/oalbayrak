@@ -1746,7 +1746,7 @@ function SectionTitle({
   return (
     <div className="mb-10">
       <h2
-        className="text-3xl md:text-4xl font-bold text-[#1e3a5f] mb-2"
+        className="text-3xl md:text-4xl font-bold text-[#7a2948] mb-2"
         style={{ fontFamily: "'DM Serif Display', serif" }}
       >
         {title}
@@ -1760,7 +1760,7 @@ function SectionTitle({
 function SubsectionTitle({ title }: { title: string }) {
   return (
     <h3
-      className="text-2xl font-semibold text-[#1e3a5f] mb-4 mt-1"
+      className="text-2xl font-semibold text-[#7a2948] mb-4 mt-1"
       style={{ fontFamily: "'DM Serif Display', serif" }}
     >
       {title}
@@ -2154,12 +2154,12 @@ export default function Home() {
                 </div>
               </div>
               <div className="bg-[#f8f9fc] rounded-2xl p-6 border border-gray-100">
-                <h3
-                  className="font-semibold text-[#1e3a5f] mb-4 text-lg"
+                <h4
+                  className="font-semibold text-[#7a2948] mb-4 text-lg"
                   style={{ fontFamily: "'DM Serif Display', serif" }}
                 >
                   {t.basicInfo.title}
-                </h3>
+                </h4>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
                     <MapPin
@@ -2301,7 +2301,7 @@ export default function Home() {
                 ].map(group => (
                   <div key={group.label}>
                     <h4
-                      className="text-xl font-semibold text-[#1e3a5f] mb-3"
+                      className="text-xl font-semibold text-[#7a2948] mb-3"
                       style={{ fontFamily: "'DM Serif Display', serif" }}
                     >
                       {group.label}
@@ -2516,12 +2516,12 @@ export default function Home() {
                 </a>
 
                 <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-                  <h3
-                    className="mb-5 text-lg font-semibold text-[#1e3a5f]"
+                  <h4
+                    className="mb-5 text-lg font-semibold text-[#7a2948]"
                     style={{ fontFamily: "'DM Serif Display', serif" }}
                   >
                     {t.membershipsTitle}
-                  </h3>
+                  </h4>
                   <div className="space-y-3">
                     {(lang === "en"
                       ? [

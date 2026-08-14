@@ -579,7 +579,7 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
               <span>{lang === "en" ? "Istanbul Chamber of Commerce" : "İstanbul Ticaret Odası"}</span>
             </div>
             <h2
-              className="text-3xl md:text-4xl font-bold text-[#1e3a5f]"
+              className="text-3xl md:text-4xl font-bold text-[#7a2948]"
               style={{ fontFamily: "'DM Serif Display', serif" }}
             >
               {lang === "en"
