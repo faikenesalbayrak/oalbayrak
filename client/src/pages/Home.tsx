@@ -49,6 +49,7 @@ type EducationItem = {
   years: string;
   thesis: string;
   logo?: string;
+  diplomaUrl?: string;
 };
 
 type CourseItem = {
@@ -107,6 +108,7 @@ const educationCardsTr: EducationItem[] = [
     years: "2023",
     thesis: "Doçentlik Ünvanı",
     logo: "/images/uak-logo.png",
+    diplomaUrl: "/images/docentlik-belgesi.png",
   },
   {
     degree: "Doktora",
@@ -116,6 +118,7 @@ const educationCardsTr: EducationItem[] = [
     thesis:
       'Tez: "Parti üyelerinin siyasi katılım düzeyi: İstanbul Ak Parti ve CHP örneği" (29.09.2020) — Danışman: Prof. Dr. Ömer Çaha',
     logo: "/images/izu-logo.png",
+    diplomaUrl: "/images/doktora-diploma.png",
   },
   {
     degree: "Yüksek Lisans",
@@ -124,6 +127,7 @@ const educationCardsTr: EducationItem[] = [
     years: "1999–2000",
     thesis: "Sertifika Programı",
     logo: "/images/marmara-logo.png",
+    diplomaUrl: "/images/marmara-diploma.png",
   },
   {
     degree: "Yüksek Lisans",
@@ -132,6 +136,7 @@ const educationCardsTr: EducationItem[] = [
     years: "1982–1984",
     thesis: "Kontrol ve Bilgisayar Programı",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/yuksek-lisans-diploma.png",
   },
   {
     degree: "Lisans",
@@ -140,6 +145,7 @@ const educationCardsTr: EducationItem[] = [
     years: "1977–1982",
     thesis: "Elektronik ve Haberleşme Fakültesi",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/lisans-diploma.png",
   },
 ];
 
@@ -152,6 +158,7 @@ const educationCardsEn: EducationItem[] = [
     years: "2023",
     thesis: "Associate Professor Title",
     logo: "/images/uak-logo.png",
+    diplomaUrl: "/images/docentlik-belgesi.png",
   },
   {
     degree: "Ph.D.",
@@ -161,6 +168,7 @@ const educationCardsEn: EducationItem[] = [
     thesis:
       'Dissertation: "Political participation level of party members: The case of Ak Party and CHP in Istanbul" (29.09.2020) — Advisor: Prof. Dr. Ömer Çaha',
     logo: "/images/izu-logo.png",
+    diplomaUrl: "/images/doktora-diploma.png",
   },
   {
     degree: "Master's Degree",
@@ -169,6 +177,7 @@ const educationCardsEn: EducationItem[] = [
     years: "1999–2000",
     thesis: "Certificate Program",
     logo: "/images/marmara-logo.png",
+    diplomaUrl: "/images/marmara-diploma.png",
   },
   {
     degree: "Master's Degree",
@@ -177,6 +186,7 @@ const educationCardsEn: EducationItem[] = [
     years: "1982–1984",
     thesis: "Control and Computer Program",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/yuksek-lisans-diploma.png",
   },
   {
     degree: "Bachelor's Degree",
@@ -185,6 +195,7 @@ const educationCardsEn: EducationItem[] = [
     years: "1977–1982",
     thesis: "Faculty of Electronics and Communication",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/lisans-diploma.png",
   },
 ];
 
@@ -1478,11 +1489,11 @@ const seminarsEn: RecordItem[] = [
 
 const speechesTr: RecordItem[] = [
   {
-    title: "Yapay Zeka ve Eğitim",
+    title: "Yapay Zekâ ve Eğitim",
     venue: "İstanbul Medeniyet Üniversitesi Eğitim Fakültesi",
     year: "15.04.2026",
     scope: "Ulusal",
-    details: "Yapay zeka ve eğitim ilişkisi.",
+    details: "Yapay zekâ ve eğitim ilişkisi.",
   },
   {
     title:
@@ -1490,10 +1501,10 @@ const speechesTr: RecordItem[] = [
     venue: "Ensar Vakfı Genel Merkezi",
     year: "22.11.2025",
     scope: "Ulusal",
-    details: "Yapay zeka ile maneviyat ilişkisi.",
+    details: "Yapay zekâ ile maneviyat ilişkisi.",
   },
   {
-    title: "Yapay Zeka ve Günlük Hayat",
+    title: "Yapay Zekâ ve Günlük Hayat",
     organization: "T.C. Kültür ve Turizm Bakanlığı",
     venue: "Rami Kütüphanesi, İstanbul",
     year: "04.04.2025",
@@ -2260,46 +2271,112 @@ export default function Home() {
           <AnimatedSection>
             <SectionTitle title={t.educationTitle} />
             <div className="grid md:grid-cols-2 gap-6">
-              {educationCards.map(edu => (
-                <div
-                  key={`${edu.degree}-${edu.years}`}
-                  className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200">
-                      {edu.logo ? (
-                        <img
-                          src={edu.logo}
-                          alt={edu.school}
-                          className="h-full w-full object-contain"
-                        />
+              {educationCards.map(edu => {
+                const [showDiplomaPreview, setShowDiplomaPreview] = useState(false);
+
+                return (
+                  <div
+                    key={`${edu.degree}-${edu.years}`}
+                    className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm relative"
+                  >
+                    <div className="flex items-start gap-4">
+                      {edu.diplomaUrl ? (
+                        <div
+                          onMouseEnter={() => setShowDiplomaPreview(true)}
+                          onMouseLeave={() => setShowDiplomaPreview(false)}
+                          className="relative cursor-pointer"
+                        >
+                          <a
+                            href={edu.diplomaUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={lang === "en" ? "View Diploma" : "Diplomayı Görüntüle"}
+                            className="w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200 hover:border-[#c9a227] hover:scale-105 transition-all group block"
+                          >
+                            {edu.logo ? (
+                              <img
+                                src={edu.logo}
+                                alt={edu.school}
+                                className="h-full w-full object-contain"
+                              />
+                            ) : (
+                              <GraduationCap size={22} className="text-[#1e3a5f]" />
+                            )}
+                          </a>
+                        </div>
                       ) : (
-                        <GraduationCap size={22} className="text-[#1e3a5f]" />
+                        <div className="w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200">
+                          {edu.logo ? (
+                            <img
+                              src={edu.logo}
+                              alt={edu.school}
+                              className="h-full w-full object-contain"
+                            />
+                          ) : (
+                            <GraduationCap size={22} className="text-[#1e3a5f]" />
+                          )}
+                        </div>
                       )}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-semibold bg-[#c9a227]/15 text-[#c9a227] px-2 py-0.5 rounded-full">
-                          {edu.degree}
-                        </span>
-                        <span className="text-xs text-gray-400 flex items-center gap-1">
-                          <Calendar size={11} /> {edu.years}
-                        </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold bg-[#c9a227]/15 text-[#c9a227] px-2 py-0.5 rounded-full">
+                              {edu.degree}
+                            </span>
+                            <span className="text-xs text-gray-400 flex items-center gap-1">
+                              <Calendar size={11} /> {edu.years}
+                            </span>
+                          </div>
+                          {edu.diplomaUrl && (
+                            <div
+                              onMouseEnter={() => setShowDiplomaPreview(true)}
+                              onMouseLeave={() => setShowDiplomaPreview(false)}
+                              className="relative"
+                            >
+                              <a
+                                href={edu.diplomaUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-[#1e3a5f] hover:text-[#c9a227] font-medium flex items-center gap-1 transition-colors py-1 px-1.5 rounded hover:bg-slate-50 cursor-pointer"
+                              >
+                                <span>{lang === "en" ? "Diploma" : "Diploma"}</span>
+                                <ExternalLink size={12} />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                        <h3
+                          className="font-semibold text-[#1e3a5f] text-lg leading-tight"
+                          style={{ fontFamily: "'DM Serif Display', serif" }}
+                        >
+                          {edu.field}
+                        </h3>
+                        <p className="text-gray-500 text-sm mt-1">{edu.school}</p>
+                        <p className="text-gray-400 text-xs mt-2 italic">
+                          {edu.thesis}
+                        </p>
                       </div>
-                      <h3
-                        className="font-semibold text-[#1e3a5f] text-lg leading-tight"
-                        style={{ fontFamily: "'DM Serif Display', serif" }}
-                      >
-                        {edu.field}
-                      </h3>
-                      <p className="text-gray-500 text-sm mt-1">{edu.school}</p>
-                      <p className="text-gray-400 text-xs mt-2 italic">
-                        {edu.thesis}
-                      </p>
                     </div>
+
+                    {/* Fullscreen Overlay Popup for Diploma (Transparent background) */}
+                    {edu.diplomaUrl && showDiplomaPreview && (
+                      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 pointer-events-none transition-all animate-in fade-in duration-200 bg-transparent">
+                        <div className="bg-white p-3 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] max-w-4xl max-h-[90vh] flex flex-col items-center border border-gray-200">
+                          <img
+                            src={edu.diplomaUrl}
+                            alt="Diploma Preview"
+                            className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-sm"
+                          />
+                          <div className="mt-2 flex items-center justify-between w-full px-2 text-xs text-gray-500 font-medium">
+                            <span>🎓 {lang === "en" ? "M.Sc. Diploma Preview" : "Yüksek Lisans Diploma Önizlemesi"}</span>
+                            <span className="text-gray-400">{lang === "en" ? "Click to open full resolution" : "Tam çözünürlük için tıklayın"}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </AnimatedSection>
         </div>
