@@ -109,7 +109,6 @@ const educationCardsTr: EducationItem[] = [
     years: "2023",
     thesis: "Doçentlik Ünvanı",
     logo: "/images/uak-logo.png",
-    diplomaUrl: "/images/docentlik-belgesi.png",
   },
   {
     degree: "Doktora",
@@ -119,7 +118,6 @@ const educationCardsTr: EducationItem[] = [
     thesis:
       'Tez: "Parti üyelerinin siyasi katılım düzeyi: İstanbul Ak Parti ve CHP örneği" (29.09.2020) — Danışman: Prof. Dr. Ömer Çaha',
     logo: "/images/izu-logo.png",
-    diplomaUrl: "/images/doktora-diploma.png",
   },
   {
     degree: "Yüksek Lisans",
@@ -128,7 +126,6 @@ const educationCardsTr: EducationItem[] = [
     years: "1999–2000",
     thesis: "Sertifika Programı",
     logo: "/images/marmara-logo.png",
-    diplomaUrl: "/images/marmara-diploma.png",
   },
   {
     degree: "Yüksek Lisans",
@@ -137,7 +134,6 @@ const educationCardsTr: EducationItem[] = [
     years: "1982–1984",
     thesis: "Kontrol ve Bilgisayar Programı",
     logo: "/images/itu-logo.png",
-    diplomaUrl: "/images/yuksek-lisans-diploma.png",
   },
   {
     degree: "Lisans",
@@ -146,7 +142,6 @@ const educationCardsTr: EducationItem[] = [
     years: "1977–1982",
     thesis: "Elektronik ve Haberleşme Fakültesi",
     logo: "/images/itu-logo.png",
-    diplomaUrl: "/images/lisans-diploma.png",
   },
 ];
 
@@ -159,7 +154,6 @@ const educationCardsEn: EducationItem[] = [
     years: "2023",
     thesis: "Associate Professor Title",
     logo: "/images/uak-logo.png",
-    diplomaUrl: "/images/docentlik-belgesi.png",
   },
   {
     degree: "Ph.D.",
@@ -169,7 +163,6 @@ const educationCardsEn: EducationItem[] = [
     thesis:
       'Dissertation: "Political participation level of party members: The case of Ak Party and CHP in Istanbul" (29.09.2020) — Advisor: Prof. Dr. Ömer Çaha',
     logo: "/images/izu-logo.png",
-    diplomaUrl: "/images/doktora-diploma.png",
   },
   {
     degree: "Master's Degree",
@@ -178,7 +171,6 @@ const educationCardsEn: EducationItem[] = [
     years: "1999–2000",
     thesis: "Certificate Program",
     logo: "/images/marmara-logo.png",
-    diplomaUrl: "/images/marmara-diploma.png",
   },
   {
     degree: "Master's Degree",
@@ -187,7 +179,6 @@ const educationCardsEn: EducationItem[] = [
     years: "1982–1984",
     thesis: "Control and Computer Program",
     logo: "/images/itu-logo.png",
-    diplomaUrl: "/images/yuksek-lisans-diploma.png",
   },
   {
     degree: "Bachelor's Degree",
@@ -196,7 +187,6 @@ const educationCardsEn: EducationItem[] = [
     years: "1977–1982",
     thesis: "Faculty of Electronics and Communication",
     logo: "/images/itu-logo.png",
-    diplomaUrl: "/images/lisans-diploma.png",
   },
 ];
 
