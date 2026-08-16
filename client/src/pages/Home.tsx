@@ -1660,11 +1660,20 @@ const certificatesEn: RecordItem[] = [
 
 const membershipsTr: RecordItem[] = [
   {
+    title: "Academia.edu",
+    role: "Üye · Akademik Profil",
+    year: "2025",
+    details: "Akademik Ağ",
+    logo: "/images/academia-logo.svg",
+    url: "https://independent.academia.edu/OrhanAlbayrak6",
+  },
+  {
     title: "International Political Science Association (IPSA)",
     role: "Üye",
     year: "2025",
     details: "Bilimsel Kuruluş",
     logo: "/images/ipsa-logo.png",
+    url: "https://www.ipsa.org",
   },
   {
     title: "ÜNDER – Üniversite Öğretim Elemanları Dayanışma Derneği",
@@ -1672,16 +1681,26 @@ const membershipsTr: RecordItem[] = [
     year: "2023",
     details: "Bilimsel Kuruluş",
     logo: "/images/under-logo.png",
+    url: "https://www.facebook.com/underorgtr/",
   },
 ];
 
 const membershipsEn: RecordItem[] = [
+  {
+    title: "Academia.edu",
+    role: "Member · Academic Profile",
+    year: "2025",
+    details: "Academic Network",
+    logo: "/images/academia-logo.svg",
+    url: "https://independent.academia.edu/OrhanAlbayrak6",
+  },
   {
     title: "International Political Science Association (IPSA)",
     role: "Member",
     year: "2025",
     details: "Scientific Organization",
     logo: "/images/ipsa-logo.png",
+    url: "https://www.ipsa.org",
   },
   {
     title: "UNDER – Association of University Academic Staff Solidarity",
@@ -1689,6 +1708,7 @@ const membershipsEn: RecordItem[] = [
     year: "2023",
     details: "Scientific Organization",
     logo: "/images/under-logo.png",
+    url: "https://www.facebook.com/underorgtr/",
   },
 ];
 
@@ -1813,10 +1833,12 @@ function RecordCards({
           .filter(Boolean)
           .join(" · ");
 
-        return (
+        const cardContent = (
           <div
             key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
-            className="w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm flex items-start gap-4"
+            className={`w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm flex items-start gap-4 transition-all ${
+              item.url ? "hover:border-[#c9a227]/40 hover:shadow-md group cursor-pointer" : ""
+            }`}
           >
             {item.logo && (
               <div className="w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200 mt-0.5">
@@ -1828,9 +1850,14 @@ function RecordCards({
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">
-                {item.title}
-              </p>
+              <div className="flex items-start justify-between gap-2">
+                <p className={`font-semibold text-[#1e3a5f] leading-snug break-words min-w-0 ${item.url ? "group-hover:text-[#c9a227] transition-colors" : ""}`}>
+                  {item.title}
+                </p>
+                {item.url && (
+                  <ExternalLink size={16} className="text-gray-400 group-hover:text-[#c9a227] shrink-0 mt-0.5 transition-colors" />
+                )}
+              </div>
               {item.chapter && (
                 <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
                   {labels.chapter}: {item.chapter}
@@ -1890,6 +1917,22 @@ function RecordCards({
             )}
           </div>
         );
+
+        if (item.url) {
+          return (
+            <a
+              key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              {cardContent}
+            </a>
+          );
+        }
+
+        return cardContent;
       })}
     </div>
   );
@@ -2550,6 +2593,11 @@ export default function Home() {
                             role: "Chairman of the Board of Trustees",
                             url: "#",
                           },
+                          {
+                            name: "Academia.edu",
+                            role: "Academic Profile",
+                            url: "https://independent.academia.edu/OrhanAlbayrak6",
+                          },
                         ]
                       : [
                           {
@@ -2576,6 +2624,11 @@ export default function Home() {
                             name: "FGA Vakfı",
                             role: "Mütevelli Heyet Başkanı",
                             url: "#",
+                          },
+                          {
+                            name: "Academia.edu",
+                            role: "Akademik Profil",
+                            url: "https://independent.academia.edu/OrhanAlbayrak6",
                           },
                         ]
                     ).map(aff => (

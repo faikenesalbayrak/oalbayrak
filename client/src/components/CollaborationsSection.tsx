@@ -60,6 +60,7 @@ export const VISITED_COUNTRIES: VisitedCountry[] = [
       { nameTr: "New York", nameEn: "New York", lat: 40.7128, lng: -74.006 },
       { nameTr: "New Jersey", nameEn: "New Jersey", lat: 40.0583, lng: -74.4057 },
       { nameTr: "Orlando", nameEn: "Orlando", lat: 28.5383, lng: -81.3792 },
+      { nameTr: "Gainesville", nameEn: "Gainesville", lat: 29.6516, lng: -82.3248 },
       { nameTr: "Tampa", nameEn: "Tampa", lat: 27.9506, lng: -82.4572 },
       { nameTr: "Miami", nameEn: "Miami", lat: 25.7617, lng: -80.1918 },
       { nameTr: "San Francisco", nameEn: "San Francisco", lat: 37.7749, lng: -122.4194 },
