@@ -134,6 +134,7 @@ const educationCardsTr: EducationItem[] = [
     years: "1982–1984",
     thesis: "Kontrol ve Bilgisayar Programı",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/yuksek-lisans-diploma.png",
   },
   {
     degree: "Lisans",
@@ -179,6 +180,7 @@ const educationCardsEn: EducationItem[] = [
     years: "1982–1984",
     thesis: "Control and Computer Program",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/yuksek-lisans-diploma.png",
   },
   {
     degree: "Bachelor's Degree",
