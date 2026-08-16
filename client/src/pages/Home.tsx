@@ -90,6 +90,7 @@ type RecordItem = {
   language?: string;
   logo?: string;
   rightImage?: string;
+  url?: string;
 };
 
 const aboutParagraphs = [
@@ -207,6 +208,7 @@ const academicRolesTr: RecordItem[] = [
     startDate: "15.10.2024",
     details: "Hâlen devam ediyor.",
     logo: "/images/bezmialem-logo.png",
+    url: "https://bezmialem.edu.tr",
   },
   {
     title: "DOKTOR ÖĞRETİM ÜYESİ",
@@ -216,6 +218,7 @@ const academicRolesTr: RecordItem[] = [
     startDate: "01.09.2021",
     endDate: "19.03.2024",
     logo: "/images/halic-logo.png",
+    url: "https://halic.edu.tr",
   },
 ];
 
@@ -227,6 +230,7 @@ const academicRolesEn: RecordItem[] = [
     startDate: "15.10.2024",
     details: "Ongoing.",
     logo: "/images/bezmialem-logo.png",
+    url: "https://bezmialem.edu.tr",
   },
   {
     title: "ASSISTANT PROFESSOR",
@@ -236,6 +240,7 @@ const academicRolesEn: RecordItem[] = [
     startDate: "01.09.2021",
     endDate: "19.03.2024",
     logo: "/images/halic-logo.png",
+    url: "https://halic.edu.tr",
   },
 ];
 
@@ -248,6 +253,7 @@ const adminRolesTr: RecordItem[] = [
     startDate: "02.12.2022",
     endDate: "01.03.2023",
     logo: "/images/halic-logo.png",
+    url: "https://halic.edu.tr",
   },
 ];
 
@@ -260,6 +266,7 @@ const adminRolesEn: RecordItem[] = [
     startDate: "02.12.2022",
     endDate: "01.03.2023",
     logo: "/images/halic-logo.png",
+    url: "https://halic.edu.tr",
   },
 ];
 
@@ -276,6 +283,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Türkiye",
     startDate: "20.10.2024",
     logo: "/images/under-logo.png",
+    url: "http://www.under.org.tr",
   },
   {
     title: "1773 İstanbul Teknik Üniversitesi Teknopark A.Ş.",
@@ -283,6 +291,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Türkiye",
     startDate: "08.12.2022",
     logo: "/images/itu-logo.png",
+    url: "https://1773ituteknopark.com",
   },
   {
     title: "İstanbul Ticaret Odası",
@@ -290,6 +299,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Mesleki Dernekler",
     startDate: "15.10.2022",
     logo: "/images/ito-logo.png",
+    url: "https://www.ito.org.tr",
   },
   {
     title: "Türkiye Dil ve Edebiyat Derneği",
@@ -297,6 +307,7 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Türkiye",
     startDate: "01.06.2022",
     logo: "/images/tded-logo.png",
+    url: "https://www.tded.org.tr",
   },
   {
     title: "İstanbul Ticaret Üniversitesi",
@@ -305,6 +316,7 @@ const externalExperiencesTr: RecordItem[] = [
     startDate: "01.01.2018",
     endDate: "01.01.2022",
     logo: "/images/ticaret-uni-logo.png",
+    url: "https://www.ticaret.edu.tr",
   },
   {
     title: "İstanbul Ticaret Odası",
@@ -314,6 +326,7 @@ const externalExperiencesTr: RecordItem[] = [
     endDate: "15.10.2022",
     details: "8000 eğitim kurumunu temsilen seçilmiş meclis üyesi.",
     logo: "/images/ito-logo.png",
+    url: "https://www.ito.org.tr",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -322,6 +335,7 @@ const externalExperiencesTr: RecordItem[] = [
     startDate: "01.01.2011",
     endDate: "01.01.2013",
     logo: "/images/aer-logo.svg",
+    url: "https://aer.eu",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -330,6 +344,7 @@ const externalExperiencesTr: RecordItem[] = [
     startDate: "01.01.2009",
     endDate: "01.01.2011",
     logo: "/images/aer-logo.svg",
+    url: "https://aer.eu",
   },
   {
     title: "İstanbul Ticaret Üniversitesi",
@@ -338,6 +353,7 @@ const externalExperiencesTr: RecordItem[] = [
     startDate: "01.01.2009",
     endDate: "01.01.2013",
     logo: "/images/ticaret-uni-logo.png",
+    url: "https://www.ticaret.edu.tr",
   },
   {
     title: "İstanbul Ticaret Üniversitesi",
@@ -346,6 +362,7 @@ const externalExperiencesTr: RecordItem[] = [
     startDate: "01.01.2004",
     endDate: "01.01.2009",
     logo: "/images/ticaret-uni-logo.png",
+    url: "https://www.ticaret.edu.tr",
   },
   {
     title: "Florida Üniversitesi",
@@ -354,6 +371,7 @@ const externalExperiencesTr: RecordItem[] = [
     startDate: "01.06.1984",
     endDate: "01.03.1986",
     logo: "/images/uf-logo.svg",
+    url: "https://www.ufl.edu",
   },
 ];
 
@@ -370,6 +388,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Turkey",
     startDate: "20.10.2024",
     logo: "/images/under-logo.png",
+    url: "http://www.under.org.tr",
   },
   {
     title: "1773 Istanbul Technical University Technopark Inc.",
@@ -377,6 +396,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Turkey",
     startDate: "08.12.2022",
     logo: "/images/itu-logo.png",
+    url: "https://1773ituteknopark.com",
   },
   {
     title: "Istanbul Chamber of Commerce",
@@ -384,6 +404,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Professional Associations",
     startDate: "15.10.2022",
     logo: "/images/ito-logo.png",
+    url: "https://www.ito.org.tr",
   },
   {
     title: "Turkish Language and Literature Association",
@@ -391,6 +412,7 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Turkey",
     startDate: "01.06.2022",
     logo: "/images/tded-logo.png",
+    url: "https://www.tded.org.tr",
   },
   {
     title: "Istanbul Commerce University",
@@ -399,6 +421,7 @@ const externalExperiencesEn: RecordItem[] = [
     startDate: "01.01.2018",
     endDate: "01.01.2022",
     logo: "/images/ticaret-uni-logo.png",
+    url: "https://www.ticaret.edu.tr",
   },
   {
     title: "Istanbul Chamber of Commerce",
@@ -408,6 +431,7 @@ const externalExperiencesEn: RecordItem[] = [
     endDate: "15.10.2022",
     details: "Elected assembly member representing 8,000 educational institutions.",
     logo: "/images/ito-logo.png",
+    url: "https://www.ito.org.tr",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -416,6 +440,7 @@ const externalExperiencesEn: RecordItem[] = [
     startDate: "01.01.2011",
     endDate: "01.01.2013",
     logo: "/images/aer-logo.svg",
+    url: "https://aer.eu",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -424,6 +449,7 @@ const externalExperiencesEn: RecordItem[] = [
     startDate: "01.01.2009",
     endDate: "01.01.2011",
     logo: "/images/aer-logo.svg",
+    url: "https://aer.eu",
   },
   {
     title: "Istanbul Commerce University",
@@ -432,6 +458,7 @@ const externalExperiencesEn: RecordItem[] = [
     startDate: "01.01.2009",
     endDate: "01.01.2013",
     logo: "/images/ticaret-uni-logo.png",
+    url: "https://www.ticaret.edu.tr",
   },
   {
     title: "Istanbul Commerce University",
@@ -440,6 +467,7 @@ const externalExperiencesEn: RecordItem[] = [
     startDate: "01.01.2004",
     endDate: "01.01.2009",
     logo: "/images/ticaret-uni-logo.png",
+    url: "https://www.ticaret.edu.tr",
   },
   {
     title: "University of Florida",
@@ -448,6 +476,7 @@ const externalExperiencesEn: RecordItem[] = [
     startDate: "01.06.1984",
     endDate: "01.03.1986",
     logo: "/images/uf-logo.svg",
+    url: "https://www.ufl.edu",
   },
 ];
 
@@ -1638,6 +1667,7 @@ const certificatesTr: RecordItem[] = [
     venue: "İstanbul",
     year: "24.06.2000",
     logo: "/images/marmara-logo.png",
+    url: "https://www.marmara.edu.tr",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -1646,6 +1676,7 @@ const certificatesTr: RecordItem[] = [
     venue: "İstanbul",
     year: "03.06.2010",
     logo: "/images/aer-logo.svg",
+    url: "https://aer.eu",
   },
 ];
 
@@ -1658,6 +1689,7 @@ const certificatesEn: RecordItem[] = [
     venue: "Istanbul",
     year: "24.06.2000",
     logo: "/images/marmara-logo.png",
+    url: "https://www.marmara.edu.tr",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -1666,6 +1698,7 @@ const certificatesEn: RecordItem[] = [
     venue: "Istanbul",
     year: "03.06.2010",
     logo: "/images/aer-logo.svg",
+    url: "https://aer.eu",
   },
 ];
 
