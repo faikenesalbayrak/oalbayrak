@@ -2668,7 +2668,7 @@ export default function Home() {
                           {
                             name: "FGA Foundation",
                             role: "Chairman of the Board of Trustees",
-                            url: "#",
+                            url: "http://fgavakfi.org",
                           },
                           {
                             name: "Academia.edu",
@@ -2700,7 +2700,7 @@ export default function Home() {
                           {
                             name: "FGA Vakfı",
                             role: "Mütevelli Heyet Başkanı",
-                            url: "#",
+                            url: "http://fgavakfi.org",
                           },
                           {
                             name: "Academia.edu",
@@ -2874,6 +2874,17 @@ export default function Home() {
                 {lang === "en" ? "Useful Links" : "Faydalı Linkler"}
               </h4>
               <ul className="space-y-2.5 text-sm text-gray-300">
+                <li>
+                  <a
+                    href="https://www.yok.gov.tr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:underline transition-colors flex items-center gap-1.5 group"
+                  >
+                    <ExternalLink size={14} className="text-[#c9a227] shrink-0 group-hover:scale-110 transition-transform" />
+                    <span>{lang === "en" ? "Council of Higher Education (YÖK)" : "Yükseköğretim Kurulu (YÖK)"}</span>
+                  </a>
+                </li>
                 <li>
                   <a
                     href="https://www.ito.org.tr"
