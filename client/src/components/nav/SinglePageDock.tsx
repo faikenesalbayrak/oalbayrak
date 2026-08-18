@@ -9,6 +9,7 @@ import {
   GraduationCap,
   Home,
   Mail,
+  Radio,
   Settings,
   UserRound,
   type LucideIcon,
@@ -27,6 +28,7 @@ export type SectionId =
   | "yayinlar"
   | "ito-bu-ay"
   | "isbirlikleri"
+  | "muzik-dinle"
   | "iletisim";
 
 type DockItem = {
@@ -61,6 +63,11 @@ export const DOCK_ITEMS: DockItem[] = [
     id: "isbirlikleri",
     label: { tr: "İşbirlikleri", en: "Collaborations" },
     icon: Globe2,
+  },
+  {
+    id: "muzik-dinle",
+    label: { tr: "Müzik Dinle", en: "Music" },
+    icon: Radio,
   },
   { id: "iletisim", label: { tr: "İletişim", en: "Contact" }, icon: Mail },
 ];

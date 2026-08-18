@@ -29,6 +29,7 @@ import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
 import { ItoMonthlySection } from "@/components/ItoMonthlySection";
 import { CollaborationsSection } from "@/components/CollaborationsSection";
+import { RadioGardenModal } from "@/components/RadioGardenModal";
 import { CursorGrid } from "@/components/ui/cursor-grid";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -1977,6 +1978,7 @@ function RecordCards({
 export default function Home() {
   const { language: lang, setLanguage: setLang } = useLanguage();
   const [activeSection, setActiveSection] = useState<SectionId>("hakkinda");
+  const [isRadioModalOpen, setIsRadioModalOpen] = useState(false);
 
   const t = translations[lang];
 
@@ -2023,6 +2025,10 @@ export default function Home() {
   }, []);
 
   const scrollTo = (id: SectionId) => {
+    if (id === "muzik-dinle") {
+      setIsRadioModalOpen(true);
+      return;
+    }
     const target = document.getElementById(id);
     if (target) {
       const headerOffset = 88;
@@ -2943,6 +2949,17 @@ export default function Home() {
                     <span>{lang === "en" ? "Ministry of Trade" : "T.C. Ticaret Bakanlığı"}</span>
                   </a>
                 </li>
+                <li>
+                  <a
+                    href="https://famelack.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:underline transition-colors flex items-center gap-1.5 group"
+                  >
+                    <ExternalLink size={14} className="text-[#c9a227] shrink-0 group-hover:scale-110 transition-transform" />
+                    <span>Famelack</span>
+                  </a>
+                </li>
               </ul>
             </div>
 
@@ -2999,6 +3016,12 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      <RadioGardenModal
+        isOpen={isRadioModalOpen}
+        onClose={() => setIsRadioModalOpen(false)}
+        lang={lang}
+      />
     </div>
   );
 }
