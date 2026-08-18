@@ -29,7 +29,6 @@ import { MobileSidebar } from "@/components/nav/MobileSidebar";
 import { ContactForm } from "@/components/site/ContactForm";
 import { ItoMonthlySection } from "@/components/ItoMonthlySection";
 import { CollaborationsSection } from "@/components/CollaborationsSection";
-import { RadioGardenModal } from "@/components/RadioGardenModal";
 import { CursorGrid } from "@/components/ui/cursor-grid";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -3016,12 +3015,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      <RadioGardenModal
-        isOpen={isRadioModalOpen}
-        onClose={() => setIsRadioModalOpen(false)}
-        lang={lang}
-      />
     </div>
   );
 }
