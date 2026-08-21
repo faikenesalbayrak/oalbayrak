@@ -110,7 +110,7 @@ const educationCardsTr: EducationItem[] = [
     years: "2023",
     thesis: "Doçentlik Ünvanı",
     logo: "/images/uak-logo.png",
-    diplomaUrl: "/images/docentlik-belgesi.png",
+    diplomaUrl: "/images/oa-docent.jpg",
   },
   {
     degree: "Doktora",
@@ -123,20 +123,12 @@ const educationCardsTr: EducationItem[] = [
   },
   {
     degree: "Yüksek Lisans",
-    field: "Modern İşletme Yönetimi",
-    school: "Marmara Üniversitesi",
-    years: "1999–2000",
-    thesis: "Sertifika Programı",
-    logo: "/images/marmara-logo.png",
-  },
-  {
-    degree: "Yüksek Lisans",
     field: "Kontrol ve Bilgisayar Mühendisliği",
     school: "İstanbul Teknik Üniversitesi",
     years: "1982–1984",
     thesis: "Kontrol ve Bilgisayar Programı",
     logo: "/images/itu-logo.png",
-    diplomaUrl: "/images/yuksek-lisans-diploma.png",
+    diplomaUrl: "/images/oa-y-lisans.jpg",
   },
   {
     degree: "Lisans",
@@ -145,6 +137,16 @@ const educationCardsTr: EducationItem[] = [
     years: "1977–1982",
     thesis: "Elektronik ve Haberleşme Fakültesi",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/oa-lisans.jpg",
+  },
+  {
+    degree: "Sertifika",
+    field: "Modern İşletme Yönetimi",
+    school: "Marmara Üniversitesi",
+    years: "1999–2000",
+    thesis: "Sertifika Programı",
+    logo: "/images/marmara-logo.png",
+    diplomaUrl: "/images/marmara-diploma.png",
   },
 ];
 
@@ -157,7 +159,7 @@ const educationCardsEn: EducationItem[] = [
     years: "2023",
     thesis: "Associate Professor Title",
     logo: "/images/uak-logo.png",
-    diplomaUrl: "/images/docentlik-belgesi.png",
+    diplomaUrl: "/images/oa-docent.jpg",
   },
   {
     degree: "Ph.D.",
@@ -170,20 +172,12 @@ const educationCardsEn: EducationItem[] = [
   },
   {
     degree: "Master's Degree",
-    field: "Modern Business Management",
-    school: "Marmara University",
-    years: "1999–2000",
-    thesis: "Certificate Program",
-    logo: "/images/marmara-logo.png",
-  },
-  {
-    degree: "Master's Degree",
     field: "Control and Computer Engineering",
     school: "Istanbul Technical University",
     years: "1982–1984",
     thesis: "Control and Computer Program",
     logo: "/images/itu-logo.png",
-    diplomaUrl: "/images/yuksek-lisans-diploma.png",
+    diplomaUrl: "/images/oa-y-lisans.jpg",
   },
   {
     degree: "Bachelor's Degree",
@@ -192,6 +186,16 @@ const educationCardsEn: EducationItem[] = [
     years: "1977–1982",
     thesis: "Faculty of Electronics and Communication",
     logo: "/images/itu-logo.png",
+    diplomaUrl: "/images/oa-lisans.jpg",
+  },
+  {
+    degree: "Certificate",
+    field: "Modern Business Management",
+    school: "Marmara University",
+    years: "1999–2000",
+    thesis: "Certificate Program",
+    logo: "/images/marmara-logo.png",
+    diplomaUrl: "/images/marmara-diploma.png",
   },
 ];
 
@@ -2105,7 +2109,7 @@ export default function Home() {
   }, []);
 
   const scrollTo = (id: SectionId) => {
-    if (id === "muzik-dinle") {
+    if ((id as string) === "muzik-dinle") {
       setIsRadioModalOpen(true);
       return;
     }
@@ -2382,13 +2386,15 @@ export default function Home() {
           <AnimatedSection>
             <SectionTitle title={t.educationTitle} />
             <div className="grid md:grid-cols-2 gap-6">
-              {educationCards.map(edu => {
+              {educationCards.map((edu, idx) => {
                 const [showDiplomaPreview, setShowDiplomaPreview] = useState(false);
 
                 return (
                   <div
                     key={`${edu.degree}-${edu.years}`}
-                    className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm relative"
+                    className={`bg-white rounded-xl p-6 border border-gray-100 shadow-sm relative ${
+                      idx === educationCards.length - 1 ? "md:col-start-2" : ""
+                    }`}
                   >
                     <div className="flex items-start gap-4">
                       {edu.diplomaUrl ? (
@@ -2429,32 +2435,13 @@ export default function Home() {
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2 mb-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold bg-[#c9a227]/15 text-[#c9a227] px-2 py-0.5 rounded-full">
-                              {edu.degree}
-                            </span>
-                            <span className="text-xs text-gray-400 flex items-center gap-1">
-                              <Calendar size={11} /> {edu.years}
-                            </span>
-                          </div>
-                          {edu.diplomaUrl && (
-                            <div
-                              onMouseEnter={() => setShowDiplomaPreview(true)}
-                              onMouseLeave={() => setShowDiplomaPreview(false)}
-                              className="relative"
-                            >
-                              <a
-                                href={edu.diplomaUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xs text-[#1e3a5f] hover:text-[#c9a227] font-medium flex items-center gap-1 transition-colors py-1 px-1.5 rounded hover:bg-slate-50 cursor-pointer"
-                              >
-                                <span>{lang === "en" ? "Diploma" : "Diploma"}</span>
-                                <ExternalLink size={12} />
-                              </a>
-                            </div>
-                          )}
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-semibold bg-[#c9a227]/15 text-[#c9a227] px-2 py-0.5 rounded-full">
+                            {edu.degree}
+                          </span>
+                          <span className="text-xs text-gray-400 flex items-center gap-1">
+                            <Calendar size={11} /> {edu.years}
+                          </span>
                         </div>
                         <h3
                           className="font-semibold text-[#1e3a5f] text-lg leading-tight"
@@ -2463,9 +2450,32 @@ export default function Home() {
                           {edu.field}
                         </h3>
                         <p className="text-gray-500 text-sm mt-1">{edu.school}</p>
-                        <p className="text-gray-400 text-xs mt-2 italic">
-                          {edu.thesis}
-                        </p>
+                        <div className="flex items-end justify-between mt-2 gap-2">
+                          <p className="text-gray-400 text-xs italic">
+                            {edu.thesis}
+                          </p>
+                          {edu.diplomaUrl && (
+                            <div
+                              onMouseEnter={() => setShowDiplomaPreview(true)}
+                              onMouseLeave={() => setShowDiplomaPreview(false)}
+                              className="relative shrink-0"
+                            >
+                              <a
+                                href={edu.diplomaUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-[#1e3a5f] hover:text-[#c9a227] font-medium flex items-center gap-1 transition-colors py-1 px-1.5 rounded hover:bg-slate-50 cursor-pointer"
+                              >
+                                <span>
+                                  {edu.degree === "Certificate" || edu.degree === "Sertifika"
+                                    ? (lang === "en" ? "Certificate" : "Sertifika")
+                                    : (lang === "en" ? "Diploma" : "Diploma")}
+                                </span>
+                                <ExternalLink size={12} />
+                              </a>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
 
