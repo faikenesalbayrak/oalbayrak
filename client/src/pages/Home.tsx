@@ -91,12 +91,13 @@ type RecordItem = {
   logo?: string;
   rightImage?: string;
   url?: string;
+  certificateUrl?: string;
 };
 
 const aboutParagraphs = [
   "Doç. Dr. Orhan Albayrak, 1960 yılında Trabzon'un Arsin ilçesinde doğmuştur. İlk, orta ve lise eğitimini Erzurum'da tamamladıktan sonra kariyerine İstanbul Teknik Üniversitesi'nde Elektronik ve Haberleşme Mühendisliği lisans eğitimiyle başlamıştır.",
   "Lisans sonrasında aynı üniversitede Kontrol ve Bilgisayar programında yüksek lisansını tamamladı, Marmara Üniversitesi'nde Modern İşletme Yönetimi sertifika programını bitirdi; doktorasını ise İstanbul Sabahattin Zaim Üniversitesi'nde Siyaset Bilimi ve Uluslararası İlişkiler alanında yaptı. Üç yıl sonra da yine Siyaset Sosyolojisi alanında Doçentlik ünvanını aldı. 1982-1984 yılları arasında TÜBİTAK Gebze'de Elektronik Araştırma Bölümünde çalıştı. Arkasından ABD'de Gainesville'de University of Florida'da 2 yıl bir ağ projesinde mühendis olarak görev aldı. 2009-2014 yılları arasında İstanbul İl Genel Meclis Üyeliği ve Meclis Başkan Vekilliği görevinde bulundu. Aynı dönemde Assembly of Europe Region (AER) 'de İstanbul Temsilciliği ve Girişimcilik Çalışma Grubu Başkanlığı yaptı. Halen ITO, 1773 İTÜ Teknopark, TDED YK ve FGA Vakfı görevleri devam etmektedir.",
-  "Doktora tezinde Türkiye'nin iki ana siyasi parti üyelerinin siyasi katılım düzeyleri ve parti içi demokrasiye dair tutumlarını hem nitel hem nicel yöntemlerle inceledi. İlgi alanları arasında dijital çağda siyaset, yapay zeka ve demokrasi ilişkisi, yeni toplumsal hareketler ve dijital diplomasi öne çıkmaktadır. Lise ve üniversite yıllarında lisanslı basketbol oynadı. İyi derecede masa tenisi oynamayı bilmektedir.",
+  "Doktora tezinde Türkiye'nin iki ana siyasi parti üyelerinin siyasi katılım düzeyleri ve parti içi demokrasiye dair tutumlarını hem nitel hem nicel yöntemlerle inceledi. İlgi alanları arasında dijital çağda siyaset, yapay zeka ve demokrasi ilişkisi, yeni toplumsal hareketler ve dijital diplomasi öne çıkmaktadır. Lise ve üniversite yıllarında lisanslı basketbol oynadı. İyi derecede masatenisi oynamaktadır.",
   "İngilizce ve Osmanlıca bilen Doç. Dr. Albayrak, evli ve üç çocuk babasıdır.",
 ];
 
@@ -109,6 +110,7 @@ const educationCardsTr: EducationItem[] = [
     years: "2023",
     thesis: "Doçentlik Ünvanı",
     logo: "/images/uak-logo.png",
+    diplomaUrl: "/images/docentlik-belgesi.png",
   },
   {
     degree: "Doktora",
@@ -155,6 +157,7 @@ const educationCardsEn: EducationItem[] = [
     years: "2023",
     thesis: "Associate Professor Title",
     logo: "/images/uak-logo.png",
+    diplomaUrl: "/images/docentlik-belgesi.png",
   },
   {
     degree: "Ph.D.",
@@ -289,9 +292,11 @@ const externalExperiencesTr: RecordItem[] = [
     title: "İstanbul Ticaret Odası",
     role: "Meclis Üyesi – Eğitim Meslek Komitesi",
     scope: "Mesleki Dernekler",
-    startDate: "15.10.2022",
+    startDate: "2004",
+    endDate: "2013",
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
+    certificateUrl: "/images/ito-18-donem.jpg",
   },
   {
     title: "Türkiye Dil ve Edebiyat Derneği",
@@ -316,9 +321,9 @@ const externalExperiencesTr: RecordItem[] = [
     scope: "Mesleki Dernekler",
     startDate: "15.10.2018",
     endDate: "15.10.2022",
-    details: "8000 eğitim kurumunu temsilen seçilmiş meclis üyesi.",
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
+    certificateUrl: "/images/ito-sukran.jpg",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -394,9 +399,11 @@ const externalExperiencesEn: RecordItem[] = [
     title: "Istanbul Chamber of Commerce",
     role: "Assembly Member – Education Professional Committee",
     scope: "Professional Associations",
-    startDate: "15.10.2022",
+    startDate: "2004",
+    endDate: "2013",
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
+    certificateUrl: "/images/ito-18-donem.jpg",
   },
   {
     title: "Turkish Language and Literature Association",
@@ -421,9 +428,9 @@ const externalExperiencesEn: RecordItem[] = [
     scope: "Professional Associations",
     startDate: "15.10.2018",
     endDate: "15.10.2022",
-    details: "Elected assembly member representing 8,000 educational institutions.",
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
+    certificateUrl: "/images/ito-sukran.jpg",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -1706,10 +1713,12 @@ const membershipsTr: RecordItem[] = [
   {
     title: "International Political Science Association (IPSA)",
     role: "Üye",
-    year: "2025",
+    startDate: "2024",
+    endDate: "2028",
     details: "Bilimsel Kuruluş",
     logo: "/images/ipsa-logo.png",
     url: "https://www.ipsa.org",
+    certificateUrl: "/images/ipsa-uye.jpg",
   },
   {
     title: "ÜNDER – Üniversite Öğretim Elemanları Dayanışma Derneği",
@@ -1733,10 +1742,12 @@ const membershipsEn: RecordItem[] = [
   {
     title: "International Political Science Association (IPSA)",
     role: "Member",
-    year: "2025",
+    startDate: "2024",
+    endDate: "2028",
     details: "Scientific Organization",
     logo: "/images/ipsa-logo.png",
     url: "https://www.ipsa.org",
+    certificateUrl: "/images/ipsa-uye.jpg",
   },
   {
     title: "UNDER – Association of University Academic Staff Solidarity",
@@ -1824,6 +1835,175 @@ function SubsectionTitle({ title }: { title: string }) {
   );
 }
 
+function RecordCardItem({
+  item,
+  venueLabel,
+  showRoleLabel,
+  labels,
+  lang,
+}: {
+  item: RecordItem;
+  venueLabel: string;
+  showRoleLabel: boolean;
+  labels: {
+    role: string;
+    chapter: string;
+    citation: string;
+    edition: string;
+    pages: string;
+    editor: string;
+    language: string;
+    scope: string;
+    dateYear: string;
+    duration: string;
+  };
+  lang: string;
+}) {
+  const [showCertPreview, setShowCertPreview] = useState(false);
+
+  const imprint = [
+    item.publisher,
+    item.edition && `${item.edition}. ${labels.edition}`,
+    item.pages && `${item.pages} ${labels.pages}`,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  return (
+    <div className="relative">
+      <div
+        className={`w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm flex items-start gap-4 transition-all ${
+          item.url ? "hover:border-[#c9a227]/40 hover:shadow-md group" : ""
+        }`}
+      >
+        {item.logo && (
+          <div
+            onMouseEnter={() => item.certificateUrl && setShowCertPreview(true)}
+            onMouseLeave={() => item.certificateUrl && setShowCertPreview(false)}
+            className={`w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200 mt-0.5 ${
+              item.certificateUrl ? "cursor-pointer hover:border-[#c9a227] hover:scale-105 transition-all" : ""
+            }`}
+          >
+            <img
+              src={item.logo}
+              alt={item.organization || item.title}
+              className="h-full w-full object-contain"
+            />
+          </div>
+        )}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            {item.url ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0 group-hover:text-[#c9a227] transition-colors flex items-center gap-1.5"
+              >
+                <span>{item.title}</span>
+                <ExternalLink size={16} className="text-gray-400 group-hover:text-[#c9a227] shrink-0 transition-colors" />
+              </a>
+            ) : (
+              <p className="font-semibold text-[#1e3a5f] leading-snug break-words min-w-0">
+                {item.title}
+              </p>
+            )}
+
+            {item.certificateUrl && (
+              <div
+                onMouseEnter={() => setShowCertPreview(true)}
+                onMouseLeave={() => setShowCertPreview(false)}
+                className="relative inline-block cursor-pointer shrink-0"
+              >
+                <a
+                  href={item.certificateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-normal text-[#1e3a5f] hover:text-[#c9a227] bg-slate-50/80 hover:bg-[#c9a227]/10 border border-slate-200/60 hover:border-[#c9a227]/30 px-2 py-0.5 rounded-md transition-all cursor-pointer z-10"
+                >
+                  <Award size={12} className="text-[#c9a227] shrink-0" />
+                  <span>{lang === "en" ? "Certificate" : "Sertifika"}</span>
+                  <ExternalLink size={11} className="text-gray-400 shrink-0" />
+                </a>
+              </div>
+            )}
+          </div>
+          {item.chapter && (
+            <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
+              {labels.chapter}: {item.chapter}
+            </p>
+          )}
+          {item.organization && (
+            <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">
+              {item.organization}
+            </p>
+          )}
+          <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
+            {item.role && (
+              <p>{showRoleLabel ? `${labels.role}: ${item.role}` : item.role}</p>
+            )}
+            {item.venue && (
+              <p>
+                {venueLabel}: {item.venue}
+              </p>
+            )}
+            {item.citation && <p>{labels.citation}: {item.citation}</p>}
+            {imprint && <p>{imprint}</p>}
+            {item.editor && <p>{labels.editor}: {item.editor}</p>}
+            {item.isbn && <p>ISBN: {item.isbn}</p>}
+            {item.doi && (
+              <p>
+                DOI:{" "}
+                <a
+                  href={`https://doi.org/${item.doi}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#1e3a5f] hover:text-[#c9a227] underline underline-offset-2 transition-colors break-all"
+                >
+                  {item.doi}
+                </a>
+              </p>
+            )}
+            {item.language && <p>{labels.language}: {item.language}</p>}
+            {item.scope && <p>{labels.scope}: {item.scope}</p>}
+            {item.year && <p>{labels.dateYear}: {item.year}</p>}
+            {(item.startDate || item.endDate) && (
+              <p>
+                {labels.duration}: {item.startDate ?? "-"}{" "}
+                {item.endDate ? `- ${item.endDate}` : ""}
+              </p>
+            )}
+            {item.details && <p>{item.details}</p>}
+          </div>
+        </div>
+
+        {item.rightImage && (
+          <div className="w-20 md:w-24 shrink-0 rounded-lg overflow-hidden border border-gray-200/80 shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 mt-0.5">
+            <img
+              src={item.rightImage}
+              alt={item.title}
+              className="w-full h-auto object-contain rounded-md"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Certificate Preview Floating Card on Hover */}
+      {item.certificateUrl && showCertPreview && (
+        <div className="absolute bottom-full left-0 mb-3 z-[9999] pointer-events-none transition-all animate-in fade-in slide-in-from-bottom-2 duration-200">
+          <div className="bg-white p-2 rounded-2xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.3)] border border-gray-200 max-w-md w-80 md:w-96 flex flex-col items-center">
+            <img
+              src={item.certificateUrl}
+              alt="Certificate Preview"
+              className="w-full h-auto max-h-80 object-contain rounded-xl border border-gray-100 shadow-sm"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function RecordCards({
   items,
   venueLabel = "Yer/Etkinlik",
@@ -1857,119 +2037,20 @@ function RecordCards({
     duration: string;
   };
 }) {
+  const { language: lang } = useLanguage();
+
   return (
     <div className="grid md:grid-cols-2 gap-4">
-      {items.map(item => {
-        // Yayınevi, basım ve sayfa bilgisi tek satırda toplanır; boş olanlar araya nokta koymadan atlanır.
-        const imprint = [
-          item.publisher,
-          item.edition && `${item.edition}. ${labels.edition}`,
-          item.pages && `${item.pages} ${labels.pages}`,
-        ]
-          .filter(Boolean)
-          .join(" · ");
-
-        const cardContent = (
-          <div
-            key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
-            className={`w-full min-w-0 overflow-hidden bg-white rounded-xl border border-gray-100 p-4 md:p-5 shadow-sm flex items-start gap-4 transition-all ${
-              item.url ? "hover:border-[#c9a227]/40 hover:shadow-md group cursor-pointer" : ""
-            }`}
-          >
-            {item.logo && (
-              <div className="w-12 h-12 rounded-xl bg-white border border-gray-200/80 shadow-sm flex items-center justify-center p-1.5 shrink-0 overflow-hidden dark:bg-white dark:border-gray-200 mt-0.5">
-                <img
-                  src={item.logo}
-                  alt={item.organization || item.title}
-                  className="h-full w-full object-contain"
-                />
-              </div>
-            )}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-2">
-                <p className={`font-semibold text-[#1e3a5f] leading-snug break-words min-w-0 ${item.url ? "group-hover:text-[#c9a227] transition-colors" : ""}`}>
-                  {item.title}
-                </p>
-                {item.url && (
-                  <ExternalLink size={16} className="text-gray-400 group-hover:text-[#c9a227] shrink-0 mt-0.5 transition-colors" />
-                )}
-              </div>
-              {item.chapter && (
-                <p className="text-sm text-gray-600 mt-1 italic leading-relaxed break-words min-w-0">
-                  {labels.chapter}: {item.chapter}
-                </p>
-              )}
-              {item.organization && (
-                <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words min-w-0">
-                  {item.organization}
-                </p>
-              )}
-              <div className="mt-2 space-y-1 text-sm text-gray-500 leading-relaxed break-words min-w-0">
-                {item.role && (
-                  <p>{showRoleLabel ? `${labels.role}: ${item.role}` : item.role}</p>
-                )}
-                {item.venue && (
-                  <p>
-                    {venueLabel}: {item.venue}
-                  </p>
-                )}
-                {item.citation && <p>{labels.citation}: {item.citation}</p>}
-                {imprint && <p>{imprint}</p>}
-                {item.editor && <p>{labels.editor}: {item.editor}</p>}
-                {item.isbn && <p>ISBN: {item.isbn}</p>}
-                {item.doi && (
-                  <p>
-                    DOI:{" "}
-                    <a
-                      href={`https://doi.org/${item.doi}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#1e3a5f] hover:text-[#c9a227] underline underline-offset-2 transition-colors break-all"
-                    >
-                      {item.doi}
-                    </a>
-                  </p>
-                )}
-                {item.language && <p>{labels.language}: {item.language}</p>}
-                {item.scope && <p>{labels.scope}: {item.scope}</p>}
-                {item.year && <p>{labels.dateYear}: {item.year}</p>}
-                {(item.startDate || item.endDate) && (
-                  <p>
-                    {labels.duration}: {item.startDate ?? "-"}{" "}
-                    {item.endDate ? `- ${item.endDate}` : ""}
-                  </p>
-                )}
-                {item.details && <p>{item.details}</p>}
-              </div>
-            </div>
-            {item.rightImage && (
-              <div className="w-20 md:w-24 shrink-0 rounded-lg overflow-hidden border border-gray-200/80 shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 mt-0.5">
-                <img
-                  src={item.rightImage}
-                  alt={item.title}
-                  className="w-full h-auto object-contain rounded-md"
-                />
-              </div>
-            )}
-          </div>
-        );
-
-        if (item.url) {
-          return (
-            <a
-              key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              {cardContent}
-            </a>
-          );
-        }
-
-        return cardContent;
-      })}
+      {items.map(item => (
+        <RecordCardItem
+          key={`${item.title}-${item.chapter ?? item.year ?? item.startDate ?? "x"}`}
+          item={item}
+          venueLabel={venueLabel}
+          showRoleLabel={showRoleLabel}
+          labels={labels}
+          lang={lang}
+        />
+      ))}
     </div>
   );
 }
@@ -2398,7 +2479,7 @@ export default function Home() {
                             className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-sm"
                           />
                           <div className="mt-2 flex items-center justify-between w-full px-2 text-xs text-gray-500 font-medium">
-                            <span>🎓 {lang === "en" ? "M.Sc. Diploma Preview" : "Yüksek Lisans Diploma Önizlemesi"}</span>
+                            <span>🎓 {lang === "en" ? `${edu.degree} Preview` : `${edu.degree} Belgesi / Diploma Önizlemesi`}</span>
                             <span className="text-gray-400">{lang === "en" ? "Click to open full resolution" : "Tam çözünürlük için tıklayın"}</span>
                           </div>
                         </div>
