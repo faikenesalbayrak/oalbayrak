@@ -92,6 +92,7 @@ type RecordItem = {
   rightImage?: string;
   url?: string;
   certificateUrl?: string;
+  certificateTitle?: string;
 };
 
 const aboutParagraphs = [
@@ -301,6 +302,7 @@ const externalExperiencesTr: RecordItem[] = [
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
     certificateUrl: "/images/ito-18-donem.jpg",
+    certificateTitle: "Tebrik Belgesi",
   },
   {
     title: "Türkiye Dil ve Edebiyat Derneği",
@@ -328,6 +330,7 @@ const externalExperiencesTr: RecordItem[] = [
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
     certificateUrl: "/images/ito-sukran.jpg",
+    certificateTitle: "Şükran Beratı",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -337,6 +340,8 @@ const externalExperiencesTr: RecordItem[] = [
     endDate: "01.01.2013",
     logo: "/images/aer-logo.svg",
     url: "https://aer.eu",
+    certificateUrl: "/images/aer-azur.jpg",
+    certificateTitle: "AER Azur Toplantısı 2011",
   },
   {
     title: "AER (Assembly of Europe Region)",
@@ -355,6 +360,8 @@ const externalExperiencesTr: RecordItem[] = [
     endDate: "01.01.2013",
     logo: "/images/ticaret-uni-logo.png",
     url: "https://www.ticaret.edu.tr",
+    certificateUrl: "/images/ticaret-mutevelli.jpg",
+    certificateTitle: "Dönem Sonu Hatırası",
   },
   {
     title: "İstanbul Ticaret Üniversitesi",
@@ -364,6 +371,8 @@ const externalExperiencesTr: RecordItem[] = [
     endDate: "01.01.2009",
     logo: "/images/ticaret-uni-logo.png",
     url: "https://www.ticaret.edu.tr",
+    certificateUrl: "/images/ticaret-kroki.jpg",
+    certificateTitle: "Çini Kroki",
   },
   {
     title: "Florida Üniversitesi",
@@ -408,6 +417,7 @@ const externalExperiencesEn: RecordItem[] = [
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
     certificateUrl: "/images/ito-18-donem.jpg",
+    certificateTitle: "Certificate of Commendation",
   },
   {
     title: "Turkish Language and Literature Association",
@@ -435,6 +445,7 @@ const externalExperiencesEn: RecordItem[] = [
     logo: "/images/ito-logo.png",
     url: "https://www.ito.org.tr",
     certificateUrl: "/images/ito-sukran.jpg",
+    certificateTitle: "Certificate of Appreciation",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -444,6 +455,8 @@ const externalExperiencesEn: RecordItem[] = [
     endDate: "01.01.2013",
     logo: "/images/aer-logo.svg",
     url: "https://aer.eu",
+    certificateUrl: "/images/aer-azur.jpg",
+    certificateTitle: "AER Azores Meeting 2011",
   },
   {
     title: "AER (Assembly of European Regions)",
@@ -462,6 +475,8 @@ const externalExperiencesEn: RecordItem[] = [
     endDate: "01.01.2013",
     logo: "/images/ticaret-uni-logo.png",
     url: "https://www.ticaret.edu.tr",
+    certificateUrl: "/images/ticaret-mutevelli.jpg",
+    certificateTitle: "End of Term Souvenir",
   },
   {
     title: "Istanbul Commerce University",
@@ -471,6 +486,8 @@ const externalExperiencesEn: RecordItem[] = [
     endDate: "01.01.2009",
     logo: "/images/ticaret-uni-logo.png",
     url: "https://www.ticaret.edu.tr",
+    certificateUrl: "/images/ticaret-kroki.jpg",
+    certificateTitle: "Tile Map Souvenir",
   },
   {
     title: "University of Florida",
@@ -1926,7 +1943,9 @@ function RecordCardItem({
                   className="inline-flex items-center gap-1 text-xs font-normal text-[#1e3a5f] hover:text-[#c9a227] bg-slate-50/80 hover:bg-[#c9a227]/10 border border-slate-200/60 hover:border-[#c9a227]/30 px-2 py-0.5 rounded-md transition-all cursor-pointer z-10"
                 >
                   <Award size={12} className="text-[#c9a227] shrink-0" />
-                  <span>{lang === "en" ? "Certificate" : "Sertifika"}</span>
+                  <span>
+                    {item.certificateTitle ?? (lang === "en" ? "Certificate" : "Sertifika")}
+                  </span>
                   <ExternalLink size={11} className="text-gray-400 shrink-0" />
                 </a>
               </div>
@@ -2873,8 +2892,8 @@ export default function Home() {
               </h3>
               <p className="text-sm text-gray-300 max-w-md leading-relaxed">
                 {lang === "en"
-                  ? "Bezmialem Vakif University – Department of Health Management. Academic research, publications, and public policy studies in Political Science and Digitalization."
-                  : "Bezmialem Vakıf Üniversitesi Sağlık Yönetimi Bölümü Öğretim Üyesi. Siyaset bilimi, dijitalleşme, kamu politikası ve eğitim alanlarında akademik çalışmalar."}
+                  ? "Bezmialem Vakif University – Teaches in the Department of Health Management. Academic research, publications, and public policy studies in Political Science and Digitalization."
+                  : "Bezmialem Vakıf Üniversitesi Sağlık Yönetimi Bölümünde ders veriyor. Siyaset bilimi, dijitalleşme, kamu politikası ve eğitim alanlarında akademik çalışmalar."}
               </p>
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 <a
