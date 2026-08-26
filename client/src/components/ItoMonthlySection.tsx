@@ -77,10 +77,10 @@ const INITIAL_REPORTS: ItoMonthlyReport[] = [
       ],
       paragraphs: {
         tr: [
-          "🎓 İstanbul Ticaret Odası Eğitim Komitesi Ağustos 2026 olağan toplantısı 26 Ağustos 2026 tarihinde gerçekleştirilecektir. Toplantı henüz yapılmamıştır. #İTO #EğitimKomitesi",
+          "🎓 İstanbul Ticaret Odası Eğitim Komitesi Ağustos 2026 olağan toplantısı İTO komite üyelerinin fiziki ve online katılımı ile gerçekleşti. Toplantıda mahkemelerden gelen iki dosya değerlendirilip cevaplar yazıldı. #İTO #EğitimKomitesi",
         ],
         en: [
-          "🎓 The August 2026 meeting of the Istanbul Chamber of Commerce Education Committee will be held on August 26, 2026. The meeting has not taken place yet. #ITO #EducationCommittee",
+          "🎓 The August 2026 ordinary meeting of the Istanbul Chamber of Commerce Education Committee was held with the physical and online participation of ITO committee members. Two files from the courts were evaluated and responses were drafted. #ITO #EducationCommittee",
         ],
       },
     },
