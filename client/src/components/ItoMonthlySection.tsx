@@ -52,6 +52,45 @@ const YEARS = [2030, 2029, 2028, 2027, 2026, 2025, 2024, 2023, 2022];
 const INITIAL_REPORTS: ItoMonthlyReport[] = [
   {
     year: 2026,
+    month: 9, // Eylül 2026
+    councilMeeting: {
+      images: [
+        "/images/ito-eylul-2026-meclis-5133.jpeg"
+      ],
+      paragraphs: {
+        tr: [
+          "İTO Eylül 2026 Meclis Toplantısında Başkanımızın konuşmasından başlıklar",
+          "\"Üretim çarklarını hızlandırmadan, yapay zekâya yatırım yapmadan küresel yarışta öne geçemeyiz.\"\n\nİstanbul Ticaret Odası Eylül Ayı Meclis Toplantımızda; dünya ticaretindeki kırılganlıkları, Türkiye ekonomisindeki son göstergeleri ve iş dünyamızın yol haritasını değerlendirdik:",
+          "🔹 Büyümede Sanayinin Dönüşü: 2026 yılı 2. çeyreğinde gerçekleşen %2,3’lük büyüme içerisinde, ilk çeyrekte daralan sanayi sektörümüzün %2,4 büyüyerek yeniden pozitif alana geçmesi ve tarımdaki %13,3’lük artış son derece kıymetlidir.",
+          "🔹 Yeni OVP ve Üretim Odaklılık: Cumhurbaşkanı Yardımcımız Sayın Cevdet Yılmaz tarafından açıklanan yeni Orta Vadeli Program’ın (OVP) temel reformlarının kararlılıkla uygulanmasını bekliyoruz. Önümüzdeki dönemin en kritik görevi, ekonomimizin üretim motorunu yeniden hızlandırmaktır.",
+          "🔹 Kritik İlke: Türkiye, enflasyonu düşürme ile sanayisini baskılama arasında bir ikilem kesinlikle yaşamamalıdır. Enflasyonun makul seviyelere inmesini tam desteklerken, ülkemizin üretim ve ihracat kabiliyetini gözümüz gibi korumak zorundayız.",
+          "🔹 Teşvik Sistemi: “Teşvik, şirkete bir koltuk değneği değil; küresel rekabet gücüne geçiş rampası olmalıdır.” Enerji verimliliği, yeşil dönüşüm ve yüksek katma değerli üretim yapan firmalarımız finansmana erişimde mutlaka önceliklendirilmelidir.",
+          "🔹 Yapay Zekâ ve Teknoloji Dalgası: Bugün dünyada büyüme ivmesini koruyan ülkelerin ortak paydası yapay zekâ ve ileri teknoloji yatırımlarıdır. Türkiye olarak bu tedarik zincirlerinin merkezinde yer almak, geleceğimizin rotasını belirleyecektir.",
+          "Bu vesileyle, eylül ayında andığımız demokrasi şehitlerimiz merhum Başbakan Adnan Menderes, Fatin Rüştü Zorlu ve Hasan Polatkan’ı rahmetle anıyor; millet iradesine kasteden tüm darbeleri bir kez daha kınıyorum.",
+          "Yeni eğitim-öğretim yılının evlatlarımıza ve iş dünyamızın en büyük ihtiyacı olan mesleki eğitim camiamıza hayırlar getirmesini diliyorum. #İTO #İstanbulTicaretOdası #Ekonomi #Sanayi #OVP #YapayZeka #Üretim #İhracat"
+        ],
+        en: [
+          "Headlines from our President's speech at the ITO September 2026 Assembly Meeting",
+          "\"We cannot get ahead in the global race without accelerating the wheels of production and investing in artificial intelligence.\"\n\nAt our Istanbul Chamber of Commerce September Assembly Meeting, we evaluated the fragilities in global trade, the latest indicators in the Turkish economy, and the roadmap of our business world:",
+          "🔹 Industrial Recovery in Growth: Within the 2.3% growth realized in the second quarter of 2026, it is highly valuable that our industrial sector, which contracted in the first quarter, grew by 2.4% and returned to positive territory, alongside the 13.3% increase in agriculture.",
+          "🔹 New MTP and Production Focus: We expect the fundamental reforms of the new Medium Term Program (MTP) announced by our Vice President Cevdet Yılmaz to be implemented with determination. The most critical task of the upcoming period is to re-accelerate the production engine of our economy.",
+          "🔹 Critical Principle: Türkiye must absolutely not experience a dilemma between reducing inflation and suppressing its industry. While fully supporting inflation to come down to reasonable levels, we must protect our country's production and export capability as our own eyes.",
+          "🔹 Incentive System: \"Incentives should not be a crutch for a company; they should be a launchpad to global competitiveness.\" Our companies engaged in energy efficiency, green transformation, and high value-added production must definitely be prioritized in access to finance.",
+          "🔹 Artificial Intelligence and Technology Wave: Today, the common denominator of countries maintaining their growth momentum in the world is artificial intelligence and advanced technology investments. For Türkiye to be at the center of these supply chains will determine the course of our future.",
+          "On this occasion, I commemorate with mercy our democracy martyrs we remember in September, the late Prime Minister Adnan Menderes, Fatin Rüştü Zorlu, and Hasan Polatkan; and once again condemn all coups targeting the will of the nation.",
+          "I wish the new academic year to bring goodness to our children and to our vocational education community, which is the greatest need of our business world. #ITO #IstanbulChamberOfCommerce #Economy #Industry #MTP #ArtificialIntelligence #Production #Export"
+        ]
+      }
+    },
+    committeeMeeting: {
+      paragraphs: {
+        tr: [],
+        en: []
+      }
+    }
+  },
+  {
+    year: 2026,
     month: 8, // Ağustos 2026
     councilMeeting: {
       images: [
