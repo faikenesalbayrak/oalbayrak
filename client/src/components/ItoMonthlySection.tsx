@@ -3,6 +3,10 @@ import { Calendar, CalendarX, Building2, Image as ImageIcon, Copy, Check, Share2
 
 export type MeetingContent = {
   images?: string[];
+  title?: {
+    tr?: string;
+    en?: string;
+  };
   paragraphs: {
     tr: string[];
     en: string[];
@@ -83,9 +87,22 @@ const INITIAL_REPORTS: ItoMonthlyReport[] = [
       }
     },
     committeeMeeting: {
+      title: {
+        tr: "İTO Eylül 2026 Hizmetler Sektörü İhtisas Komitesi Toplantısı",
+        en: "ITO September 2026 Services Sector Specialized Committee Meeting",
+      },
+      images: [
+        "/images/ito-eylul-2026-komite-ihtisas.jpeg"
+      ],
       paragraphs: {
-        tr: [],
-        en: []
+        tr: [
+          "İstanbul Ticaret Odası Hizmetler Sektörü İhtisas Komitesi 6. Toplantısı İTO YK Üyemiz İbrahim Doğan Salman Başkanlığında İTO'da değişik sektör temsilcileri ile gerçekleştirildi. Toplantıda Sigortacılık Sektöründe TOBB tarafından Odamıza iletilen 14.08.2026 tarihli yazı görüşüldü. Katılımcı üyeler bu konudaki görüşlerini ifade ettiler.",
+          "Ayrıca Fotoğrafçılık Sektöründe dijitalleşme konusunda istişarelerde bulunuldu."
+        ],
+        en: [
+          "Istanbul Chamber of Commerce Services Sector Specialized Committee 6. The meeting was held with representatives of different sectors at ITO under the chairmanship of our İTO Board Member İbrahim Doğan Salman. At the meeting, the letter dated 14.08.2026 transmitted to our Chamber by TOBB in the Insurance Sector was discussed. The participating members expressed their views on this subject.",
+          "In addition, consultations were held on digitalization in the Photography Sector also."
+        ]
       }
     }
   },
@@ -343,15 +360,17 @@ export function ItoMonthlySection({ lang }: ItoMonthlySectionProps) {
 
   // Sol Kolon Başlığı: İTO [Ay Yıl] Meclis Toplantısı
   const councilTitle =
-    lang === "en"
+    councilReport?.councilMeeting?.title?.[lang] ||
+    (lang === "en"
       ? `ITO ${councilMonthName} ${councilYear} Assembly Meeting`
-      : `İTO ${councilMonthName} ${councilYear} Meclis Toplantısı`;
+      : `İTO ${councilMonthName} ${councilYear} Meclis Toplantısı`);
 
-  // Sağ Kolon Başlığı: İTO [Ay Yıl] Eğitim Komite Toplantısı
+  // Sağ Kolon Başlığı: İTO [Ay Yıl] Eğitim Komite Toplantısı (veya özel başlık)
   const committeeTitle =
-    lang === "en"
+    committeeReport?.committeeMeeting?.title?.[lang] ||
+    (lang === "en"
       ? `ITO ${committeeMonthName} ${committeeYear} Education Committee Meeting`
-      : `İTO ${committeeMonthName} ${committeeYear} Eğitim Komite Toplantısı`;
+      : `İTO ${committeeMonthName} ${committeeYear} Eğitim Komite Toplantısı`);
 
   // Sosyal medya metnini kopyalama fonksiyonu
   const handleCopyText = (paragraphs: string[], isCouncil: boolean) => {
