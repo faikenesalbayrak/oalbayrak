@@ -3,11 +3,36 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import DronAdmin from "@/pages/DronAdmin";
 import DronForm from "@/pages/DronForm";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
+import { useEffect, useRef } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { trackEvent } from "./lib/analytics";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+
+/**
+ * SPA rota değişimlerini GA4'e bildirir. page_view'ı GA4'ün kendi
+ * "tarayıcı geçmişi" ölçümü zaten gönderir; burada sadece hangi rotadan
+ * hangi rotaya geçildiğini kaydeden ek bir etkinlik üretilir.
+ */
+function RouteTracker() {
+  const [location] = useLocation();
+  const previous = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (previous.current !== null && previous.current !== location) {
+      trackEvent("route_change", {
+        from_path: previous.current,
+        to_path: location,
+        page_title: document.title,
+      });
+    }
+    previous.current = location;
+  }, [location]);
+
+  return null;
+}
 
 function Router() {
   return (
@@ -36,6 +61,7 @@ function App() {
         <LanguageProvider>
           <TooltipProvider>
             <Toaster />
+            <RouteTracker />
             <Router />
             <Analytics />
           </TooltipProvider>

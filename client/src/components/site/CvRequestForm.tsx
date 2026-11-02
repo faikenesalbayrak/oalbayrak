@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { trackEvent } from "@/lib/analytics";
 
 const FIELD_CLASS =
   "border-gray-200 bg-white placeholder:text-gray-400 focus-visible:border-[#7a2948] focus-visible:ring-[#7a2948]/20 dark:border-white/10 dark:bg-[#0f1825] dark:text-white dark:placeholder:text-gray-500";
@@ -45,6 +46,10 @@ export function CvRequestForm() {
     const result = await postForm("/api/cv-request", values);
     setSubmitting(false);
     if (result.success) {
+      trackEvent("generate_lead", {
+        form_name: "cv_request",
+        language: isEnglish ? "en" : "tr",
+      });
       toast.success(
         isEnglish
           ? "Your CV request has been sent. Thank you!"
@@ -53,6 +58,11 @@ export function CvRequestForm() {
       form.reset();
       return;
     }
+    trackEvent("form_submit_error", {
+      form_name: "cv_request",
+      status: result.status,
+      language: isEnglish ? "en" : "tr",
+    });
     toast.error(
       result.status === 429
         ? isEnglish

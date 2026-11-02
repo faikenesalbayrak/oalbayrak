@@ -3,9 +3,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import { setUserProperties, trackEvent } from "@/lib/analytics";
 
 export type Language = "tr" | "en";
 
@@ -25,9 +27,17 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return stored === "en" ? "en" : "tr";
   });
 
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
     localStorage.setItem("language", language);
     document.documentElement.lang = language;
+    setUserProperties({ ui_language: language });
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    trackEvent("language_change", { language });
   }, [language]);
 
   const value = useMemo(

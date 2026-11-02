@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { setUserProperties, trackEvent } from "@/lib/analytics";
 
 export type Theme = "light" | "dark" | "system";
 type ResolvedTheme = Exclude<Theme, "system">;
@@ -41,6 +42,7 @@ export function ThemeProvider({
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
     theme === "system" ? getSystemTheme() : theme
   );
+  const isFirstThemeRender = useRef(true);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -58,6 +60,13 @@ export function ThemeProvider({
 
     if (switchable) {
       localStorage.setItem("theme", theme);
+    }
+
+    setUserProperties({ ui_theme: theme });
+    if (isFirstThemeRender.current) {
+      isFirstThemeRender.current = false;
+    } else {
+      trackEvent("theme_change", { theme });
     }
 
     return () => media.removeEventListener("change", applyTheme);

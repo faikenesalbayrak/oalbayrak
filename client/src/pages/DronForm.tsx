@@ -2,6 +2,7 @@ import { DRON_QUESTION_COUNT, emptyDronSubmissionInput, type DronSubmissionInput
 import { Check, ChevronLeft, ChevronRight, Home, Send } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import "./dron-form.css";
 
 const steps = [
@@ -40,10 +41,12 @@ export default function DronForm() {
     setStatus(null);
 
     if (!isCurrentStepValid()) {
+      trackEvent("form_step_invalid", { form_name: "dron", step: currentStep });
       return;
     }
 
     if (currentStep < steps.length) {
+      trackEvent("form_step_complete", { form_name: "dron", step: currentStep });
       setCurrentStep((step) => step + 1);
       setTouchedSubmit(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -68,8 +71,13 @@ export default function DronForm() {
         throw new Error(result.message || "Başvuru kaydedilemedi.");
       }
 
+      trackEvent("generate_lead", { form_name: "dron" });
       setStatus({ type: "success", message: result.message || "Başvurunuz başarıyla kaydedilmiştir." });
     } catch (error) {
+      trackEvent("form_submit_error", {
+        form_name: "dron",
+        reason: error instanceof Error ? error.message.slice(0, 80) : "unknown",
+      });
       setStatus({
         type: "error",
         message: error instanceof Error ? error.message : "Sunucuyla bağlantı kurulamadı. Lütfen tekrar deneyiniz.",

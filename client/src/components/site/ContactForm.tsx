@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { trackEvent } from "@/lib/analytics";
 
 const FIELD_CLASS =
   "border-gray-200 bg-white placeholder:text-gray-400 focus-visible:border-[#1e3a5f] focus-visible:ring-[#1e3a5f]/20 dark:border-white/10 dark:bg-[#0f1825] dark:text-white dark:placeholder:text-gray-500";
@@ -41,6 +42,10 @@ export function ContactForm() {
     const result = await postForm("/api/contact", values);
     setSubmitting(false);
     if (result.success) {
+      trackEvent("generate_lead", {
+        form_name: "contact",
+        language: isEnglish ? "en" : "tr",
+      });
       toast.success(
         isEnglish
           ? "Your message has been sent. Thank you!"
@@ -49,6 +54,11 @@ export function ContactForm() {
       form.reset();
       return;
     }
+    trackEvent("form_submit_error", {
+      form_name: "contact",
+      status: result.status,
+      language: isEnglish ? "en" : "tr",
+    });
     toast.error(
       result.status === 429
         ? isEnglish
